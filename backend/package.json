@@ -2,7 +2,19 @@
   "name": "fashionframe-backend",
   "version": "1.0.0",
   "main": "index.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.7",
+    "prettier": "^1.19.1",
+    "pretty-quick": "^2.0.1"
+  },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "precommit": "pretty-quick --staged"
   }
 }
