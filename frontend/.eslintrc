@@ -1,5 +1,3 @@
 {
-    "extends": [
-      "wesbos"
-    ]
-  }
+  "extends": ["react-app", "plugin:prettier/recommended"]
+}
