@@ -1,13 +1,17 @@
-import React from "react";
+import React, { Component } from "react";
+import Navbar from "./Navbar.js";
+import Main from "./Main.js";
 
-function App() {
-  return (
-    <div className="App">
-      <a href="http://localhost:3001/auth/google">Login</a>
-      <br />
-      <a href="http://localhost:3001/auth/logout">Logout</a>
-    </div>
-  );
+class App extends Component {
+  render() {
+    return (
+      <div>
+        <Navbar />
+        <br />
+        <Main />
+      </div>
+    );
+  }
 }
 
 export default App;

@@ -1,17 +1,14 @@
 import express from "express";
+import connectEnsureLogin from "connect-ensure-login";
 
 const router = express.Router();
 
-const authCheck = (req, res, next) => {
-  if (!req.user) {
-    res.redirect("/auth/login");
-  } else {
-    next();
+router.get(
+  "/",
+  connectEnsureLogin.ensureLoggedIn("http://localhost:3000/"),
+  (req, res) => {
+    res.send("testing");
   }
-};
-
-router.get("/", authCheck, (req, res) => {
-  res.send("Logged in as: " + req.user.username);
-});
+);
 
 export default router;

@@ -3,9 +3,13 @@ import passport from "passport";
 
 const router = express.Router();
 
-router.get("/login", (req, res) => {
-  res.send("Okayga");
-});
+// router.get("/user", (req, res) => {
+//   if (req.user) {
+//     res.send(req.user);
+//   } else {
+//     res.send({ error: { message: "No user data - please log in" } });
+//   }
+// });
 
 router.get("/logout", (req, res) => {
   req.logout();
@@ -20,6 +24,7 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
+  // res.send(req.user.rows[0]);
   res.redirect("http://localhost:3000/");
 });
 
