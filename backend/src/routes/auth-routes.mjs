@@ -8,7 +8,8 @@ router.get("/login", (req, res) => {
 });
 
 router.get("/logout", (req, res) => {
-  res.send("Logout");
+  req.logout();
+  res.redirect("http://localhost:3000/");
 });
 
 router.get(
@@ -19,7 +20,7 @@ router.get(
 );
 
 router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  res.send(req.user);
+  res.redirect("http://localhost:3000/");
 });
 
 export default router;

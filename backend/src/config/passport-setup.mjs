@@ -6,16 +6,18 @@ import pool from "./db-connect.mjs";
 dotenv.config();
 
 passport.serializeUser((user, done) => {
-  done(null, user);
+  done(null, user.rows[0].id);
 });
 
-passport.deserializeUser(async (user, done) => {
+passport.deserializeUser(async (id, done) => {
+  const client = await pool.connect();
+
   const getUser = await client.query(
     "SELECT * FROM users WHERE users.id = ($1)",
-    [user.id]
+    [id]
   );
 
-  done(null, getUser);
+  done(null, getUser.rows[0]);
 });
 
 passport.use(
