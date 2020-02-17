@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import Navbar from "./Navbar.js";
-import Main from "./Main.js";
+import Navbar from "./core/Navbar.js";
+import Main from "./core/Main.js";
+import { fetchAuth } from "../utils/fetchAuth";
 
 class App extends Component {
   constructor() {
@@ -10,16 +11,7 @@ class App extends Component {
 
   async componentDidMount() {
     try {
-      const res = await fetch("http://localhost:3001/auth/user", {
-        method: "GET",
-        credentials: "include",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin": "http://localhost:3000",
-          "Access-Control-Allow-Credentials": true
-        }
-      });
+      const res = await fetchAuth("/auth/user");
       const resJson = await res.json();
 
       if (!resJson.error) {
@@ -53,7 +45,10 @@ class App extends Component {
             userData={this.state.userData}
           />
           <br />
-          <Main isAuthorized={this.state.isAuthorized} />
+          <Main
+            isAuthorized={this.state.isAuthorized}
+            userData={this.state.userData}
+          />
         </div>
       );
     }

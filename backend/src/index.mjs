@@ -6,7 +6,7 @@ import cookieSession from "cookie-session";
 import cors from "cors";
 import bodyParser from "body-parser";
 import authRoutes from "./routes/auth-routes.mjs";
-import profileRoutes from "./routes/profile-routes.mjs";
+import warframeRoutes from "./routes/warframe-routes.mjs";
 import passportSetup from "./config/passport-setup.mjs";
 import pool from "./config/db-connect.mjs";
 
@@ -36,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
-app.use("/profile", profileRoutes);
+app.use("/api", warframeRoutes);
 
 app.listen(process.env.PORT, () =>
   console.log(`Server running at ${process.env.PORT}`)

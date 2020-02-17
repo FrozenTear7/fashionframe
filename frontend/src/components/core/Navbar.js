@@ -4,8 +4,8 @@ import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 
 class Navbar extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = { logoutRedirect: false };
   }
 
@@ -18,36 +18,40 @@ class Navbar extends Component {
     return (
       <div>
         <nav className="navbar navbar-expand-lg navbar-dark navbar-bg-dark">
-          <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-            <ul class="navbar-nav mr-auto">
+          <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+            <ul className="navbar-nav mr-auto">
+              <Link className="nav-item nav-link" to={"/"}>
+                Home
+              </Link>
               <Link className="nav-item nav-link" to={"/search"}>
                 Search
               </Link>
-              <Link className="nav-item nav-link" to={"/create"}>
+              <Link className="nav-item nav-link" to={"/builds/new"}>
                 New setup
               </Link>
+            </ul>
+          </div>
+          <div className="mx-auto order-0">
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target=".dual-collapse2"
+              style={{ position: "absolute", left: 0, marginLeft: "5%" }}
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <Link className="navbar-brand mx-auto" to={"/"}>
+              Fashionframe
+            </Link>
+          </div>
+          <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
+            <ul className="navbar-nav ml-auto">
               {this.props.isAuthorized && (
                 <Link className="nav-item nav-link" to={"/settings"}>
                   Settings
                 </Link>
               )}
-            </ul>
-          </div>
-          <div class="mx-auto order-0">
-            <Link className="navbar-brand mx-auto" to={"/"}>
-              Fashionframe
-            </Link>
-            <button
-              class="navbar-toggler"
-              type="button"
-              data-toggle="collapse"
-              data-target=".dual-collapse2"
-            >
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          </div>
-          <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-            <ul class="navbar-nav ml-auto">
               {!this.props.isAuthorized && (
                 <li className="nav-item dropdown">
                   <a
@@ -70,6 +74,12 @@ class Navbar extends Component {
                       href="http://localhost:3001/auth/google"
                     >
                       Google+
+                    </a>
+                    <a
+                      className="dropdown-item"
+                      href="http://localhost:3001/auth/twitchtv"
+                    >
+                      Twitch
                     </a>
                   </div>
                 </li>

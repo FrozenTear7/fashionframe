@@ -21,3 +21,22 @@ code {
 .navbar-nav > li > .dropdown-menu {
   background-color: #070707;
 }
+
+.center {
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.center-margin {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.frame-fashion {
+  width: "100%";
+  height: "100%";
+  object-fit: "cover";
+  overflow: "hidden";
+}

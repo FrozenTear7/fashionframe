@@ -22,11 +22,14 @@ router.put(
     try {
       const user = await client.query(
         "UPDATE users SET username = ($1) WHERE id = ($2)",
-        [req.body.username, req.user.id]
+        [req.body.userData.username, req.user.id]
       );
+      res.send(user);
     } catch (err) {
       console.log(err);
-      res.send({ error: err });
+      res.status(400).send({
+        message: "Could not update user data"
+      });
     } finally {
       client.release();
     }
@@ -38,6 +41,8 @@ router.get("/logout", (req, res) => {
   res.redirect("http://localhost:3000/");
 });
 
+// Google
+
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -45,8 +50,33 @@ router.get(
   })
 );
 
-router.get("/google/redirect", passport.authenticate("google"), (req, res) => {
-  res.redirect("http://localhost:3000/");
-});
+router.get(
+  "/google/redirect",
+  passport.authenticate("google", {
+    failureRedirect: "http://localhost:3000/"
+  }),
+  (req, res) => {
+    res.redirect("http://localhost:3000/");
+  }
+);
+
+// Twitch
+
+router.get(
+  "/twitchtv",
+  passport.authenticate("twitch", {
+    scope: ["user_read"]
+  })
+);
+
+router.get(
+  "/twitchtv/redirect",
+  passport.authenticate("twitch", {
+    failureRedirect: "http://localhost:3000/"
+  }),
+  (req, res) => {
+    res.redirect("http://localhost:3000/");
+  }
+);
 
 export default router;

@@ -9,6 +9,8 @@
 !.vscode/extensions.json
 *.code-workspace
 
+backend/public/warframe_data/colors*
+
 # Express
 
 # OS X

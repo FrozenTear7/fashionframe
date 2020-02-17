@@ -4,12 +4,9 @@ import PrivateRoute from "./PrivateRoute.js";
 import MainPanel from "./MainPanel.js";
 import NotFound from "./NotFound.js";
 import Settings from "./Settings.js";
+import NewBuild from "../builds/NewBuild.js";
 
 class Main extends Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     return (
       <div className="container">
@@ -19,7 +16,25 @@ class Main extends Component {
             exact
             path="/settings"
             component={Settings}
-            {...this.props}
+            isAuthorized={this.props.isAuthorized}
+            userData={this.props.userData}
+          />
+          <PrivateRoute
+            exact
+            path="/builds"
+            component={NewBuild}
+            isAuthorized={this.props.isAuthorized}
+          />
+          <PrivateRoute
+            path="/builds/:id"
+            component={NewBuild}
+            isAuthorized={this.props.isAuthorized}
+          />
+          <PrivateRoute
+            exact
+            path="/builds/new"
+            component={NewBuild}
+            isAuthorized={this.props.isAuthorized}
           />
           <Route component={NotFound} />
         </Switch>
