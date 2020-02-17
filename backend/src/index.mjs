@@ -4,6 +4,7 @@ import path from "path";
 import passport from "passport";
 import cookieSession from "cookie-session";
 import cors from "cors";
+import bodyParser from "body-parser";
 import authRoutes from "./routes/auth-routes.mjs";
 import profileRoutes from "./routes/profile-routes.mjs";
 import passportSetup from "./config/passport-setup.mjs";
@@ -31,6 +32,8 @@ app.use(
     origin: "http://localhost:3000"
   })
 );
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
 app.use("/profile", profileRoutes);

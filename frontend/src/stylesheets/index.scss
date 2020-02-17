@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #121212 !important;
+  color: #b1b1b1 !important;
 }
 
 code {
@@ -13,5 +15,9 @@ code {
 }
 
 .navbar-bg-dark {
-  background-color: #010118;
+  background-color: #070707;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  background-color: #070707;
 }
