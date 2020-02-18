@@ -20,10 +20,10 @@ class NewBuildPhysique extends Component {
             <div className="row">
               <div className="col-6">
                 <div className="form-group row">
-                  <label className="col-sm-2 col-form-label">
+                  <label className="col-sm-4 col-form-label">
                     <h3>Helmet:</h3>
                   </label>
-                  <div className="col-sm-10">
+                  <div className="col-sm-8">
                     <select
                       className="custom-select"
                       onChange={e => this.props.helmetOnChange(e.target.value)}
@@ -33,10 +33,10 @@ class NewBuildPhysique extends Component {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label className="col-sm-2 col-form-label">
+                  <label className="col-sm-4 col-form-label">
                     <h3>Skin:</h3>
                   </label>
-                  <div className="col-sm-10">
+                  <div className="col-sm-8">
                     <select
                       className="custom-select"
                       onChange={e => this.props.helmetOnChange(e.target.value)}
@@ -48,10 +48,10 @@ class NewBuildPhysique extends Component {
               </div>
               <div className="col-6">
                 <div className="form-group row">
-                  <label className="col-sm-2 col-form-label">
+                  <label className="col-sm-4 col-form-label">
                     <h3>Helmet:</h3>
                   </label>
-                  <div className="col-sm-10">
+                  <div className="col-sm-8">
                     <select
                       className="custom-select"
                       onChange={e => this.props.helmetOnChange(e.target.value)}
@@ -61,10 +61,10 @@ class NewBuildPhysique extends Component {
                   </div>
                 </div>
                 <div className="form-group row">
-                  <label className="col-sm-2 col-form-label">
+                  <label className="col-sm-4 col-form-label">
                     <h3>Skin:</h3>
                   </label>
-                  <div className="col-sm-10">
+                  <div className="col-sm-8">
                     <select
                       className="custom-select"
                       onChange={e => this.props.helmetOnChange(e.target.value)}

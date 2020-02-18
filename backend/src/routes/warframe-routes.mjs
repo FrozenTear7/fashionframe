@@ -4,6 +4,9 @@ import ephemeras from "../../public/warframe_data/ephemeras.json";
 import helmets from "../../public/warframe_data/helmets.json";
 import skins from "../../public/warframe_data/skins.json";
 import colorPickers from "../../public/warframe_data/color-pickers.json";
+import chestAttachments from "../../public/warframe_data/chestAttachments.json";
+import armAttachments from "../../public/warframe_data/armAttachments.json";
+import legAttachments from "../../public/warframe_data/legAttachments.json";
 
 const router = express.Router();
 
@@ -25,6 +28,18 @@ router.get("/skins", (req, res) => {
 
 router.get("/colorPickers", (req, res) => {
   res.json(colorPickers);
+});
+
+router.get("/chestAttachments", (req, res) => {
+  res.json(chestAttachments);
+});
+
+router.get("/armAttachments", (req, res) => {
+  res.json(armAttachments);
+});
+
+router.get("/legAttachments", (req, res) => {
+  res.json(legAttachments);
 });
 
 export default router;
