@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { fetchAuth } from "../../utils/fetchAuth";
-import ColorPicker from "./ColorPicker";
 import NewBuildPhysique from "./NewBuildPhysique";
+import NewBuildAttachments from "./NewBuildAttachments";
+import NewBuildColors from "./NewBuildColors";
 import NewBuildTopPanel from "./NewBuildTopPanel";
 
 class NewBuild extends Component {
@@ -82,118 +83,23 @@ class NewBuild extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
   }
 
-  async fetchFrames() {
+  async fetchWarframeData(resourceName) {
     try {
-      const res = await fetchAuth("/api/frames");
+      const res = await fetchAuth(`/api/${resourceName}`);
       const resJson = await res.json();
 
       this.setState({
-        frames: {
-          ...this.state.frames,
+        [resourceName]: {
+          ...this.state[resourceName],
           loading: false,
           error: null,
-          data: resJson.frames
+          data: resJson[resourceName]
         }
       });
     } catch (error) {
       this.setState({
-        userData: {
-          ...this.state.frames,
-          loading: false,
-          error: error.message
-        }
-      });
-    }
-  }
-
-  async fetchEphemeras() {
-    try {
-      const res = await fetchAuth("/api/ephemeras");
-      const resJson = await res.json();
-
-      this.setState({
-        ephemeras: {
-          ...this.state.ephemeras,
-          loading: false,
-          error: null,
-          data: resJson.ephemeras
-        }
-      });
-    } catch (error) {
-      this.setState({
-        userData: {
-          ...this.state.ephemeras,
-          loading: false,
-          error: error.message
-        }
-      });
-    }
-  }
-
-  async fetchHelmets() {
-    try {
-      const res = await fetchAuth("/api/helmets");
-      const resJson = await res.json();
-      this.setState({
-        helmets: {
-          ...this.state.helmets,
-          loading: false,
-          error: null,
-          data: resJson.helmets
-        }
-      });
-    } catch (error) {
-      this.setState({
-        userData: {
-          ...this.state.helmets,
-          loading: false,
-          error: error.message
-        }
-      });
-    }
-  }
-
-  async fetchSkins() {
-    try {
-      const res = await fetchAuth("/api/skins");
-      const resJson = await res.json();
-
-      this.setState({
-        skins: {
-          ...this.state.skins,
-          loading: false,
-          error: null,
-          data: resJson.skins
-        }
-      });
-    } catch (error) {
-      this.setState({
-        userData: {
-          ...this.state.skins,
-          loading: false,
-          error: error.message
-        }
-      });
-    }
-  }
-
-  async fetchColorPickers() {
-    try {
-      const res = await fetchAuth("/api/colorPickers");
-      const resJson = await res.json();
-
-      this.setState({
-        colorPickers: {
-          ...this.state.colorPickers,
-          loading: false,
-          error: null,
-          data: resJson.colorPickers
-        }
-      });
-    } catch (error) {
-      this.setState({
-        colorPickers: {
-          ...this.state.colorPickers,
+        [resourceName]: {
+          ...this.state[resourceName],
           loading: false,
           error: error.message
         }
@@ -202,10 +108,10 @@ class NewBuild extends Component {
   }
 
   async componentDidMount() {
-    await this.fetchFrames();
-    await this.fetchEphemeras();
-    await this.fetchHelmets();
-    await this.fetchColorPickers();
+    await this.fetchWarframeData("frames");
+    await this.fetchWarframeData("ephemeras");
+    await this.fetchWarframeData("helmets");
+    await this.fetchWarframeData("colorPickers");
   }
 
   handleNameChange(event) {
@@ -213,6 +119,15 @@ class NewBuild extends Component {
       build: {
         ...this.state.build,
         name: event.target.value
+      }
+    });
+  }
+
+  buildElementOnChange(elementName, value) {
+    this.setState({
+      build: {
+        ...this.state.build,
+        [elementName]: value
       }
     });
   }
@@ -238,22 +153,23 @@ class NewBuild extends Component {
             name={this.state.build.name}
             frames={this.state.frames.data}
             handleNameChange={this.handleNameChange}
-            frameOnChange={frame =>
-              this.setState({
-                build: {
-                  ...this.state.build,
-                  frame: frame
-                }
-              })
-            }
+            frameOnChange={frame => this.buildElementOnChange("frame", frame)}
           />
           <div className="row">
-            <div className="col-8">
+            <div className="col-6">
               <NewBuildPhysique
-                helmets={this.state.helmets.data.filter(helmet => {
-                  console.log(this.state.build.frame);
-                  return helmet.match(`.*${this.state.build.frame} .*`);
-                })}
+                helmets={this.state.helmets.data.filter(helmet =>
+                  helmet.match(`.*${this.state.build.frame} .*`)
+                )}
+                helmetOnChange={helmet =>
+                  this.buildElementOnChange("helmet", helmet)
+                }
+              />
+              <br />
+              <NewBuildAttachments
+                helmets={this.state.helmets.data.filter(helmet =>
+                  helmet.match(`.*${this.state.build.frame} .*`)
+                )}
                 helmetOnChange={helmet =>
                   this.setState({
                     build: {
@@ -263,163 +179,34 @@ class NewBuild extends Component {
                   })
                 }
               />
-              COLORS <br />
-              <ul className="list-inline">
-                <li className="list-inline-item">Primary</li>
-                <li className="list-inline-item">
-                  <ColorPicker
-                    buttonColorOnClick={color =>
-                      this.setState({
-                        build: {
-                          ...this.state.build,
-                          colorScheme: {
-                            ...this.state.build.colorScheme,
-                            primary: color.hex
-                          }
+              <NewBuildColors
+                getColorOnClickFunction={colorName => {
+                  return color =>
+                    this.setState({
+                      build: {
+                        ...this.state.build,
+                        colorScheme: {
+                          ...this.state.build.colorScheme,
+                          [`${colorName}`]: color.hex
                         }
-                      })
-                    }
-                    color={this.state.build.colorScheme.primary}
-                    colors={this.state.colorPickers.data}
-                  />
-                </li>
-              </ul>
-              <ul className="list-inline">
-                <li className="list-inline-item">Secondary</li>
-                <li className="list-inline-item">
-                  <ColorPicker
-                    buttonColorOnClick={color =>
-                      this.setState({
-                        build: {
-                          ...this.state.build,
-                          colorScheme: {
-                            ...this.state.build.colorScheme,
-                            secondary: color.hex
-                          }
-                        }
-                      })
-                    }
-                    color={this.state.build.colorScheme.secondary}
-                    colors={this.state.colorPickers.data}
-                  />
-                </li>
-              </ul>
-              <ul className="list-inline">
-                <li className="list-inline-item">Tertiary</li>
-                <li className="list-inline-item">
-                  <ColorPicker
-                    buttonColorOnClick={color =>
-                      this.setState({
-                        build: {
-                          ...this.state.build,
-                          colorScheme: {
-                            ...this.state.build.colorScheme,
-                            tertiary: color.hex
-                          }
-                        }
-                      })
-                    }
-                    color={this.state.build.colorScheme.tertiary}
-                    colors={this.state.colorPickers.data}
-                  />
-                </li>
-              </ul>
-              <ul className="list-inline">
-                <li className="list-inline-item">Accents</li>
-                <li className="list-inline-item">
-                  <ColorPicker
-                    buttonColorOnClick={color =>
-                      this.setState({
-                        build: {
-                          ...this.state.build,
-                          colorScheme: {
-                            ...this.state.build.colorScheme,
-                            accents: color.hex
-                          }
-                        }
-                      })
-                    }
-                    color={this.state.build.colorScheme.accents}
-                    colors={this.state.colorPickers.data}
-                  />
-                </li>
-              </ul>
-              <ul className="list-inline">
-                <li className="list-inline-item">Emmissive</li>
-                <li className="list-inline-item">
-                  <ColorPicker
-                    buttonColorOnClick={color =>
-                      this.setState({
-                        build: {
-                          ...this.state.build,
-                          colorScheme: {
-                            ...this.state.build.colorScheme,
-                            emmissive1: color.hex
-                          }
-                        }
-                      })
-                    }
-                    color={this.state.build.colorScheme.emmissive1}
-                    colors={this.state.colorPickers.data}
-                  />
-                </li>
-                <li className="list-inline-item">
-                  <ColorPicker
-                    buttonColorOnClick={color =>
-                      this.setState({
-                        build: {
-                          ...this.state.build,
-                          colorScheme: {
-                            ...this.state.build.colorScheme,
-                            emmissive2: color.hex
-                          }
-                        }
-                      })
-                    }
-                    color={this.state.build.colorScheme.emmissive2}
-                    colors={this.state.colorPickers.data}
-                  />
-                </li>
-              </ul>
-              <ul className="list-inline">
-                <li className="list-inline-item">Energy</li>
-                <li className="list-inline-item">
-                  <ColorPicker
-                    buttonColorOnClick={color =>
-                      this.setState({
-                        build: {
-                          ...this.state.build,
-                          colorScheme: {
-                            ...this.state.build.colorScheme,
-                            energy1: color.hex
-                          }
-                        }
-                      })
-                    }
-                    color={this.state.build.colorScheme.energy1}
-                    colors={this.state.colorPickers.data}
-                  />
-                </li>
-                <li className="list-inline-item">
-                  <ColorPicker
-                    buttonColorOnClick={color =>
-                      this.setState({
-                        build: {
-                          ...this.state.build,
-                          colorScheme: {
-                            ...this.state.build.colorScheme,
-                            energy2: color.hex
-                          }
-                        }
-                      })
-                    }
-                    color={this.state.build.colorScheme.energy2}
-                    colors={this.state.colorPickers.data}
-                  />
-                </li>
-              </ul>
+                      }
+                    });
+                }}
+                buildColors={this.state.build.colorScheme}
+                colorNames={[
+                  "primary",
+                  "secondary",
+                  "tertiary",
+                  "accents",
+                  "emmissive1",
+                  "emmissive2",
+                  "energy1",
+                  "energy2"
+                ]}
+                colorPickers={this.state.colorPickers.data}
+              />
             </div>
-            <div className="col-4">xd</div>
+            <div className="col-6">xd</div>
           </div>
         </div>
       );

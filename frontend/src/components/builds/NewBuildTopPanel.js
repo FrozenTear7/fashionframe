@@ -21,6 +21,8 @@ class NewBuildTopPanel extends Component {
                 />
               </div>
             </div>
+          </div>
+          <div className="col-4">
             <div className="form-group row">
               <label className="col-sm-2 col-form-label">
                 <h3>Frame:</h3>
