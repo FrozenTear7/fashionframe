@@ -9,7 +9,7 @@ import NewBuild from "../builds/NewBuild.js";
 class Main extends Component {
   render() {
     return (
-      <div className="container">
+      <div className="container-fluid">
         <Switch>
           <Route exact path="/" component={MainPanel} />
           <PrivateRoute

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { GithubPicker } from "react-color";
 import { Button, OverlayTrigger, Popover } from "react-bootstrap";
-import { Dropdown } from "semantic-ui-react";
+import { mapToOptions } from "../../utils/mapToOptions";
+import { selectDropdown } from "../../utils/selectDropdown";
 
 class ColorPicker extends Component {
   constructor() {
@@ -12,31 +13,19 @@ class ColorPicker extends Component {
     };
   }
 
-  getColorPickersOptions = colorPickers => {
-    return Object.keys(colorPickers).map(x => ({ key: x, value: x, text: x }));
-  };
-
-  dropdownOnChangeFunction = (event, { value }) => {
-    this.setState({ colorPicker: value });
-  };
-
   render() {
-    console.log(this.props);
-
     return (
       <div>
         <ul className="list-inline">
           <li className="list-inline-item">
-            <Dropdown
-              style={{ width: "150px" }}
-              placeholder="Choose color picker"
-              fluid
-              search
-              selection
-              value={this.state.colorPicker}
-              options={this.getColorPickersOptions(this.props.colors)}
-              onChange={this.dropdownOnChangeFunction}
-            />
+            <div style={{ width: "130px" }}>
+              <select
+                className="custom-select"
+                onChange={e => this.setState({ colorPicker: e.target.value })}
+              >
+                {selectDropdown(mapToOptions(Object.keys(this.props.colors)))}
+              </select>
+            </div>
           </li>
           <li className="list-inline-item">
             <OverlayTrigger
@@ -57,12 +46,11 @@ class ColorPicker extends Component {
             >
               <Button
                 variant="success"
-                onClick={this.props.buttonColorOnClick}
                 style={{
                   width: "50px",
                   height: "50px",
                   backgroundColor: this.props.color,
-                  borderColor: "#000000"
+                  borderColor: "#FFFFFF"
                 }}
               />
             </OverlayTrigger>
