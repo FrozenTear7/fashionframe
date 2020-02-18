@@ -13,6 +13,17 @@ class ColorPicker extends Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextState.colorPicker !== this.state.colorPicker ||
+      nextProps.color !== this.props.color
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     return (
       <div>
