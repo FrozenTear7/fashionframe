@@ -5,6 +5,7 @@ import NewBuildAttachments from "./NewBuildAttachments";
 import NewBuildColors from "./NewBuildColors";
 import NewBuildTopPanel from "./NewBuildTopPanel";
 import NewBuildDescription from "./NewBuildDescription";
+import NewBuildSyandana from "./NewBuildSyandana";
 
 class NewBuild extends Component {
   constructor() {
@@ -14,6 +15,8 @@ class NewBuild extends Component {
       build: {
         name: "",
         frame: "Ash",
+        description: "",
+        screenshot: "",
         skin: "",
         helmet: "",
         attachments: {
@@ -93,10 +96,17 @@ class NewBuild extends Component {
         loading: true,
         data: [],
         error: null
+      },
+      syandanas: {
+        loading: true,
+        data: [],
+        error: null
       }
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleScreenshotChange = this.handleScreenshotChange.bind(this);
   }
 
   async fetchWarframeData(resourceName) {
@@ -126,11 +136,13 @@ class NewBuild extends Component {
   async componentDidMount() {
     await this.fetchWarframeData("frames");
     await this.fetchWarframeData("ephemeras");
+    await this.fetchWarframeData("skins");
     await this.fetchWarframeData("helmets");
     await this.fetchWarframeData("colorPickers");
     await this.fetchWarframeData("chestAttachments");
     await this.fetchWarframeData("armAttachments");
     await this.fetchWarframeData("legAttachments");
+    await this.fetchWarframeData("syandanas");
   }
 
   handleNameChange(event) {
@@ -138,6 +150,24 @@ class NewBuild extends Component {
       build: {
         ...this.state.build,
         name: event.target.value
+      }
+    });
+  }
+
+  handleDescriptionChange(event) {
+    this.setState({
+      build: {
+        ...this.state.build,
+        description: event.target.value
+      }
+    });
+  }
+
+  handleScreenshotChange(event) {
+    this.setState({
+      build: {
+        ...this.state.build,
+        screenshot: event.target.value
       }
     });
   }
@@ -195,6 +225,10 @@ class NewBuild extends Component {
                 helmetOnChange={helmet =>
                   this.buildElementOnChange("helmet", helmet)
                 }
+                skins={this.state.skins.data.filter(skin =>
+                  skin.match(`.*${this.state.build.frame} .*`)
+                )}
+                skinOnChange={skin => this.buildElementOnChange("skin", skin)}
               />
               <br />
               <NewBuildAttachments
@@ -219,6 +253,14 @@ class NewBuild extends Component {
                 }
                 rightLegOnChange={rightLeg =>
                   this.buildElementOnChange("rightLeg", rightLeg)
+                }
+              />
+
+              <br />
+              <NewBuildSyandana
+                syandanas={this.state.syandanas.data}
+                syandanaOnChange={syandana =>
+                  this.buildElementOnChange("syandana", syandana)
                 }
               />
               <NewBuildColors
@@ -249,7 +291,12 @@ class NewBuild extends Component {
               />
             </div>
             <div className="col-4">
-              <NewBuildDescription />
+              <NewBuildDescription
+                description={this.state.build.description}
+                handleDescriptionChange={this.handleDescriptionChange}
+                screenshot={this.state.build.screenshot}
+                handleScreenshotChange={this.handleScreenshotChange}
+              />
             </div>
           </div>
         </div>

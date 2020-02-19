@@ -32,44 +32,18 @@ class NewBuildPhysique extends Component {
                     </select>
                   </div>
                 </div>
-                <div className="form-group row">
-                  <label className="col-sm-4 col-form-label">
-                    <h3>Skin:</h3>
-                  </label>
-                  <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
-                    >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
-                    </select>
-                  </div>
-                </div>
               </div>
               <div className="col-6">
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Helmet:</h3>
-                  </label>
-                  <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
-                    >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
-                    </select>
-                  </div>
-                </div>
-                <div className="form-group row">
-                  <label className="col-sm-4 col-form-label">
                     <h3>Skin:</h3>
                   </label>
                   <div className="col-sm-8">
                     <select
                       className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
+                      onChange={e => this.props.skinOnChange(e.target.value)}
                     >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
+                      {selectDropdown(mapToOptions(this.props.skins))}
                     </select>
                   </div>
                 </div>

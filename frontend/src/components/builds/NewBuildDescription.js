@@ -11,8 +11,23 @@ class NewBuildDescription extends Component {
           </div>
           <textarea
             className="form-control"
-            aria-label="With textarea"
-          ></textarea>
+            value={this.props.description}
+            onChange={this.props.handleDescriptionChange}
+          />
+        </div>
+        <br />
+        <br />
+        <h2 className="center">SCREENSHOT</h2>
+        <div className="input-group">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Link</span>
+          </div>
+          <input
+            type="text"
+            className="form-control"
+            value={this.props.screenshot}
+            onChange={this.props.handleScreenshotChange}
+          />
         </div>
       </div>
     );

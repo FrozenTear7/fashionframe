@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { mapToOptions, mapToOptionsWithNone } from "../../utils/mapToOptions";
+import { mapToOptionsWithNone } from "../../utils/mapToOptions";
 import { selectDropdown } from "../../utils/selectDropdown";
 
 class NewBuildAttachments extends Component {
