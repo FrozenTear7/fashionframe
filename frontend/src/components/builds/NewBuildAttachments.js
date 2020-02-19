@@ -1,20 +1,20 @@
 import React, { Component } from "react";
-import { mapToOptionsWithNone } from "../../utils/mapToOptions";
-import { selectDropdown } from "../../utils/selectDropdown";
+import Select from "react-select";
+import { mapToOption, mapToOptionsWithNone } from "../../utils/mapToOptions";
 
 class NewBuildAttachments extends Component {
   render() {
     return (
       <div>
-        <h2
-          className="center"
+        <div
+          className="center collapse-button-dark"
           data-toggle="collapse"
           data-target="#collapseAttachments"
           aria-expanded="false"
           aria-controls="collapseAttachments"
         >
           ATTACHMENTS
-        </h2>
+        </div>
         <div className="collapse show" id="collapseAttachments">
           <div className="card card-body">
             <div className="row">
@@ -24,14 +24,15 @@ class NewBuildAttachments extends Component {
                     <h4>Chest:</h4>
                   </label>
                   <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e => this.props.chestOnChange(e.target.value)}
-                    >
-                      {selectDropdown(
-                        mapToOptionsWithNone(this.props.chestAttachments)
+                    <Select
+                      defaultValue={mapToOption(
+                        this.props.build.attachments.chest || "None"
                       )}
-                    </select>
+                      options={mapToOptionsWithNone(
+                        this.props.chestAttachments
+                      )}
+                      onChange={e => this.props.chestOnChange(e.value)}
+                    />
                   </div>
                 </div>
                 <div className="form-group row">
@@ -39,14 +40,13 @@ class NewBuildAttachments extends Component {
                     <h4>Left Arm:</h4>
                   </label>
                   <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e => this.props.leftArmOnChange(e.target.value)}
-                    >
-                      {selectDropdown(
-                        mapToOptionsWithNone(this.props.armAttachments)
+                    <Select
+                      defaultValue={mapToOption(
+                        this.props.build.attachments.leftArm || "None"
                       )}
-                    </select>
+                      options={mapToOptionsWithNone(this.props.armAttachments)}
+                      onChange={e => this.props.leftArmOnChange(e.value)}
+                    />
                   </div>
                 </div>
                 <div className="form-group row">
@@ -54,14 +54,13 @@ class NewBuildAttachments extends Component {
                     <h4>Left Leg:</h4>
                   </label>
                   <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e => this.props.leftLegOnChange(e.target.value)}
-                    >
-                      {selectDropdown(
-                        mapToOptionsWithNone(this.props.legAttachments)
+                    <Select
+                      defaultValue={mapToOption(
+                        this.props.build.attachments.leftLeg || "None"
                       )}
-                    </select>
+                      options={mapToOptionsWithNone(this.props.legAttachments)}
+                      onChange={e => this.props.leftLegOnChange(e.value)}
+                    />
                   </div>
                 </div>
               </div>
@@ -71,16 +70,13 @@ class NewBuildAttachments extends Component {
                     <h4>Ephemera:</h4>
                   </label>
                   <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e =>
-                        this.props.ephemeraOnChange(e.target.value)
-                      }
-                    >
-                      {selectDropdown(
-                        mapToOptionsWithNone(this.props.ephemeras)
+                    <Select
+                      defaultValue={mapToOption(
+                        this.props.build.attachments.ephemera || "None"
                       )}
-                    </select>
+                      options={mapToOptionsWithNone(this.props.ephemeras)}
+                      onChange={e => this.props.ephemeraOnChange(e.value)}
+                    />
                   </div>
                 </div>
                 <div className="form-group row">
@@ -88,16 +84,13 @@ class NewBuildAttachments extends Component {
                     <h4>Right Arm:</h4>
                   </label>
                   <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e =>
-                        this.props.rightArmOnChange(e.target.value)
-                      }
-                    >
-                      {selectDropdown(
-                        mapToOptionsWithNone(this.props.armAttachments)
+                    <Select
+                      defaultValue={mapToOption(
+                        this.props.build.attachments.rightArm || "None"
                       )}
-                    </select>
+                      options={mapToOptionsWithNone(this.props.armAttachments)}
+                      onChange={e => this.props.rightArmOnChange(e.value)}
+                    />
                   </div>
                 </div>
                 <div className="form-group row">
@@ -105,14 +98,13 @@ class NewBuildAttachments extends Component {
                     <h4>Right Leg:</h4>
                   </label>
                   <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e => this.props.leftLegOnChange(e.target.value)}
-                    >
-                      {selectDropdown(
-                        mapToOptionsWithNone(this.props.legAttachments)
+                    <Select
+                      defaultValue={mapToOption(
+                        this.props.build.attachments.rightLeg || "None"
                       )}
-                    </select>
+                      options={mapToOptionsWithNone(this.props.legAttachments)}
+                      onChange={e => this.props.leftLegOnChange(e.value)}
+                    />
                   </div>
                 </div>
               </div>

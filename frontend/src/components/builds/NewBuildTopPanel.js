@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { mapToOptions } from "../../utils/mapToOptions";
-import { selectDropdown } from "../../utils/selectDropdown";
+import Select from "react-select";
+import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
 class NewBuildTopPanel extends Component {
   render() {
@@ -16,7 +16,7 @@ class NewBuildTopPanel extends Component {
                 <input
                   type="text"
                   className="form-control"
-                  value={this.props.name}
+                  value={this.props.build.name}
                   onChange={this.props.handleNameChange}
                 />
               </div>
@@ -28,12 +28,11 @@ class NewBuildTopPanel extends Component {
                 <h3>Frame:</h3>
               </label>
               <div className="col-sm-10">
-                <select
-                  className="custom-select"
-                  onChange={e => this.props.frameOnChange(e.target.value)}
-                >
-                  {selectDropdown(mapToOptions(this.props.frames))}
-                </select>
+                <Select
+                  defaultValue={mapToOption(this.props.build.frame)}
+                  options={mapToOptions(this.props.frames)}
+                  onChange={e => this.props.frameOnChange(e.value)}
+                />
               </div>
             </div>
           </div>

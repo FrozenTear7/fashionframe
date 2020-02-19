@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { GithubPicker } from "react-color";
+import Select from "react-select";
 import { Button, OverlayTrigger, Popover } from "react-bootstrap";
 import { mapToOptions } from "../../utils/mapToOptions";
-import { selectDropdown } from "../../utils/selectDropdown";
 
 class ColorPicker extends Component {
   constructor() {
@@ -30,12 +30,10 @@ class ColorPicker extends Component {
         <ul className="list-inline">
           <li className="list-inline-item">
             <div style={{ width: "175px" }}>
-              <select
-                className="custom-select"
-                onChange={e => this.setState({ colorPicker: e.target.value })}
-              >
-                {selectDropdown(mapToOptions(Object.keys(this.props.colors)))}
-              </select>
+              <Select
+                options={mapToOptions(Object.keys(this.props.colors))}
+                onChange={e => this.setState({ colorPicker: e.value })}
+              />
             </div>
           </li>
           <li className="list-inline-item">

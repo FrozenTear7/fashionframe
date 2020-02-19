@@ -1,33 +1,34 @@
 import React, { Component } from "react";
-import { mapToOptions } from "../../utils/mapToOptions";
-import { selectDropdown } from "../../utils/selectDropdown";
+import Select from "react-select";
+import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
 class NewBuildPhysique extends Component {
   render() {
     return (
       <div>
-        <h2
-          className="center"
+        <div
+          className="center collapse-button-dark"
           data-toggle="collapse"
           data-target="#collapseSyandana"
           aria-expanded="false"
           aria-controls="collapseSyandana"
         >
           SYANDANA
-        </h2>
+        </div>
         <div className="collapse show" id="collapseSyandana">
           <div className="card card-body">
             <div className="form-group row">
               <label className="col-sm-4 col-form-label">
-                <h3>Syandana:</h3>
+                <h4>Syandana:</h4>
               </label>
               <div className="col-sm-8">
-                <select
-                  className="custom-select"
-                  onChange={e => this.props.syandanaOnChange(e.target.value)}
-                >
-                  {selectDropdown(mapToOptions(this.props.syandanas))}
-                </select>
+                <Select
+                  defaultValue={mapToOption(
+                    this.props.build.attachments.syandana || "None"
+                  )}
+                  options={mapToOptions(this.props.syandanas)}
+                  onChange={e => this.props.syandanaOnChange(e.value)}
+                />
               </div>
             </div>
           </div>

@@ -1,50 +1,56 @@
 import React, { Component } from "react";
-import { mapToOptions } from "../../utils/mapToOptions";
-import { selectDropdown } from "../../utils/selectDropdown";
+import Select from "react-select";
+import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
 class NewBuildPhysique extends Component {
   render() {
+    console.log(this.props.build.frame);
+
     return (
       <div>
-        <h2
-          className="center"
+        <div
+          className="center collapse-button-dark"
           data-toggle="collapse"
           data-target="#collapsePhysique"
           aria-expanded="false"
           aria-controls="collapsePhysique"
         >
           PHYSIQUE
-        </h2>
+        </div>
         <div className="collapse show" id="collapsePhysique">
           <div className="card card-body">
             <div className="row">
               <div className="col-6">
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Helmet:</h3>
+                    <h4>Helmet:</h4>
                   </label>
                   <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
-                    >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
-                    </select>
+                    <Select
+                      value={mapToOption(
+                        this.props.build.helmets ||
+                          this.props.build.frame + " Skin"
+                      )}
+                      options={mapToOptions(this.props.helmets)}
+                      onChange={e => this.props.helmetOnChange(e.value)}
+                    />
                   </div>
                 </div>
               </div>
               <div className="col-6">
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Skin:</h3>
+                    <h4>Skin:</h4>
                   </label>
                   <div className="col-sm-8">
-                    <select
-                      className="custom-select"
-                      onChange={e => this.props.skinOnChange(e.target.value)}
-                    >
-                      {selectDropdown(mapToOptions(this.props.skins))}
-                    </select>
+                    <Select
+                      value={mapToOption(
+                        this.props.build.skin ||
+                          this.props.build.frame + " Helmet"
+                      )}
+                      options={mapToOptions(this.props.skins)}
+                      onChange={e => this.props.skinOnChange(e.value)}
+                    />
                   </div>
                 </div>
               </div>

@@ -173,6 +173,7 @@ class NewBuild extends Component {
   }
 
   buildElementOnChange(elementName, value) {
+    console.log(value);
     this.setState({
       build: {
         ...this.state.build,
@@ -211,7 +212,7 @@ class NewBuild extends Component {
       return (
         <div>
           <NewBuildTopPanel
-            name={this.state.build.name}
+            build={this.state.build}
             frames={this.state.frames.data}
             handleNameChange={this.handleNameChange}
             frameOnChange={frame => this.buildElementOnChange("frame", frame)}
@@ -219,6 +220,7 @@ class NewBuild extends Component {
           <div className="row">
             <div className="col-8">
               <NewBuildPhysique
+                build={this.state.build}
                 helmets={this.state.helmets.data.filter(helmet =>
                   helmet.match(`.*${this.state.build.frame} .*`)
                 )}
@@ -232,6 +234,7 @@ class NewBuild extends Component {
               />
               <br />
               <NewBuildAttachments
+                build={this.state.build}
                 chestAttachments={this.state.chestAttachments.data}
                 ephemeras={this.state.ephemeras.data}
                 armAttachments={this.state.armAttachments.data}
@@ -258,6 +261,7 @@ class NewBuild extends Component {
 
               <br />
               <NewBuildSyandana
+                build={this.state.build}
                 syandanas={this.state.syandanas.data}
                 syandanaOnChange={syandana =>
                   this.buildElementOnChange("syandana", syandana)

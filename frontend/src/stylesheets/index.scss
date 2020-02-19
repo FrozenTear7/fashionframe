@@ -1,25 +1,42 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #121212 !important;
-  color: #b1b1b1 !important;
+// Variable definitions
+
+$scheme-primary: #222831;
+$scheme-secondary: #393e46;
+$scheme-others: #eeeeee;
+$scheme-text: #00adb5;
+$collapse-button-font-size: 30px;
+$collapse-button-border-radius: 20px;
+
+$theme-colors: (
+  // "primary": #0074d9,
+    // "danger": #ff4136
+);
+
+@import "~bootstrap/scss/bootstrap";
+
+/* roboto-regular - latin */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto"), local("Roboto-Regular"),
+    url("../fonts/roboto-v20-latin-regular.woff2") format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("../fonts/roboto-v20-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+  font-family: Roboto;
+  background-color: $scheme-primary !important;
+  color: $scheme-text !important;
 }
 
 .navbar-bg-dark {
-  background-color: #070707;
+  background-color: $scheme-secondary;
 }
 
 .navbar-nav > li > .dropdown-menu {
-  background-color: #070707;
+  background-color: $scheme-secondary;
 }
 
 .center {
@@ -39,4 +56,28 @@ code {
   height: "100%";
   object-fit: "cover";
   overflow: "hidden";
+}
+
+.card-body {
+  background-color: $scheme-secondary;
+}
+
+.collapse-button-dark {
+  border-top-left-radius: $collapse-button-border-radius;
+  border-top-right-radius: $collapse-button-border-radius;
+  border: 1px solid $scheme-text;
+  background-color: $scheme-secondary;
+  font-size: $collapse-button-font-size;
+}
+
+.card-body {
+  border-radius: 0px;
+}
+
+.nav-link {
+  color: $scheme-text !important;
+}
+
+.navbar-brand {
+  color: $scheme-others !important;
 }
