@@ -18,10 +18,13 @@ const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cookieSession({
-    maxAge: 24 * 60 * 60 * 1000,
     keys: [process.env.COOKIE_KEY],
-    saveUninitialized: true,
-    resave: true
+    saveUninitialized: false,
+    resave: true,
+    rolling: true,
+    cookie: {
+      expires: 24 * 60 * 60 * 1000
+    }
   })
 );
 app.use(passport.initialize());

@@ -7,6 +7,7 @@ import colorPickers from "../../public/warframe_data/colorPickers.json";
 import chestAttachments from "../../public/warframe_data/chestAttachments.json";
 import armAttachments from "../../public/warframe_data/armAttachments.json";
 import legAttachments from "../../public/warframe_data/legAttachments.json";
+import syandanas from "../../public/warframe_data/syandanas.json";
 
 const router = express.Router();
 
@@ -40,6 +41,10 @@ router.get("/armAttachments", (req, res) => {
 
 router.get("/legAttachments", (req, res) => {
   res.json(legAttachments);
+});
+
+router.get("/syandanas", (req, res) => {
+  res.json(syandanas);
 });
 
 export default router;
