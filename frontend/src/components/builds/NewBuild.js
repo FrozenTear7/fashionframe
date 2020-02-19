@@ -4,6 +4,7 @@ import NewBuildPhysique from "./NewBuildPhysique";
 import NewBuildAttachments from "./NewBuildAttachments";
 import NewBuildColors from "./NewBuildColors";
 import NewBuildTopPanel from "./NewBuildTopPanel";
+import NewBuildDescription from "./NewBuildDescription";
 
 class NewBuild extends Component {
   constructor() {
@@ -77,6 +78,21 @@ class NewBuild extends Component {
         loading: true,
         data: [],
         error: null
+      },
+      chestAttachments: {
+        loading: true,
+        data: [],
+        error: null
+      },
+      armAttachments: {
+        loading: true,
+        data: [],
+        error: null
+      },
+      legAttachments: {
+        loading: true,
+        data: [],
+        error: null
       }
     };
 
@@ -112,6 +128,9 @@ class NewBuild extends Component {
     await this.fetchWarframeData("ephemeras");
     await this.fetchWarframeData("helmets");
     await this.fetchWarframeData("colorPickers");
+    await this.fetchWarframeData("chestAttachments");
+    await this.fetchWarframeData("armAttachments");
+    await this.fetchWarframeData("legAttachments");
   }
 
   handleNameChange(event) {
@@ -128,6 +147,18 @@ class NewBuild extends Component {
       build: {
         ...this.state.build,
         [elementName]: value
+      }
+    });
+  }
+
+  attachmentsElementOnChange(elementName, value) {
+    this.setState({
+      build: {
+        ...this.state.build,
+        attachments: {
+          ...this.state.build.attachments,
+          [elementName]: value
+        }
       }
     });
   }
@@ -156,7 +187,7 @@ class NewBuild extends Component {
             frameOnChange={frame => this.buildElementOnChange("frame", frame)}
           />
           <div className="row">
-            <div className="col-6">
+            <div className="col-8">
               <NewBuildPhysique
                 helmets={this.state.helmets.data.filter(helmet =>
                   helmet.match(`.*${this.state.build.frame} .*`)
@@ -167,16 +198,27 @@ class NewBuild extends Component {
               />
               <br />
               <NewBuildAttachments
-                helmets={this.state.helmets.data.filter(helmet =>
-                  helmet.match(`.*${this.state.build.frame} .*`)
-                )}
-                helmetOnChange={helmet =>
-                  this.setState({
-                    build: {
-                      ...this.state.build,
-                      helmet: helmet
-                    }
-                  })
+                chestAttachments={this.state.chestAttachments.data}
+                ephemeras={this.state.ephemeras.data}
+                armAttachments={this.state.armAttachments.data}
+                legAttachments={this.state.legAttachments.data}
+                chestOnChange={chest =>
+                  this.buildElementOnChange("chest", chest)
+                }
+                ephemeraOnChange={ephemera =>
+                  this.buildElementOnChange("ephemera", ephemera)
+                }
+                leftArmOnChange={leftArm =>
+                  this.buildElementOnChange("leftArm", leftArm)
+                }
+                rightArmOnChange={rightArm =>
+                  this.buildElementOnChange("rightArm", rightArm)
+                }
+                leftLegOnChange={leftLeg =>
+                  this.buildElementOnChange("leftLeg", leftLeg)
+                }
+                rightLegOnChange={rightLeg =>
+                  this.buildElementOnChange("rightLeg", rightLeg)
                 }
               />
               <NewBuildColors
@@ -206,7 +248,9 @@ class NewBuild extends Component {
                 colorPickers={this.state.colorPickers.data}
               />
             </div>
-            <div className="col-6">xd</div>
+            <div className="col-4">
+              <NewBuildDescription />
+            </div>
           </div>
         </div>
       );

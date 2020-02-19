@@ -6,7 +6,6 @@ import * as serviceWorker from "./serviceWorker";
 import "./stylesheets/index.scss";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/js/bootstrap.js";
-import "semantic-ui-css/semantic.min.css";
 
 ReactDOM.render(
   <BrowserRouter>

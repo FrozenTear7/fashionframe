@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { mapToOptions } from "../../utils/mapToOptions";
+import { mapToOptions, mapToOptionsWithNone } from "../../utils/mapToOptions";
 import { selectDropdown } from "../../utils/selectDropdown";
 
 class NewBuildAttachments extends Component {
@@ -15,46 +15,52 @@ class NewBuildAttachments extends Component {
         >
           ATTACHMENTS
         </h2>
-        <div class="collapse show" id="collapseAttachments">
-          <div class="card card-body">
+        <div className="collapse show" id="collapseAttachments">
+          <div className="card card-body">
             <div className="row">
               <div className="col-6">
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Chest:</h3>
+                    <h4>Chest:</h4>
                   </label>
                   <div className="col-sm-8">
                     <select
                       className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
+                      onChange={e => this.props.chestOnChange(e.target.value)}
                     >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
+                      {selectDropdown(
+                        mapToOptionsWithNone(this.props.chestAttachments)
+                      )}
                     </select>
                   </div>
                 </div>
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Left Arm:</h3>
+                    <h4>Left Arm:</h4>
                   </label>
                   <div className="col-sm-8">
                     <select
                       className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
+                      onChange={e => this.props.leftArmOnChange(e.target.value)}
                     >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
+                      {selectDropdown(
+                        mapToOptionsWithNone(this.props.armAttachments)
+                      )}
                     </select>
                   </div>
                 </div>
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Left Leg:</h3>
+                    <h4>Left Leg:</h4>
                   </label>
                   <div className="col-sm-8">
                     <select
                       className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
+                      onChange={e => this.props.leftLegOnChange(e.target.value)}
                     >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
+                      {selectDropdown(
+                        mapToOptionsWithNone(this.props.legAttachments)
+                      )}
                     </select>
                   </div>
                 </div>
@@ -62,40 +68,50 @@ class NewBuildAttachments extends Component {
               <div className="col-6">
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Ephemera:</h3>
+                    <h4>Ephemera:</h4>
                   </label>
                   <div className="col-sm-8">
                     <select
                       className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
+                      onChange={e =>
+                        this.props.ephemeraOnChange(e.target.value)
+                      }
                     >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
+                      {selectDropdown(
+                        mapToOptionsWithNone(this.props.ephemeras)
+                      )}
                     </select>
                   </div>
                 </div>
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Right Arm:</h3>
+                    <h4>Right Arm:</h4>
                   </label>
                   <div className="col-sm-8">
                     <select
                       className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
+                      onChange={e =>
+                        this.props.rightArmOnChange(e.target.value)
+                      }
                     >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
+                      {selectDropdown(
+                        mapToOptionsWithNone(this.props.armAttachments)
+                      )}
                     </select>
                   </div>
                 </div>
                 <div className="form-group row">
                   <label className="col-sm-4 col-form-label">
-                    <h3>Right Leg:</h3>
+                    <h4>Right Leg:</h4>
                   </label>
                   <div className="col-sm-8">
                     <select
                       className="custom-select"
-                      onChange={e => this.props.helmetOnChange(e.target.value)}
+                      onChange={e => this.props.leftLegOnChange(e.target.value)}
                     >
-                      {selectDropdown(mapToOptions(this.props.helmets))}
+                      {selectDropdown(
+                        mapToOptionsWithNone(this.props.legAttachments)
+                      )}
                     </select>
                   </div>
                 </div>

@@ -15,8 +15,8 @@ class NewBuildPhysique extends Component {
         >
           PHYSIQUE
         </h2>
-        <div class="collapse show" id="collapsePhysique">
-          <div class="card card-body">
+        <div className="collapse show" id="collapsePhysique">
+          <div className="card card-body">
             <div className="row">
               <div className="col-6">
                 <div className="form-group row">

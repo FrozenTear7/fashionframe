@@ -9,6 +9,7 @@ class NewBuildColors extends Component {
         <ul>
           {this.props.colorNames.map(colorName => (
             <ColorPicker
+              key={colorName}
               buttonColorOnClick={this.props.getColorOnClickFunction(colorName)}
               color={this.props.buildColors[`${colorName}`]}
               colors={this.props.colorPickers}

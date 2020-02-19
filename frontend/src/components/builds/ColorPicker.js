@@ -29,7 +29,7 @@ class ColorPicker extends Component {
       <div>
         <ul className="list-inline">
           <li className="list-inline-item">
-            <div style={{ width: "130px" }}>
+            <div style={{ width: "175px" }}>
               <select
                 className="custom-select"
                 onChange={e => this.setState({ colorPicker: e.target.value })}
