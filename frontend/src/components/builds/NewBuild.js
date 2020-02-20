@@ -11,7 +11,6 @@ class NewBuild extends Component {
   constructor() {
     super();
     this.state = {
-      value: "",
       build: {
         name: "",
         frame: "Ash",
