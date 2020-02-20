@@ -44,8 +44,10 @@ class NewBuild extends Component {
             secondary: "",
             tertiary: "",
             accents: "",
-            emmissive: "",
-            energy: ""
+            emmissive1: "",
+            emmissive2: "",
+            energy1: "",
+            energy2: ""
           }
         },
         colorScheme: {
@@ -53,8 +55,10 @@ class NewBuild extends Component {
           secondary: "",
           tertiary: "",
           accents: "",
-          emmissive: "",
-          energy: ""
+          emmissive1: "",
+          emmissive2: "",
+          energy1: "",
+          energy2: ""
         }
       },
       frames: {
@@ -235,6 +239,34 @@ class NewBuild extends Component {
                   skin.match(`.*${this.state.build.frame} .*`)
                 )}
                 skinOnChange={skin => this.buildElementOnChange("skin", skin)}
+                colorPickerComponent={
+                  <NewBuildColors
+                    getColorOnClickFunction={colorName => {
+                      return color =>
+                        this.setState({
+                          build: {
+                            ...this.state.build,
+                            colorScheme: {
+                              ...this.state.build.colorScheme,
+                              [`${colorName}`]: color.hex
+                            }
+                          }
+                        });
+                    }}
+                    buildColors={this.state.build.colorScheme}
+                    colorNames={[
+                      "primary",
+                      "secondary",
+                      "tertiary",
+                      "accents",
+                      "emmissive1",
+                      "emmissive2",
+                      "energy1",
+                      "energy2"
+                    ]}
+                    colorPickers={this.state.colorPickers.data}
+                  />
+                }
               />
               <br />
               <NewBuildAttachments
@@ -261,8 +293,38 @@ class NewBuild extends Component {
                 rightLegOnChange={rightLeg =>
                   this.buildElementOnChange("rightLeg", rightLeg)
                 }
+                colorPickerComponent={
+                  <NewBuildColors
+                    getColorOnClickFunction={colorName => {
+                      return color =>
+                        this.setState({
+                          build: {
+                            ...this.state.build,
+                            syandana: {
+                              ...this.state.build.syandana,
+                              colorScheme: {
+                                ...this.state.build.attachments.colorScheme,
+                                [`${colorName}`]: color.hex
+                              }
+                            }
+                          }
+                        });
+                    }}
+                    buildColors={this.state.build.colorScheme}
+                    colorNames={[
+                      "primary",
+                      "secondary",
+                      "tertiary",
+                      "accents",
+                      "emmissive1",
+                      "emmissive2",
+                      "energy1",
+                      "energy2"
+                    ]}
+                    colorPickers={this.state.colorPickers.data}
+                  />
+                }
               />
-
               <br />
               <NewBuildSyandana
                 build={this.state.build}
@@ -270,32 +332,37 @@ class NewBuild extends Component {
                 syandanaOnChange={syandana =>
                   this.buildElementOnChange("syandana", syandana)
                 }
-              />
-              <NewBuildColors
-                getColorOnClickFunction={colorName => {
-                  return color =>
-                    this.setState({
-                      build: {
-                        ...this.state.build,
-                        colorScheme: {
-                          ...this.state.build.colorScheme,
-                          [`${colorName}`]: color.hex
-                        }
-                      }
-                    });
-                }}
-                buildColors={this.state.build.colorScheme}
-                colorNames={[
-                  "primary",
-                  "secondary",
-                  "tertiary",
-                  "accents",
-                  "emmissive1",
-                  "emmissive2",
-                  "energy1",
-                  "energy2"
-                ]}
-                colorPickers={this.state.colorPickers.data}
+                colorPickerComponent={
+                  <NewBuildColors
+                    getColorOnClickFunction={colorName => {
+                      return color =>
+                        this.setState({
+                          build: {
+                            ...this.state.build,
+                            attachments: {
+                              ...this.state.build.attachments,
+                              colorScheme: {
+                                ...this.state.build.syandana.colorScheme,
+                                [`${colorName}`]: color.hex
+                              }
+                            }
+                          }
+                        });
+                    }}
+                    buildColors={this.state.build.colorScheme}
+                    colorNames={[
+                      "primary",
+                      "secondary",
+                      "tertiary",
+                      "accents",
+                      "emmissive1",
+                      "emmissive2",
+                      "energy1",
+                      "energy2"
+                    ]}
+                    colorPickers={this.state.colorPickers.data}
+                  />
+                }
               />
             </div>
             <div className="col-4">
