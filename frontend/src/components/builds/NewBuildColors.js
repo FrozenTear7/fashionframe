@@ -7,6 +7,7 @@ const capitalizeName = name => {
 
 class NewBuildColors extends Component {
   render() {
+    console.log(this.props.buildColors);
     return (
       <div>
         <div className="row">

@@ -5,8 +5,9 @@ import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 class NewBuildPhysique extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (
-      nextProps.build.attachments.syandana !==
-      this.props.build.attachments.syandana
+      nextProps.build.syandana !== this.props.build.syandana ||
+      nextProps.build.syandana.colorScheme !==
+        this.props.build.syandana.colorScheme
     ) {
       return true;
     } else {

@@ -197,6 +197,39 @@ class NewBuild extends Component {
     });
   }
 
+  syandanaOnChange(elementName, value) {
+    this.setState({
+      build: {
+        ...this.state.build,
+        syandanaOnChange: {
+          ...this.state.build.syandanaOnChange,
+          [elementName]: value
+        }
+      }
+    });
+  }
+
+  getColorPickersComponent(getColorOnClickFunction, buildColors) {
+    console.log(buildColors);
+    return (
+      <NewBuildColors
+        getColorOnClickFunction={getColorOnClickFunction}
+        buildColors={buildColors}
+        colorNames={[
+          "primary",
+          "secondary",
+          "tertiary",
+          "accents",
+          "emmissive1",
+          "emmissive2",
+          "energy1",
+          "energy2"
+        ]}
+        colorPickers={this.state.colorPickers.data}
+      />
+    );
+  }
+
   render() {
     if (
       this.state.frames.loading ||
@@ -239,34 +272,21 @@ class NewBuild extends Component {
                   skin.match(`.*${this.state.build.frame} .*`)
                 )}
                 skinOnChange={skin => this.buildElementOnChange("skin", skin)}
-                colorPickerComponent={
-                  <NewBuildColors
-                    getColorOnClickFunction={colorName => {
-                      return color =>
-                        this.setState({
-                          build: {
-                            ...this.state.build,
-                            colorScheme: {
-                              ...this.state.build.colorScheme,
-                              [`${colorName}`]: color.hex
-                            }
+                colorPickerComponent={this.getColorPickersComponent(
+                  colorName => {
+                    return color =>
+                      this.setState({
+                        build: {
+                          ...this.state.build,
+                          colorScheme: {
+                            ...this.state.build.colorScheme,
+                            [`${colorName}`]: color.hex
                           }
-                        });
-                    }}
-                    buildColors={this.state.build.colorScheme}
-                    colorNames={[
-                      "primary",
-                      "secondary",
-                      "tertiary",
-                      "accents",
-                      "emmissive1",
-                      "emmissive2",
-                      "energy1",
-                      "energy2"
-                    ]}
-                    colorPickers={this.state.colorPickers.data}
-                  />
-                }
+                        }
+                      });
+                  },
+                  this.state.build.colorScheme
+                )}
               />
               <br />
               <NewBuildAttachments
@@ -276,93 +296,67 @@ class NewBuild extends Component {
                 armAttachments={this.state.armAttachments.data}
                 legAttachments={this.state.legAttachments.data}
                 chestOnChange={chest =>
-                  this.buildElementOnChange("chest", chest)
+                  this.attachmentsElementOnChange("chest", chest)
                 }
                 ephemeraOnChange={ephemera =>
-                  this.buildElementOnChange("ephemera", ephemera)
+                  this.attachmentsElementOnChange("ephemera", ephemera)
                 }
                 leftArmOnChange={leftArm =>
-                  this.buildElementOnChange("leftArm", leftArm)
+                  this.attachmentsElementOnChange("leftArm", leftArm)
                 }
                 rightArmOnChange={rightArm =>
-                  this.buildElementOnChange("rightArm", rightArm)
+                  this.attachmentsElementOnChange("rightArm", rightArm)
                 }
                 leftLegOnChange={leftLeg =>
-                  this.buildElementOnChange("leftLeg", leftLeg)
+                  this.attachmentsElementOnChange("leftLeg", leftLeg)
                 }
                 rightLegOnChange={rightLeg =>
-                  this.buildElementOnChange("rightLeg", rightLeg)
+                  this.attachmentsElementOnChange("rightLeg", rightLeg)
                 }
-                colorPickerComponent={
-                  <NewBuildColors
-                    getColorOnClickFunction={colorName => {
-                      return color =>
-                        this.setState({
-                          build: {
-                            ...this.state.build,
-                            syandana: {
-                              ...this.state.build.syandana,
-                              colorScheme: {
-                                ...this.state.build.attachments.colorScheme,
-                                [`${colorName}`]: color.hex
-                              }
+                colorPickerComponent={this.getColorPickersComponent(
+                  colorName => {
+                    return color =>
+                      this.setState({
+                        build: {
+                          ...this.state.build,
+                          attachments: {
+                            ...this.state.build.attachments,
+                            colorScheme: {
+                              ...this.state.build.attachments.colorScheme,
+                              [`${colorName}`]: color.hex
                             }
                           }
-                        });
-                    }}
-                    buildColors={this.state.build.colorScheme}
-                    colorNames={[
-                      "primary",
-                      "secondary",
-                      "tertiary",
-                      "accents",
-                      "emmissive1",
-                      "emmissive2",
-                      "energy1",
-                      "energy2"
-                    ]}
-                    colorPickers={this.state.colorPickers.data}
-                  />
-                }
+                        }
+                      });
+                  },
+                  this.state.build.attachments.colorScheme
+                )}
               />
               <br />
               <NewBuildSyandana
                 build={this.state.build}
                 syandanas={this.state.syandanas.data}
                 syandanaOnChange={syandana =>
-                  this.buildElementOnChange("syandana", syandana)
+                  this.syandanaOnChange("syandana", syandana)
                 }
-                colorPickerComponent={
-                  <NewBuildColors
-                    getColorOnClickFunction={colorName => {
-                      return color =>
-                        this.setState({
-                          build: {
-                            ...this.state.build,
-                            attachments: {
-                              ...this.state.build.attachments,
-                              colorScheme: {
-                                ...this.state.build.syandana.colorScheme,
-                                [`${colorName}`]: color.hex
-                              }
+                colorPickerComponent={this.getColorPickersComponent(
+                  colorName => {
+                    return color =>
+                      this.setState({
+                        build: {
+                          ...this.state.build,
+                          syandana: {
+                            ...this.state.build.syandana,
+                            colorScheme: {
+                              ...this.state.build.syandana.colorScheme,
+                              [`${colorName}`]: color.hex
                             }
                           }
-                        });
-                    }}
-                    buildColors={this.state.build.colorScheme}
-                    colorNames={[
-                      "primary",
-                      "secondary",
-                      "tertiary",
-                      "accents",
-                      "emmissive1",
-                      "emmissive2",
-                      "energy1",
-                      "energy2"
-                    ]}
-                    colorPickers={this.state.colorPickers.data}
-                  />
-                }
+                        }
+                      });
+                  },
+                  this.state.build.syandana.colorScheme
+                )}
               />
             </div>
             <div className="col-4">
