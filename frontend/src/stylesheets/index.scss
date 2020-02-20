@@ -8,8 +8,7 @@ $collapse-button-font-size: 30px;
 $collapse-button-border-radius: 20px;
 
 $theme-colors: (
-  // "primary": #0074d9,
-    // "danger": #ff4136
+  "primary": $scheme-text
 );
 
 @import "~bootstrap/scss/bootstrap";
@@ -49,6 +48,11 @@ body {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+}
+
+.center-half {
+  @extend .center-margin;
+  max-width: 50%;
 }
 
 .frame-fashion {

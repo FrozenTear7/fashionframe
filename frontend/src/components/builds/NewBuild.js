@@ -173,7 +173,6 @@ class NewBuild extends Component {
   }
 
   buildElementOnChange(elementName, value) {
-    console.log(value);
     this.setState({
       build: {
         ...this.state.build,
@@ -198,8 +197,13 @@ class NewBuild extends Component {
     if (
       this.state.frames.loading ||
       this.state.ephemeras.loading ||
+      this.state.skins.loading ||
       this.state.helmets.loading ||
-      this.state.colorPickers.loading
+      this.state.colorPickers.loading ||
+      this.state.chestAttachments.loading ||
+      this.state.armAttachments.loading ||
+      this.state.legAttachments.loading ||
+      this.state.syandanas.loading
     ) {
       return (
         <div className="d-flex justify-content-center">

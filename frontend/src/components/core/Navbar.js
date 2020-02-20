@@ -53,36 +53,9 @@ class Navbar extends Component {
                 </Link>
               )}
               {!this.props.isAuthorized && (
-                <li className="nav-item dropdown">
-                  <a
-                    className="nav-link dropleft"
-                    href=""
-                    id="navbarDropdown"
-                    role="button"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                  >
-                    Sign in
-                  </a>
-                  <div
-                    className="dropdown-menu"
-                    aria-labelledby="navbarDropdown"
-                  >
-                    <a
-                      className="dropdown-item"
-                      href="http://localhost:3001/auth/google"
-                    >
-                      Google+
-                    </a>
-                    <a
-                      className="dropdown-item"
-                      href="http://localhost:3001/auth/twitchtv"
-                    >
-                      Twitch
-                    </a>
-                  </div>
-                </li>
+                <Link className="nav-item nav-link" to={"/signin"}>
+                  Sign in
+                </Link>
               )}
               {this.props.isAuthorized && (
                 <li className="nav-item nav-link disabled">

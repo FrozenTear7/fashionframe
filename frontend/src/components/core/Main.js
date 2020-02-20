@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute.js";
 import MainPanel from "./MainPanel.js";
+import SignIn from "./SignIn.js";
 import NotFound from "./NotFound.js";
 import Settings from "./Settings.js";
 import NewBuild from "../builds/NewBuild.js";
@@ -12,6 +13,7 @@ class Main extends Component {
       <div className="container-fluid">
         <Switch>
           <Route exact path="/" component={MainPanel} />
+          <Route exact path="/signin" component={SignIn} />
           <PrivateRoute
             exact
             path="/settings"

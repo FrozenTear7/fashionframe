@@ -15,7 +15,7 @@ router.get("/user", (req, res) => {
 
 router.put(
   "/user",
-  connectEnsureLogin.ensureLoggedIn("http://localhost:3000/"),
+  connectEnsureLogin.ensureLoggedIn("http://localhost:3000/signin"),
   async (req, res) => {
     const client = await pool.connect();
 
@@ -53,7 +53,7 @@ router.get(
 router.get(
   "/google/redirect",
   passport.authenticate("google", {
-    failureRedirect: "http://localhost:3000/"
+    failureRedirect: "http://localhost:3000/signin"
   }),
   (req, res) => {
     res.redirect("http://localhost:3000/");
@@ -72,7 +72,7 @@ router.get(
 router.get(
   "/twitchtv/redirect",
   passport.authenticate("twitch", {
-    failureRedirect: "http://localhost:3000/"
+    failureRedirect: "http://localhost:3000/signin"
   }),
   (req, res) => {
     res.redirect("http://localhost:3000/");

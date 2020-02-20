@@ -3,6 +3,14 @@ import Select from "react-select";
 import { mapToOption, mapToOptionsWithNone } from "../../utils/mapToOptions";
 
 class NewBuildAttachments extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextProps.build.attachments !== this.props.build.attachments) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     return (
       <div>

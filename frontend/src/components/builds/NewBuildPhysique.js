@@ -3,9 +3,19 @@ import Select from "react-select";
 import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
 class NewBuildPhysique extends Component {
-  render() {
-    console.log(this.props.build.frame);
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextProps.build.frame !== this.props.build.frame ||
+      nextProps.build.helmet !== this.props.build.helmet ||
+      nextProps.build.skin !== this.props.build.skin
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
+  render() {
     return (
       <div>
         <div

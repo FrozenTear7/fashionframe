@@ -3,6 +3,17 @@ import Select from "react-select";
 import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
 class NewBuildPhysique extends Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (
+      nextProps.build.attachments.syandana !==
+      this.props.build.attachments.syandana
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   render() {
     return (
       <div>
