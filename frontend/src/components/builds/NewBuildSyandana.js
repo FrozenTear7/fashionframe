@@ -42,6 +42,8 @@ class NewBuildPhysique extends Component {
                 />
               </div>
             </div>
+            <br />
+            {this.props.colorPickerComponent}
           </div>
         </div>
       </div>

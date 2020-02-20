@@ -30,6 +30,7 @@ class ColorPicker extends Component {
         <ul className="list-inline">
           <li className="list-inline-item">
             <div style={{ width: "175px" }}>
+              <h4>{this.props.colorName}</h4>
               <Select
                 options={mapToOptions(Object.keys(this.props.colors))}
                 onChange={e => this.setState({ colorPicker: e.value })}

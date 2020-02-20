@@ -3,19 +3,21 @@ import Select from "react-select";
 import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
 class NewBuildPhysique extends Component {
-  shouldComponentUpdate(nextProps, nextState) {
-    if (
-      nextProps.build.frame !== this.props.build.frame ||
-      nextProps.build.helmet !== this.props.build.helmet ||
-      nextProps.build.skin !== this.props.build.skin
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (
+  //     nextProps.build.frame !== this.props.build.frame ||
+  //     nextProps.build.helmet !== this.props.build.helmet ||
+  //     nextProps.build.skin !== this.props.build.skin
+  //   ) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   render() {
+    const frameMatchRegex = new RegExp(`.*${this.props.build.frame} .*`);
+
     return (
       <div>
         <div
@@ -38,8 +40,9 @@ class NewBuildPhysique extends Component {
                   <div className="col-sm-8">
                     <Select
                       value={mapToOption(
-                        this.props.build.helmets ||
-                          this.props.build.frame + " Skin"
+                        frameMatchRegex.test(this.props.build.helmet)
+                          ? this.props.build.helmet
+                          : this.props.build.frame + " Helmet"
                       )}
                       options={mapToOptions(this.props.helmets)}
                       onChange={e => this.props.helmetOnChange(e.value)}
@@ -55,8 +58,9 @@ class NewBuildPhysique extends Component {
                   <div className="col-sm-8">
                     <Select
                       value={mapToOption(
-                        this.props.build.skin ||
-                          this.props.build.frame + " Helmet"
+                        frameMatchRegex.test(this.props.build.skin)
+                          ? this.props.build.skin
+                          : this.props.build.frame + " Skin"
                       )}
                       options={mapToOptions(this.props.skins)}
                       onChange={e => this.props.skinOnChange(e.value)}
@@ -65,6 +69,8 @@ class NewBuildPhysique extends Component {
                 </div>
               </div>
             </div>
+            <br />
+            {this.props.colorPickerComponent}
           </div>
         </div>
       </div>

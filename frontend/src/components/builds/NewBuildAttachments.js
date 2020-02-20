@@ -117,6 +117,8 @@ class NewBuildAttachments extends Component {
                 </div>
               </div>
             </div>
+            <br />
+            {this.props.colorPickerComponent}
           </div>
         </div>
       </div>
