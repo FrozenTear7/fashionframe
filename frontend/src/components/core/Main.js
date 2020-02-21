@@ -10,7 +10,7 @@ import NewBuild from "../builds/NewBuild.js";
 class Main extends Component {
   render() {
     return (
-      <div className="container-fluid">
+      <div className="container-fluid main-body">
         <Switch>
           <Route exact path="/" component={MainPanel} />
           <Route exact path="/signin" component={SignIn} />

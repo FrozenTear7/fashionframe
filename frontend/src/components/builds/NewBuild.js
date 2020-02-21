@@ -209,7 +209,6 @@ class NewBuild extends Component {
   }
 
   getColorPickersComponent(getColorOnClickFunction, buildColors) {
-    console.log(buildColors);
     return (
       <NewBuildColors
         getColorOnClickFunction={getColorOnClickFunction}
@@ -257,6 +256,8 @@ class NewBuild extends Component {
             handleNameChange={this.handleNameChange}
             frameOnChange={frame => this.buildElementOnChange("frame", frame)}
           />
+          <hr className="divider" />
+          <br />
           <div className="row">
             <div className="col-8">
               <NewBuildPhysique

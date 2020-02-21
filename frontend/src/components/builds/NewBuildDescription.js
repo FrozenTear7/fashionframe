@@ -4,25 +4,21 @@ class NewBuildDescription extends Component {
   render() {
     return (
       <div>
-        <h2 className="center">DESCRIPTION</h2>
-        <div className="input-group">
-          <div className="input-group-prepend">
-            <span className="input-group-text">Description</span>
-          </div>
+        <div className="form-group">
+          <label htmlFor="descriptionTextarea">Description</label>
           <textarea
+            id="descriptionTextarea"
             className="form-control"
             value={this.props.description}
             onChange={this.props.handleDescriptionChange}
           />
         </div>
+
         <br />
-        <br />
-        <h2 className="center">SCREENSHOT</h2>
-        <div className="input-group">
-          <div className="input-group-prepend">
-            <span className="input-group-text">Link</span>
-          </div>
+        <div className="form-group">
+          <label htmlFor="screenshotInput">Screenshot</label>
           <input
+            id="screenshotInput"
             type="text"
             className="form-control"
             value={this.props.screenshot}

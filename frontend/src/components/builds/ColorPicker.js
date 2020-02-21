@@ -7,7 +7,6 @@ import { mapToOptions } from "../../utils/mapToOptions";
 class ColorPicker extends Component {
   constructor() {
     super();
-
     this.state = {
       colorPicker: "Classic"
     };
@@ -30,7 +29,7 @@ class ColorPicker extends Component {
         <ul className="list-inline">
           <li className="list-inline-item">
             <div style={{ width: "175px" }}>
-              <h4>{this.props.colorName}</h4>
+              {this.props.colorName}
               <Select
                 options={mapToOptions(Object.keys(this.props.colors))}
                 onChange={e => this.setState({ colorPicker: e.value })}
@@ -56,10 +55,14 @@ class ColorPicker extends Component {
             >
               <Button
                 variant="success"
+                className={!this.props.color ? "transparent-checkered" : ""}
+                // className={this.props.color && "transparent-checkered"}
                 style={{
                   width: "50px",
                   height: "50px",
-                  backgroundColor: this.props.color,
+                  backgroundColor: this.props.color
+                    ? this.props.color
+                    : "#d1d1d1",
                   borderColor: "#FFFFFF"
                 }}
               />

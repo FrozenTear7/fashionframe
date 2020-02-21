@@ -34,39 +34,33 @@ class NewBuildPhysique extends Component {
           <div className="card card-body">
             <div className="row">
               <div className="col-6">
-                <div className="form-group row">
-                  <label className="col-sm-4 col-form-label">
-                    <h4>Helmet:</h4>
-                  </label>
-                  <div className="col-sm-8">
-                    <Select
-                      value={mapToOption(
-                        frameMatchRegex.test(this.props.build.helmet)
-                          ? this.props.build.helmet
-                          : this.props.build.frame + " Helmet"
-                      )}
-                      options={mapToOptions(this.props.helmets)}
-                      onChange={e => this.props.helmetOnChange(e.value)}
-                    />
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="helmetSelect">Helmet</label>
+                  <Select
+                    id="helmetSelect"
+                    value={mapToOption(
+                      frameMatchRegex.test(this.props.build.helmet)
+                        ? this.props.build.helmet
+                        : this.props.build.frame + " Helmet"
+                    )}
+                    options={mapToOptions(this.props.helmets)}
+                    onChange={e => this.props.helmetOnChange(e.value)}
+                  />
                 </div>
               </div>
               <div className="col-6">
-                <div className="form-group row">
-                  <label className="col-sm-4 col-form-label">
-                    <h4>Skin:</h4>
-                  </label>
-                  <div className="col-sm-8">
-                    <Select
-                      value={mapToOption(
-                        frameMatchRegex.test(this.props.build.skin)
-                          ? this.props.build.skin
-                          : this.props.build.frame + " Skin"
-                      )}
-                      options={mapToOptions(this.props.skins)}
-                      onChange={e => this.props.skinOnChange(e.value)}
-                    />
-                  </div>
+                <div className="form-group">
+                  <label htmlFor="skinSelect">Skin</label>
+                  <Select
+                    id="skinSelect"
+                    value={mapToOption(
+                      frameMatchRegex.test(this.props.build.skin)
+                        ? this.props.build.skin
+                        : this.props.build.frame + " Skin"
+                    )}
+                    options={mapToOptions(this.props.skins)}
+                    onChange={e => this.props.skinOnChange(e.value)}
+                  />
                 </div>
               </div>
             </div>

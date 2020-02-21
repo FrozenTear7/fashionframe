@@ -29,20 +29,15 @@ class NewBuildPhysique extends Component {
         </div>
         <div className="collapse show" id="collapseSyandana">
           <div className="card card-body">
-            <div className="form-group row">
-              <label className="col-sm-4 col-form-label">
-                <h4>Syandana:</h4>
-              </label>
-              <div className="col-sm-8">
-                <Select
-                  defaultValue={mapToOption(
-                    this.props.build.attachments.syandana || "None"
-                  )}
-                  options={mapToOptions(this.props.syandanas)}
-                  onChange={e => this.props.syandanaOnChange(e.value)}
-                />
-              </div>
-            </div>
+            <label htmlFor="syandanaSelect">Syandana</label>
+            <Select
+              id="syandanaSelect"
+              defaultValue={mapToOption(
+                this.props.build.attachments.syandana || "None"
+              )}
+              options={mapToOptions(this.props.syandanas)}
+              onChange={e => this.props.syandanaOnChange(e.value)}
+            />
             <br />
             {this.props.colorPickerComponent}
           </div>
