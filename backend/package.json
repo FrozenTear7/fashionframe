@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "cookie-session": "^1.4.0",
@@ -14,6 +15,8 @@
     "passport": "^0.4.1",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-twitch": "^1.0.3",
+    "passport-twitch-new": "0.0.1",
     "pg": "^7.18.1"
   },
   "devDependencies": {
@@ -26,7 +29,7 @@
     "pretty-quick": "^2.0.1"
   },
   "scripts": {
-    "start": "nodemon src/index.mjs",
+    "start": "nodemon --experimental-json-modules src/index.mjs",
     "precommit": "pretty-quick --staged"
   },
   "type": "module"

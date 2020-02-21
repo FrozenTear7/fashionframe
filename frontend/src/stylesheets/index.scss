@@ -1,17 +1,104 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+// Variable definitions
+
+$scheme-primary: #222831;
+$scheme-secondary: #393e46;
+$scheme-others: #eeeeee;
+$scheme-text: #00adb5;
+$collapse-button-font-size: 30px;
+$collapse-button-border-radius: 20px;
+
+$theme-colors: (
+  "primary": $scheme-text
+);
+
+@import "~bootstrap/scss/bootstrap";
+
+/* roboto-regular - latin */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto"), local("Roboto-Regular"),
+    url("../fonts/roboto-v20-latin-regular.woff2") format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("../fonts/roboto-v20-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+body {
+  font-family: Roboto;
+  background-color: $scheme-primary !important;
+  color: $scheme-text !important;
+}
+
+.main-body {
+  padding: 5%;
 }
 
 .navbar-bg-dark {
-  background-color: #010118;
+  background-color: $scheme-secondary;
+}
+
+.navbar-nav > li > .dropdown-menu {
+  background-color: $scheme-secondary;
+}
+
+.center {
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.center-margin {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-half {
+  @extend .center-margin;
+  max-width: 50%;
+}
+
+.frame-fashion {
+  width: "100%";
+  height: "100%";
+  object-fit: "cover";
+  overflow: "hidden";
+}
+
+.card-body {
+  background-color: $scheme-secondary;
+}
+
+.collapse-button-dark {
+  border-top-left-radius: $collapse-button-border-radius;
+  border-top-right-radius: $collapse-button-border-radius;
+  border: 1px solid $scheme-text;
+  background-color: $scheme-secondary;
+  font-size: $collapse-button-font-size;
+}
+
+.card-body {
+  border-radius: 0px;
+}
+
+.nav-link {
+  color: $scheme-text !important;
+}
+
+.navbar-brand {
+  color: $scheme-others !important;
+}
+
+.divider {
+  background-color: $scheme-others;
+}
+
+.transparent-checkered {
+  background-image: linear-gradient(45deg, #808080 25%, transparent 25%),
+    linear-gradient(-45deg, #808080 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #808080 75%),
+    linear-gradient(-45deg, transparent 75%, #808080 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
 }
