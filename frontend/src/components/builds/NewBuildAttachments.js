@@ -23,7 +23,7 @@ class NewBuildAttachments extends Component {
         >
           ATTACHMENTS
         </div>
-        <div className="collapse show" id="collapseAttachments">
+        <div className="collapse" id="collapseAttachments">
           <div className="card card-body">
             <div className="row">
               <div className="col-6">

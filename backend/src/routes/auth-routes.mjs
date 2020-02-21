@@ -20,11 +20,11 @@ router.put(
     const client = await pool.connect();
 
     try {
-      const user = await client.query(
-        "UPDATE users SET username = ($1) WHERE id = ($2)",
-        [req.body.userData.username, req.user.id]
-      );
-      res.send(user);
+      await client.query("UPDATE users SET username = ($1) WHERE id = ($2)", [
+        req.body.userData.username,
+        req.user.id
+      ]);
+      res.sendStatus(200);
     } catch (err) {
       console.log(err);
       res.status(400).send({

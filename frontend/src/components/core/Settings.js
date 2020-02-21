@@ -10,7 +10,7 @@ class Settings extends Component {
         data: {
           username: ""
         },
-        error: null
+        error: ""
       }
     };
 
@@ -27,7 +27,7 @@ class Settings extends Component {
         userData: {
           ...this.state.userData,
           loading: false,
-          error: null,
+          error: "",
           data: {
             username: resJson.username
           }
@@ -59,13 +59,30 @@ class Settings extends Component {
 
   async handleUserDataSubmit(event) {
     try {
-      await fetchAuth("/auth/user", {
+      const res = await fetchAuth("/auth/user", {
         method: "PUT",
         body: JSON.stringify({ userData: this.state.userData.data })
       });
-      window.location.reload();
+
+      if (res.ok) {
+        window.location.reload();
+      } else {
+        const resJson = await res.json();
+        this.setState({
+          userData: {
+            ...this.state.userData,
+            error: resJson.message
+          }
+        });
+      }
     } catch (err) {
       console.log(err);
+      this.setState({
+        userData: {
+          ...this.state.userData,
+          error: "Server error"
+        }
+      });
     }
   }
 
@@ -76,16 +93,6 @@ class Settings extends Component {
           <div className="spinner-grow text-dark" role="status">
             <span className="sr-only">Loading...</span>
           </div>
-        </div>
-      );
-    } else if (this.state.userData.error) {
-      return (
-        <div
-          className="alert alert-danger"
-          role="alert"
-          style={{ textAlign: "center" }}
-        >
-          This is a primary alert—check it out!
         </div>
       );
     } else {
@@ -106,6 +113,11 @@ class Settings extends Component {
                 onChange={this.handleUsernameChange}
               />
             </div>
+            {this.state.userData.error && (
+              <div className="alert alert-danger" role="alert">
+                {this.state.userData.error}
+              </div>
+            )}
             <button
               className="btn btn-primary"
               type="button"

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router";
 import { fetchAuth } from "../../utils/fetchAuth";
 import NewBuildPhysique from "./NewBuildPhysique";
 import NewBuildAttachments from "./NewBuildAttachments";
@@ -11,13 +12,14 @@ class NewBuild extends Component {
   constructor() {
     super();
     this.state = {
+      buildError: "",
       build: {
         name: "",
         frame: "Ash",
         description: "",
         screenshot: "",
-        skin: "",
-        helmet: "",
+        skin: "Ash Skin",
+        helmet: "Ash Helmet",
         attachments: {
           chest: "",
           leftArm: "",
@@ -26,90 +28,128 @@ class NewBuild extends Component {
           rightLeg: "",
           ephemera: "",
           colorScheme: {
-            primary: "",
-            secondary: "",
-            tertiary: "",
-            accents: "",
-            emmissive1: "",
-            emmissive2: "",
-            energy1: "",
-            energy2: ""
+            primary: null,
+            secondary: null,
+            tertiary: null,
+            accents: null,
+            emmissive1: null,
+            emmissive2: null,
+            energy1: null,
+            energy2: null
           }
         },
         syandana: {
           name: "",
           colorScheme: {
-            primary: "",
-            secondary: "",
-            tertiary: "",
-            accents: "",
-            emmissive1: "",
-            emmissive2: "",
-            energy1: "",
-            energy2: ""
+            primary: null,
+            secondary: null,
+            tertiary: null,
+            accents: null,
+            emmissive1: null,
+            emmissive2: null,
+            energy1: null,
+            energy2: null
           }
         },
         colorScheme: {
-          primary: "",
-          secondary: "",
-          tertiary: "",
-          accents: "",
-          emmissive1: "",
-          emmissive2: "",
-          energy1: "",
-          energy2: ""
+          primary: null,
+          secondary: null,
+          tertiary: null,
+          accents: null,
+          emmissive1: null,
+          emmissive2: null,
+          energy1: null,
+          energy2: null
         }
       },
       frames: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       },
       ephemeras: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       },
       helmets: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       },
       skins: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       },
       colorPickers: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       },
       chestAttachments: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       },
       armAttachments: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       },
       legAttachments: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       },
       syandanas: {
         loading: true,
         data: [],
-        error: null
+        error: ""
       }
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleScreenshotChange = this.handleScreenshotChange.bind(this);
+    this.postNewBuild = this.postNewBuild.bind(this);
+  }
+
+  getErrorMessages() {
+    let outputErrorMessage = "";
+
+    const errorArray = [
+      this.state.frames.error,
+      this.state.ephemeras.error,
+      this.state.skins.error,
+      this.state.helmets.error,
+      this.state.colorPickers.error,
+      this.state.chestAttachments.error,
+      this.state.armAttachments.error,
+      this.state.legAttachments.error,
+      this.state.syandanas.error,
+      this.state.buildError
+    ];
+
+    errorArray.forEach(error => {
+      if (error) return (outputErrorMessage += error + ", ");
+    });
+
+    if (outputErrorMessage.length > 2)
+      outputErrorMessage = outputErrorMessage.slice(
+        0,
+        outputErrorMessage.length - 2
+      );
+
+    if (outputErrorMessage) {
+      return (
+        <div class="alert alert-danger" role="alert">
+          {outputErrorMessage}
+        </div>
+      );
+    } else {
+      return <span />;
+    }
   }
 
   async fetchWarframeData(resourceName) {
@@ -117,21 +157,56 @@ class NewBuild extends Component {
       const res = await fetchAuth(`/api/${resourceName}`);
       const resJson = await res.json();
 
-      this.setState({
-        [resourceName]: {
-          ...this.state[resourceName],
-          loading: false,
-          error: null,
-          data: resJson[resourceName]
-        }
-      });
+      if (res.ok) {
+        this.setState({
+          [resourceName]: {
+            ...this.state[resourceName],
+            loading: false,
+            error: "",
+            data: resJson[resourceName]
+          }
+        });
+      } else {
+        this.setState({
+          [resourceName]: {
+            ...this.state[resourceName],
+            loading: false,
+            error: resJson.message
+          }
+        });
+      }
     } catch (error) {
       this.setState({
         [resourceName]: {
           ...this.state[resourceName],
           loading: false,
-          error: error.message
+          error: `Could not fetch ${resourceName}`
         }
+      });
+    }
+  }
+
+  async postNewBuild() {
+    try {
+      const res = await fetchAuth(`/builds`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ build: this.state.build })
+      });
+
+      if (res.ok) {
+        return <Redirect push to="/" />;
+      } else {
+        const resJson = await res.json();
+        this.setState({
+          buildError: resJson.message
+        });
+      }
+    } catch (error) {
+      this.setState({
+        buildError: "Could not create build"
       });
     }
   }
@@ -255,7 +330,9 @@ class NewBuild extends Component {
             frames={this.state.frames.data}
             handleNameChange={this.handleNameChange}
             frameOnChange={frame => this.buildElementOnChange("frame", frame)}
+            saveBuildOnClick={this.postNewBuild}
           />
+          {this.getErrorMessages()}
           <hr className="divider" />
           <br />
           <div className="row">

@@ -35,7 +35,11 @@ class NewBuildTopPanel extends Component {
               <label htmlFor="frameSelect">Actions</label>
               <ul className="list-inline">
                 <li className="list-inline-item">
-                  <button type="button" className="btn btn-primary">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={this.props.saveBuildOnClick}
+                  >
                     Save setup
                   </button>
                 </li>

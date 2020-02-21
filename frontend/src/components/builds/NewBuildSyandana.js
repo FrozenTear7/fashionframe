@@ -27,7 +27,7 @@ class NewBuildPhysique extends Component {
         >
           SYANDANA
         </div>
-        <div className="collapse show" id="collapseSyandana">
+        <div className="collapse" id="collapseSyandana">
           <div className="card card-body">
             <label htmlFor="syandanaSelect">Syandana</label>
             <Select

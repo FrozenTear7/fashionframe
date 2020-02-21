@@ -11,7 +11,7 @@ class NotFound extends Component {
         <img
           src="./vay_hek.jpg"
           alt="Screaming Vay Hek"
-          style={{ maxWidth: "70%" }}
+          style={{ maxWidth: "60%" }}
         ></img>
       </div>
     );
