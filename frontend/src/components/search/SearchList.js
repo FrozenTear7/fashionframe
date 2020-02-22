@@ -53,6 +53,8 @@ class SearchList extends Component {
         error: ""
       }
     };
+
+    this.frameSelectOnChange = this.frameSelectOnChange.bind(this);
   }
 
   async fetchFrames() {
@@ -90,6 +92,8 @@ class SearchList extends Component {
   }
 
   async fetchSetups(index) {
+    console.log(this.state.frame);
+
     try {
       const res = await fetchAuth(
         `/builds?frame=${this.state.frame}&limit=${fetchLimit}&offset=${(index -
@@ -129,14 +133,16 @@ class SearchList extends Component {
     }
   }
 
+  async frameSelectOnChange(e) {
+    await this.setState({ frame: e.value }, () => this.fetchSetups(1));
+  }
+
   async componentDidMount() {
     await this.fetchFrames();
     await this.fetchSetups(1);
   }
 
   render() {
-    console.log(this.state.currentFetchPage);
-
     if (this.state.frames.loading || this.state.setups.loading) {
       return <Loading />;
     } else {
@@ -197,7 +203,10 @@ class SearchList extends Component {
               ))}
               <li
                 className={
-                  this.state.currentFetchPage === this.state.numberOfPages
+                  this.state.currentFetchPage === this.state.numberOfPages ||
+                  (this.state.currentFetchPage - 1 ===
+                    this.state.numberOfPages &&
+                    this.state.numberOfPages === 0)
                     ? "page-item disabled"
                     : "page-item"
                 }
@@ -205,7 +214,10 @@ class SearchList extends Component {
                 <button
                   className="page-link"
                   disabled={
-                    this.state.currentFetchPage === this.state.numberOfPages
+                    this.state.currentFetchPage === this.state.numberOfPages ||
+                    (this.state.currentFetchPage - 1 ===
+                      this.state.numberOfPages &&
+                      this.state.numberOfPages === 0)
                   }
                   onClick={() =>
                     this.fetchSetups(this.state.currentFetchPage + 1)
@@ -216,7 +228,10 @@ class SearchList extends Component {
               </li>
               <li
                 className={
-                  this.state.currentFetchPage === this.state.numberOfPages
+                  this.state.currentFetchPage === this.state.numberOfPages ||
+                  (this.state.currentFetchPage - 1 ===
+                    this.state.numberOfPages &&
+                    this.state.numberOfPages === 0)
                     ? "page-item disabled"
                     : "page-item"
                 }
@@ -224,7 +239,10 @@ class SearchList extends Component {
                 <button
                   className="page-link"
                   disabled={
-                    this.state.currentFetchPage === this.state.numberOfPages
+                    this.state.currentFetchPage === this.state.numberOfPages ||
+                    (this.state.currentFetchPage - 1 ===
+                      this.state.numberOfPages &&
+                      this.state.numberOfPages === 0)
                   }
                   onClick={() => this.fetchSetups(this.state.numberOfPages)}
                 >
@@ -242,18 +260,18 @@ class SearchList extends Component {
                   id="frameSelect"
                   value={mapToOption(this.state.frame)}
                   options={mapToOptionsWithNone(this.state.frames.data)}
-                  onChange={e => this.setState({ colorPicker: e.value })}
+                  onChange={this.frameSelectOnChange}
                 />
               </div>
             </div>
             <div className="col-3">
               <div className="form-group">
-                <label htmlFor="frameSelect">Sort by</label>
+                <label htmlFor="filterSelect">Sort by</label>
                 <Select
-                  id="frameSelect"
+                  id="filterSelect"
                   value={mapToOption(this.state.filter)}
                   options={mapToOptions(setupFilters)}
-                  onChange={e => this.setState({ colorPicker: e.value })}
+                  onChange={e => this.setState({ filter: e.value })}
                 />
               </div>
             </div>
