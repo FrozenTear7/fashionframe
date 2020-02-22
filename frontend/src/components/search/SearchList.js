@@ -9,30 +9,10 @@ import {
   mapToOptionsWithNone
 } from "../../utils/mapToOptions";
 import Loading from "../utils/Loading.js";
+import SearchPagination from "./SearchPagination";
 
 const fetchLimit = 9;
-const paginationPagesLimit = 5;
 const setupFilters = ["Popular", "New"];
-
-const getSurroundingPageNumbers = (numberOfPages, currentPage) => {
-  let startIndex = Math.max(
-    currentPage - Math.floor(paginationPagesLimit / 2),
-    1
-  );
-
-  if (startIndex + paginationPagesLimit > numberOfPages)
-    startIndex = numberOfPages - paginationPagesLimit + 1;
-
-  if (numberOfPages < paginationPagesLimit) startIndex = 1;
-
-  let resultArray = [];
-
-  for (let i = 0; i < Math.min(numberOfPages, paginationPagesLimit); i++) {
-    resultArray = [...resultArray, startIndex + i - 1];
-  }
-
-  return resultArray;
-};
 
 class SearchList extends Component {
   constructor() {
@@ -55,6 +35,7 @@ class SearchList extends Component {
     };
 
     this.frameSelectOnChange = this.frameSelectOnChange.bind(this);
+    this.fetchSetups = this.fetchSetups.bind(this);
   }
 
   async fetchFrames() {
@@ -96,7 +77,7 @@ class SearchList extends Component {
 
     try {
       const res = await fetchAuth(
-        `/builds?frame=${this.state.frame}&limit=${fetchLimit}&offset=${(index -
+        `/setups?frame=${this.state.frame}&limit=${fetchLimit}&offset=${(index -
           1) *
           fetchLimit}`
       );
@@ -148,109 +129,12 @@ class SearchList extends Component {
     } else {
       return (
         <div className="center">
-          <nav aria-label="...">
-            <ul className="pagination center">
-              <li
-                className={
-                  this.state.currentFetchPage - 1 === 0
-                    ? "page-item disabled"
-                    : "page-item"
-                }
-              >
-                <button
-                  className="page-link"
-                  disabled={this.state.currentFetchPage - 1 === 0}
-                  onClick={() => this.fetchSetups(1)}
-                >
-                  {"<<"}
-                </button>
-              </li>
-              <li
-                className={
-                  this.state.currentFetchPage - 1 === 0
-                    ? "page-item disabled"
-                    : "page-item"
-                }
-              >
-                <button
-                  className="page-link"
-                  disabled={this.state.currentFetchPage - 1 === 0}
-                  onClick={() =>
-                    this.fetchSetups(this.state.currentFetchPage - 1)
-                  }
-                >
-                  {"<"}
-                </button>
-              </li>
-              {getSurroundingPageNumbers(
-                this.state.numberOfPages,
-                this.state.currentFetchPage
-              ).map(i => (
-                <li
-                  className={
-                    i + 1 === this.state.currentFetchPage
-                      ? "page-item active"
-                      : "page-item"
-                  }
-                >
-                  <button
-                    className="page-link"
-                    onClick={() => this.fetchSetups(i + 1)}
-                  >
-                    {i + 1}
-                  </button>
-                </li>
-              ))}
-              <li
-                className={
-                  this.state.currentFetchPage === this.state.numberOfPages ||
-                  (this.state.currentFetchPage - 1 ===
-                    this.state.numberOfPages &&
-                    this.state.numberOfPages === 0)
-                    ? "page-item disabled"
-                    : "page-item"
-                }
-              >
-                <button
-                  className="page-link"
-                  disabled={
-                    this.state.currentFetchPage === this.state.numberOfPages ||
-                    (this.state.currentFetchPage - 1 ===
-                      this.state.numberOfPages &&
-                      this.state.numberOfPages === 0)
-                  }
-                  onClick={() =>
-                    this.fetchSetups(this.state.currentFetchPage + 1)
-                  }
-                >
-                  {">"}
-                </button>
-              </li>
-              <li
-                className={
-                  this.state.currentFetchPage === this.state.numberOfPages ||
-                  (this.state.currentFetchPage - 1 ===
-                    this.state.numberOfPages &&
-                    this.state.numberOfPages === 0)
-                    ? "page-item disabled"
-                    : "page-item"
-                }
-              >
-                <button
-                  className="page-link"
-                  disabled={
-                    this.state.currentFetchPage === this.state.numberOfPages ||
-                    (this.state.currentFetchPage - 1 ===
-                      this.state.numberOfPages &&
-                      this.state.numberOfPages === 0)
-                  }
-                  onClick={() => this.fetchSetups(this.state.numberOfPages)}
-                >
-                  {">>"}
-                </button>
-              </li>
-            </ul>
-          </nav>
+          <SearchPagination
+            currentFetchPage={this.state.currentFetchPage}
+            numberOfPages={this.state.numberOfPages}
+            fetchSetups={this.fetchSetups}
+          />
+          <br />
           <div className="row">
             <div className="col-3"></div>
             <div className="col-3">
@@ -279,7 +163,7 @@ class SearchList extends Component {
           </div>
           <ul className="horizontal-list">
             {this.state.setups.data.map((setup, i) => (
-              <Link to={"/"} key={i}>
+              <Link to={`/setups/${setup.id}`} key={i}>
                 <li className="search-list-item center">
                   <h3>{setup.name}</h3>
                   <h4>Frame: {setup.frame}</h4>

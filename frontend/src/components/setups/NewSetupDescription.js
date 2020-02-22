@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class NewBuildDescription extends Component {
+class NewSetupDescription extends Component {
   render() {
     return (
       <div>
@@ -30,4 +30,4 @@ class NewBuildDescription extends Component {
   }
 }
 
-export default NewBuildDescription;
+export default NewSetupDescription;

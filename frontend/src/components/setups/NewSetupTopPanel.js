@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Select from "react-select";
 import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
-class NewBuildTopPanel extends Component {
+class NewSetupTopPanel extends Component {
   render() {
     return (
       <div>
@@ -14,7 +14,7 @@ class NewBuildTopPanel extends Component {
                 id="setupNameInput"
                 type="text"
                 className="form-control"
-                value={this.props.build.name}
+                value={this.props.setup.name}
                 onChange={this.props.handleNameChange}
               />
             </div>
@@ -24,7 +24,7 @@ class NewBuildTopPanel extends Component {
               <label htmlFor="frameSelect">Frame</label>
               <Select
                 id="frameSelect"
-                defaultValue={mapToOption(this.props.build.frame)}
+                defaultValue={mapToOption(this.props.setup.frame)}
                 options={mapToOptions(this.props.frames)}
                 onChange={e => this.props.frameOnChange(e.value)}
               />
@@ -38,7 +38,7 @@ class NewBuildTopPanel extends Component {
                   <button
                     type="button"
                     className="btn btn-primary"
-                    onClick={this.props.saveBuildOnClick}
+                    onClick={this.props.saveSetupOnClick}
                   >
                     Save setup
                   </button>
@@ -57,4 +57,4 @@ class NewBuildTopPanel extends Component {
   }
 }
 
-export default NewBuildTopPanel;
+export default NewSetupTopPanel;

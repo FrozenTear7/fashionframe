@@ -3,40 +3,97 @@ import passport from "passport";
 import connectEnsureLogin from "connect-ensure-login";
 import pool from "../config/db-connect.mjs";
 import frames from "../../public/warframe_data/frames.json";
-import e from "express";
 
 const router = express.Router();
 
 router.get("/", async (req, res) => {
   const client = await pool.connect();
 
-  console.log(req.query);
-
   try {
     if (frames.frames.includes(req.query.frame)) {
       const setups = await client.query(
-        "SELECT u.username, b.id, b.name, b.screenshot, b.frame FROM builds b JOIN users u ON u.id = b.user_id WHERE b.frame = $1 LIMIT $2 OFFSET $3",
+        "SELECT u.username, s.id, s.name, s.screenshot, s.frame FROM setups s JOIN users u ON u.id = s.user_id WHERE s.frame = $1 LIMIT $2 OFFSET $3",
         [req.query.frame, req.query.limit, req.query.offset]
       );
 
       const setupsCount = await client.query(
-        "SELECT COUNT(b.id) FROM builds b JOIN users u ON u.id = b.user_id WHERE b.frame = $1",
+        "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE s.frame = $1",
         [req.query.frame]
       );
 
       res.send({ setups: setups.rows, setupsCount: setupsCount.rows[0].count });
     } else {
       const setups = await client.query(
-        "SELECT u.username, b.id, b.name, b.screenshot, b.frame FROM builds b JOIN users u ON u.id = b.user_id LIMIT $1 OFFSET $2",
+        "SELECT u.username, s.id, s.name, s.screenshot, s.frame FROM setups s JOIN users u ON u.id = s.user_id LIMIT $1 OFFSET $2",
         [req.query.limit, req.query.offset]
       );
 
       const setupsCount = await client.query(
-        "SELECT COUNT(b.id) FROM builds b JOIN users u ON u.id = b.user_id"
+        "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id"
       );
 
       res.send({ setups: setups.rows, setupsCount: setupsCount.rows[0].count });
     }
+  } catch (err) {
+    console.log(err);
+    res.status(400).send({
+      message: "Could not fetch setups"
+    });
+  } finally {
+    client.release();
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  const client = await pool.connect();
+
+  try {
+    const setup = await client.query(
+      "SELECT u.username, s.id, s.name, s.screenshot, s.frame FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $1",
+      [72]
+    );
+
+    const attachments = await client.query(
+      "SELECT a.* FROM attachments a JOIN setups s ON s.attachment_id = a.id WHERE s.id = $1",
+      [setup.rows[0].id]
+    );
+
+    const syandana = await client.query(
+      "SELECT sy.* FROM syandanas sy JOIN setups s ON s.syandana_id = sy.id WHERE s.id = $1",
+      [setup.rows[0].id]
+    );
+
+    const setupColorScheme = await client.query(
+      "SELECT c.* FROM color_schemes c JOIN setups s ON s.color_scheme_id = c.id WHERE s.id = $1",
+      [setup.rows[0].id]
+    );
+
+    const attachmentsColorScheme = await client.query(
+      "SELECT c.* FROM color_schemes c JOIN setups s ON s.color_scheme_id = c.id WHERE s.id = $1",
+      [attachments.rows[0].id]
+    );
+
+    const syandanaColorScheme = await client.query(
+      "SELECT c.* FROM color_schemes c JOIN setups s ON s.color_scheme_id = c.id WHERE s.id = $1",
+      [syandana.rows[0].id]
+    );
+
+    const resultJson = {
+      setup: {
+        ...setup.rows[0],
+        attachments: {
+          ...attachments.rows[0],
+          colorScheme: { ...attachmentsColorScheme.rows[0] }
+        },
+        syandana: {
+          ...syandana.rows[0],
+          colorScheme: { ...syandanaColorScheme.rows[0] }
+        },
+        colorScheme: { ...setupColorScheme.rows[0] }
+      }
+    };
+
+    res.send(resultJson);
   } catch (err) {
     console.log(err);
     res.status(400).send({
@@ -56,24 +113,24 @@ router.post(
     try {
       await client.query("BEGIN");
 
-      const build = req.body.build;
-      const buildColorScheme = build.colorScheme;
-      const attachments = build.attachments;
+      const setup = req.body.setup;
+      const setupColorScheme = setup.colorScheme;
+      const attachments = setup.attachments;
       const attachmentsColorScheme = attachments.colorScheme;
-      const syandana = build.syandana;
+      const syandana = setup.syandana;
       const syandanaColorScheme = syandana.colorScheme;
 
-      const newBuildColorScheme = await client.query(
+      const newSetupColorScheme = await client.query(
         'INSERT INTO color_schemes ("primary", secondary, tertiary, accents, emmissive1, emmissive2, energy1, energy2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
         [
-          buildColorScheme.primary,
-          buildColorScheme.secondary,
-          buildColorScheme.tertiary,
-          buildColorScheme.accents,
-          buildColorScheme.emmissive1,
-          buildColorScheme.emmissive2,
-          buildColorScheme.energy1,
-          buildColorScheme.energy2
+          setupColorScheme.primary,
+          setupColorScheme.secondary,
+          setupColorScheme.tertiary,
+          setupColorScheme.accents,
+          setupColorScheme.emmissive1,
+          setupColorScheme.emmissive2,
+          setupColorScheme.energy1,
+          setupColorScheme.energy2
         ]
       );
 
@@ -124,17 +181,17 @@ router.post(
       );
 
       await client.query(
-        "INSERT INTO builds (name, frame, description, screenshot, helmet, skin, attachment_id, syandana_id, color_scheme_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+        "INSERT INTO setups (name, frame, description, screenshot, helmet, skin, attachment_id, syandana_id, color_scheme_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
         [
-          build.name,
-          build.frame,
-          build.description,
-          build.screenshot,
-          build.helmet,
-          build.skin,
+          setup.name,
+          setup.frame,
+          setup.description,
+          setup.screenshot,
+          setup.helmet,
+          setup.skin,
           newAttachments.rows[0].id,
           newSyandana.rows[0].id,
-          newBuildColorScheme.rows[0].id,
+          newSetupColorScheme.rows[0].id,
           req.user.id
         ]
       );
@@ -145,7 +202,7 @@ router.post(
       await client.query("ROLLBACK");
       console.log(err);
       res.status(400).send({
-        message: "Could not create build"
+        message: "Could not create setup"
       });
     } finally {
       client.release();

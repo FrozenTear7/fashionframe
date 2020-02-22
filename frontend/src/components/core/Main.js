@@ -5,8 +5,9 @@ import MainPanel from "./MainPanel.js";
 import SignIn from "./SignIn.js";
 import NotFound from "./NotFound.js";
 import Settings from "./Settings.js";
-import NewBuild from "../builds/NewBuild.js";
+import NewSetup from "../setups/NewSetup.js";
 import SearchList from "../search/SearchList.js";
+import Setup from "../setups/Setup.js";
 
 class Main extends Component {
   render() {
@@ -25,21 +26,11 @@ class Main extends Component {
           />
           <PrivateRoute
             exact
-            path="/builds"
-            component={NewBuild}
+            path="/setups/new"
+            component={NewSetup}
             isAuthorized={this.props.isAuthorized}
           />
-          <PrivateRoute
-            path="/builds/:id"
-            component={NewBuild}
-            isAuthorized={this.props.isAuthorized}
-          />
-          <PrivateRoute
-            exact
-            path="/builds/new"
-            component={NewBuild}
-            isAuthorized={this.props.isAuthorized}
-          />
+          <Route exact path="/setups/:id" component={Setup} />
           <Route component={NotFound} />
         </Switch>
       </div>

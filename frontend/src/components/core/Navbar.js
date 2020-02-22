@@ -27,7 +27,7 @@ class Navbar extends Component {
                 Search
               </Link>
               {this.props.isAuthorized && (
-                <Link className="nav-item nav-link" to={"/builds/new"}>
+                <Link className="nav-item nav-link" to={"/setups/new"}>
                   New setup
                 </Link>
               )}
