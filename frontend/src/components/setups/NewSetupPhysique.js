@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import Select from "react-select";
 import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
-class NewBuildPhysique extends Component {
+class NewSetupPhysique extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (
-      nextProps.build.frame !== this.props.build.frame ||
-      nextProps.build.helmet !== this.props.build.helmet ||
-      nextProps.build.skin !== this.props.build.skin ||
-      nextProps.build.colorScheme !== this.props.build.colorScheme
+      nextProps.setup.frame !== this.props.setup.frame ||
+      nextProps.setup.helmet !== this.props.setup.helmet ||
+      nextProps.setup.skin !== this.props.setup.skin ||
+      nextProps.setup.colorScheme !== this.props.setup.colorScheme
     ) {
       return true;
     } else {
@@ -17,7 +17,7 @@ class NewBuildPhysique extends Component {
   }
 
   render() {
-    const frameMatchRegex = new RegExp(`.*${this.props.build.frame} .*`);
+    const frameMatchRegex = new RegExp(`.*${this.props.setup.frame} .*`);
 
     return (
       <div>
@@ -39,9 +39,9 @@ class NewBuildPhysique extends Component {
                   <Select
                     id="helmetSelect"
                     value={mapToOption(
-                      frameMatchRegex.test(this.props.build.helmet)
-                        ? this.props.build.helmet
-                        : this.props.build.frame + " Helmet"
+                      frameMatchRegex.test(this.props.setup.helmet)
+                        ? this.props.setup.helmet
+                        : this.props.setup.frame + " Helmet"
                     )}
                     options={mapToOptions(this.props.helmets)}
                     onChange={e => this.props.helmetOnChange(e.value)}
@@ -54,9 +54,9 @@ class NewBuildPhysique extends Component {
                   <Select
                     id="skinSelect"
                     value={mapToOption(
-                      frameMatchRegex.test(this.props.build.skin)
-                        ? this.props.build.skin
-                        : this.props.build.frame + " Skin"
+                      frameMatchRegex.test(this.props.setup.skin)
+                        ? this.props.setup.skin
+                        : this.props.setup.frame + " Skin"
                     )}
                     options={mapToOptions(this.props.skins)}
                     onChange={e => this.props.skinOnChange(e.value)}
@@ -73,4 +73,4 @@ class NewBuildPhysique extends Component {
   }
 }
 
-export default NewBuildPhysique;
+export default NewSetupPhysique;

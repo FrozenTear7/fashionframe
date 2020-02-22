@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import Select from "react-select";
 import { mapToOption, mapToOptionsWithNone } from "../../utils/mapToOptions";
 
-class NewBuildAttachments extends Component {
+class NewSetupAttachments extends Component {
   shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.build.attachments !== this.props.build.attachments) {
+    if (nextProps.setup.attachments !== this.props.setup.attachments) {
       return true;
     } else {
       return false;
@@ -32,7 +32,7 @@ class NewBuildAttachments extends Component {
                   <Select
                     id="chestSelect"
                     defaultValue={mapToOption(
-                      this.props.build.attachments.chest || "None"
+                      this.props.setup.attachments.chest || "None"
                     )}
                     options={mapToOptionsWithNone(this.props.chestAttachments)}
                     onChange={e => this.props.chestOnChange(e.value)}
@@ -43,7 +43,7 @@ class NewBuildAttachments extends Component {
                   <Select
                     id="leftArmSelect"
                     defaultValue={mapToOption(
-                      this.props.build.attachments.leftArm || "None"
+                      this.props.setup.attachments.leftArm || "None"
                     )}
                     options={mapToOptionsWithNone(this.props.armAttachments)}
                     onChange={e => this.props.leftArmOnChange(e.value)}
@@ -54,7 +54,7 @@ class NewBuildAttachments extends Component {
                   <Select
                     id="leftArmSelect"
                     defaultValue={mapToOption(
-                      this.props.build.attachments.leftLeg || "None"
+                      this.props.setup.attachments.leftLeg || "None"
                     )}
                     options={mapToOptionsWithNone(this.props.legAttachments)}
                     onChange={e => this.props.leftLegOnChange(e.value)}
@@ -67,7 +67,7 @@ class NewBuildAttachments extends Component {
                   <Select
                     id="ephemeraSelect"
                     defaultValue={mapToOption(
-                      this.props.build.attachments.ephemera || "None"
+                      this.props.setup.attachments.ephemera || "None"
                     )}
                     options={mapToOptionsWithNone(this.props.ephemeras)}
                     onChange={e => this.props.ephemeraOnChange(e.value)}
@@ -78,7 +78,7 @@ class NewBuildAttachments extends Component {
                   <Select
                     id="rightArmSelect"
                     defaultValue={mapToOption(
-                      this.props.build.attachments.rightArm || "None"
+                      this.props.setup.attachments.rightArm || "None"
                     )}
                     options={mapToOptionsWithNone(this.props.armAttachments)}
                     onChange={e => this.props.rightArmOnChange(e.value)}
@@ -89,7 +89,7 @@ class NewBuildAttachments extends Component {
                   <Select
                     id="rightLegSelect"
                     defaultValue={mapToOption(
-                      this.props.build.attachments.rightLeg || "None"
+                      this.props.setup.attachments.rightLeg || "None"
                     )}
                     options={mapToOptionsWithNone(this.props.legAttachments)}
                     onChange={e => this.props.leftLegOnChange(e.value)}
@@ -106,4 +106,4 @@ class NewBuildAttachments extends Component {
   }
 }
 
-export default NewBuildAttachments;
+export default NewSetupAttachments;

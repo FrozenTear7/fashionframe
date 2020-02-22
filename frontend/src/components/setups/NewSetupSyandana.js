@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import Select from "react-select";
 import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
-class NewBuildPhysique extends Component {
+class NewSetupPhysique extends Component {
   shouldComponentUpdate(nextProps, nextState) {
     if (
-      nextProps.build.syandana !== this.props.build.syandana ||
-      nextProps.build.syandana.colorScheme !==
-        this.props.build.syandana.colorScheme
+      nextProps.setup.syandana !== this.props.setup.syandana ||
+      nextProps.setup.syandana.colorScheme !==
+        this.props.setup.syandana.colorScheme
     ) {
       return true;
     } else {
@@ -33,7 +33,7 @@ class NewBuildPhysique extends Component {
             <Select
               id="syandanaSelect"
               defaultValue={mapToOption(
-                this.props.build.attachments.syandana || "None"
+                this.props.setup.attachments.syandana || "None"
               )}
               options={mapToOptions(this.props.syandanas)}
               onChange={e => this.props.syandanaOnChange(e.value)}
@@ -47,4 +47,4 @@ class NewBuildPhysique extends Component {
   }
 }
 
-export default NewBuildPhysique;
+export default NewSetupPhysique;

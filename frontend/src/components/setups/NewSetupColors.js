@@ -5,20 +5,20 @@ const formatName = name => {
   return name.charAt(0).toUpperCase() + name.slice(1);
 };
 
-class NewBuildColors extends Component {
+class NewSetupColors extends Component {
   render() {
     return (
       <div>
         <div className="row">
           {this.props.colorNames.slice(0, 4).map((colorName, i) => (
-            <div className="col-3">
+            <div className="col-3" key={i}>
               <ColorPicker
                 key={colorName}
                 colorName={formatName(colorName)}
                 buttonColorOnClick={this.props.getColorOnClickFunction(
                   colorName
                 )}
-                color={this.props.buildColors[`${colorName}`]}
+                color={this.props.setupColors[`${colorName}`]}
                 colors={this.props.colorPickers}
               />
             </div>
@@ -27,14 +27,14 @@ class NewBuildColors extends Component {
         <br />
         <div className="row">
           {this.props.colorNames.slice(4, 8).map((colorName, i) => (
-            <div className="col-3">
+            <div className="col-3" key={i}>
               <ColorPicker
                 key={colorName}
                 colorName={formatName(colorName)}
                 buttonColorOnClick={this.props.getColorOnClickFunction(
                   colorName
                 )}
-                color={this.props.buildColors[`${colorName}`]}
+                color={this.props.setupColors[`${colorName}`]}
                 colors={this.props.colorPickers}
               />
             </div>
@@ -45,4 +45,4 @@ class NewBuildColors extends Component {
   }
 }
 
-export default NewBuildColors;
+export default NewSetupColors;

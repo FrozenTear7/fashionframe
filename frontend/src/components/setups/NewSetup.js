@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
 import { fetchAuth } from "../../utils/fetchAuth";
-import NewBuildPhysique from "./NewBuildPhysique";
-import NewBuildAttachments from "./NewBuildAttachments";
-import NewBuildColors from "./NewBuildColors";
-import NewBuildTopPanel from "./NewBuildTopPanel";
-import NewBuildDescription from "./NewBuildDescription";
-import NewBuildSyandana from "./NewBuildSyandana";
+import NewSetupPhysique from "./NewSetupPhysique";
+import NewSetupAttachments from "./NewSetupAttachments";
+import NewSetupColors from "./NewSetupColors";
+import NewSetupTopPanel from "./NewSetupTopPanel";
+import NewSetupDescription from "./NewSetupDescription";
+import NewSetupSyandana from "./NewSetupSyandana";
+import Loading from "../utils/Loading";
 
-class NewBuild extends Component {
+class NewSetup extends Component {
   constructor() {
     super();
     this.state = {
-      buildError: "",
-      build: {
+      setupError: "",
+      setup: {
         name: "",
         frame: "Ash",
         description: "",
@@ -112,7 +113,7 @@ class NewBuild extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleScreenshotChange = this.handleScreenshotChange.bind(this);
-    this.postNewBuild = this.postNewBuild.bind(this);
+    this.postNewSetup = this.postNewSetup.bind(this);
   }
 
   getErrorMessages() {
@@ -128,7 +129,7 @@ class NewBuild extends Component {
       this.state.armAttachments.error,
       this.state.legAttachments.error,
       this.state.syandanas.error,
-      this.state.buildError
+      this.state.setupError
     ];
 
     errorArray.forEach(error => {
@@ -143,7 +144,7 @@ class NewBuild extends Component {
 
     if (outputErrorMessage) {
       return (
-        <div class="alert alert-danger" role="alert">
+        <div className="alert alert-danger" role="alert">
           {outputErrorMessage}
         </div>
       );
@@ -186,14 +187,14 @@ class NewBuild extends Component {
     }
   }
 
-  async postNewBuild() {
+  async postNewSetup() {
     try {
-      const res = await fetchAuth(`/builds`, {
+      const res = await fetchAuth(`/setups`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ build: this.state.build })
+        body: JSON.stringify({ setup: this.state.setup })
       });
 
       if (res.ok) {
@@ -201,12 +202,12 @@ class NewBuild extends Component {
       } else {
         const resJson = await res.json();
         this.setState({
-          buildError: resJson.message
+          setupError: resJson.message
         });
       }
     } catch (error) {
       this.setState({
-        buildError: "Could not create build"
+        setupError: "Could not create setup"
       });
     }
   }
@@ -225,8 +226,8 @@ class NewBuild extends Component {
 
   handleNameChange(event) {
     this.setState({
-      build: {
-        ...this.state.build,
+      setup: {
+        ...this.state.setup,
         name: event.target.value
       }
     });
@@ -234,8 +235,8 @@ class NewBuild extends Component {
 
   handleDescriptionChange(event) {
     this.setState({
-      build: {
-        ...this.state.build,
+      setup: {
+        ...this.state.setup,
         description: event.target.value
       }
     });
@@ -243,17 +244,17 @@ class NewBuild extends Component {
 
   handleScreenshotChange(event) {
     this.setState({
-      build: {
-        ...this.state.build,
+      setup: {
+        ...this.state.setup,
         screenshot: event.target.value
       }
     });
   }
 
-  buildElementOnChange(elementName, value) {
+  setupElementOnChange(elementName, value) {
     this.setState({
-      build: {
-        ...this.state.build,
+      setup: {
+        ...this.state.setup,
         [elementName]: value
       }
     });
@@ -261,10 +262,10 @@ class NewBuild extends Component {
 
   attachmentsElementOnChange(elementName, value) {
     this.setState({
-      build: {
-        ...this.state.build,
+      setup: {
+        ...this.state.setup,
         attachments: {
-          ...this.state.build.attachments,
+          ...this.state.setup.attachments,
           [elementName]: value
         }
       }
@@ -273,21 +274,21 @@ class NewBuild extends Component {
 
   syandanaOnChange(elementName, value) {
     this.setState({
-      build: {
-        ...this.state.build,
+      setup: {
+        ...this.state.setup,
         syandanaOnChange: {
-          ...this.state.build.syandanaOnChange,
+          ...this.state.setup.syandanaOnChange,
           [elementName]: value
         }
       }
     });
   }
 
-  getColorPickersComponent(getColorOnClickFunction, buildColors) {
+  getColorPickersComponent(getColorOnClickFunction, setupColors) {
     return (
-      <NewBuildColors
+      <NewSetupColors
         getColorOnClickFunction={getColorOnClickFunction}
-        buildColors={buildColors}
+        setupColors={setupColors}
         colorNames={[
           "primary",
           "secondary",
@@ -315,59 +316,53 @@ class NewBuild extends Component {
       this.state.legAttachments.loading ||
       this.state.syandanas.loading
     ) {
-      return (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-grow text-dark" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      );
+      return <Loading />;
     } else {
       return (
         <div>
-          <NewBuildTopPanel
-            build={this.state.build}
+          <NewSetupTopPanel
+            setup={this.state.setup}
             frames={this.state.frames.data}
             handleNameChange={this.handleNameChange}
-            frameOnChange={frame => this.buildElementOnChange("frame", frame)}
-            saveBuildOnClick={this.postNewBuild}
+            frameOnChange={frame => this.setupElementOnChange("frame", frame)}
+            saveSetupOnClick={this.postNewSetup}
           />
           {this.getErrorMessages()}
           <hr className="divider" />
           <br />
           <div className="row">
             <div className="col-8">
-              <NewBuildPhysique
-                build={this.state.build}
+              <NewSetupPhysique
+                setup={this.state.setup}
                 helmets={this.state.helmets.data.filter(helmet =>
-                  helmet.match(`.*${this.state.build.frame} .*`)
+                  helmet.match(`.*${this.state.setup.frame} .*`)
                 )}
                 helmetOnChange={helmet =>
-                  this.buildElementOnChange("helmet", helmet)
+                  this.setupElementOnChange("helmet", helmet)
                 }
                 skins={this.state.skins.data.filter(skin =>
-                  skin.match(`.*${this.state.build.frame} .*`)
+                  skin.match(`.*${this.state.setup.frame} .*`)
                 )}
-                skinOnChange={skin => this.buildElementOnChange("skin", skin)}
+                skinOnChange={skin => this.setupElementOnChange("skin", skin)}
                 colorPickerComponent={this.getColorPickersComponent(
                   colorName => {
                     return color =>
                       this.setState({
-                        build: {
-                          ...this.state.build,
+                        setup: {
+                          ...this.state.setup,
                           colorScheme: {
-                            ...this.state.build.colorScheme,
+                            ...this.state.setup.colorScheme,
                             [`${colorName}`]: color.hex
                           }
                         }
                       });
                   },
-                  this.state.build.colorScheme
+                  this.state.setup.colorScheme
                 )}
               />
               <br />
-              <NewBuildAttachments
-                build={this.state.build}
+              <NewSetupAttachments
+                setup={this.state.setup}
                 chestAttachments={this.state.chestAttachments.data}
                 ephemeras={this.state.ephemeras.data}
                 armAttachments={this.state.armAttachments.data}
@@ -394,24 +389,24 @@ class NewBuild extends Component {
                   colorName => {
                     return color =>
                       this.setState({
-                        build: {
-                          ...this.state.build,
+                        setup: {
+                          ...this.state.setup,
                           attachments: {
-                            ...this.state.build.attachments,
+                            ...this.state.setup.attachments,
                             colorScheme: {
-                              ...this.state.build.attachments.colorScheme,
+                              ...this.state.setup.attachments.colorScheme,
                               [`${colorName}`]: color.hex
                             }
                           }
                         }
                       });
                   },
-                  this.state.build.attachments.colorScheme
+                  this.state.setup.attachments.colorScheme
                 )}
               />
               <br />
-              <NewBuildSyandana
-                build={this.state.build}
+              <NewSetupSyandana
+                setup={this.state.setup}
                 syandanas={this.state.syandanas.data}
                 syandanaOnChange={syandana =>
                   this.syandanaOnChange("syandana", syandana)
@@ -420,27 +415,27 @@ class NewBuild extends Component {
                   colorName => {
                     return color =>
                       this.setState({
-                        build: {
-                          ...this.state.build,
+                        setup: {
+                          ...this.state.setup,
                           syandana: {
-                            ...this.state.build.syandana,
+                            ...this.state.setup.syandana,
                             colorScheme: {
-                              ...this.state.build.syandana.colorScheme,
+                              ...this.state.setup.syandana.colorScheme,
                               [`${colorName}`]: color.hex
                             }
                           }
                         }
                       });
                   },
-                  this.state.build.syandana.colorScheme
+                  this.state.setup.syandana.colorScheme
                 )}
               />
             </div>
             <div className="col-4">
-              <NewBuildDescription
-                description={this.state.build.description}
+              <NewSetupDescription
+                description={this.state.setup.description}
                 handleDescriptionChange={this.handleDescriptionChange}
-                screenshot={this.state.build.screenshot}
+                screenshot={this.state.setup.screenshot}
                 handleScreenshotChange={this.handleScreenshotChange}
               />
             </div>
@@ -451,4 +446,4 @@ class NewBuild extends Component {
   }
 }
 
-export default NewBuild;
+export default NewSetup;
