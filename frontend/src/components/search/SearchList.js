@@ -73,8 +73,6 @@ class SearchList extends Component {
   }
 
   async fetchSetups(index) {
-    console.log(this.state.frame);
-
     try {
       const res = await fetchAuth(
         `/setups?frame=${this.state.frame}&limit=${fetchLimit}&offset=${(index -

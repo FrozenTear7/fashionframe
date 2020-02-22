@@ -2,17 +2,30 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { fetchAuth } from "../../utils/fetchAuth";
 import Loading from "../utils/Loading.js";
+import ColorsModal from "../utils/ColorsModal.js";
+import { ColorButton } from "../utils/ColorButton.js";
 
-const getColorButton = color => (
-  <div
-    className={!color ? "color-button transparent-checkered" : "color-button"}
-    style={{
-      backgroundColor: color ? color : "#d1d1d1"
-    }}
-  />
-);
+const formatName = name => {
+  return name.charAt(0).toUpperCase() + name.slice(1);
+};
 
-const getColorsBlock = colorScheme => (
+const getColorButton = (color, colorPickers, modalName) => {
+  return (
+    <div>
+      {ColorButton(color)}
+      <br />
+      {color && (
+        <ColorsModal
+          color={color}
+          colorPickers={colorPickers}
+          modalName={modalName}
+        />
+      )}
+    </div>
+  );
+};
+
+const getColorsBlock = (colorScheme, colorPickers, modalName) => (
   <div>
     <div className="row">
       {Object.keys(colorScheme)
@@ -20,8 +33,14 @@ const getColorsBlock = colorScheme => (
         .map((colorName, i) => (
           <div className="col-3" key={i}>
             <div className="form-group">
-              <label htmlFor={colorName}>{colorName}</label>
-              <div id={colorName}>{getColorButton(colorScheme[colorName])}</div>
+              <label htmlFor={colorName}>{formatName(colorName)}</label>
+              <div id={colorName}>
+                {getColorButton(
+                  colorScheme[colorName],
+                  colorPickers,
+                  modalName + colorName
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -33,9 +52,13 @@ const getColorsBlock = colorScheme => (
         .map((colorName, i) => (
           <div className="col-3" key={i}>
             <div className="form-group">
-              <label htmlFor={colorName}>{colorName}</label>
-              <div id={colorName} className="center">
-                {getColorButton(colorScheme[colorName])}
+              <label htmlFor={colorName}>{formatName(colorName)}</label>
+              <div id={colorName}>
+                {getColorButton(
+                  colorScheme[colorName],
+                  colorPickers,
+                  modalName + colorName
+                )}
               </div>
             </div>
           </div>
@@ -51,6 +74,11 @@ class Setup extends Component {
       setup: {
         loading: true,
         data: {},
+        error: ""
+      },
+      colorPickers: {
+        loading: true,
+        data: [],
         error: ""
       }
     };
@@ -90,12 +118,47 @@ class Setup extends Component {
     }
   }
 
+  async fetchColorPickers() {
+    try {
+      const res = await fetchAuth(`/api/colorPickers`);
+      const resJson = await res.json();
+
+      if (res.ok) {
+        this.setState({
+          colorPickers: {
+            ...this.state.colorPickers,
+            loading: false,
+            error: "",
+            data: resJson.colorPickers
+          }
+        });
+      } else {
+        this.setState({
+          colorPickers: {
+            ...this.state.colorPickers,
+            loading: false,
+            error: resJson.message
+          }
+        });
+      }
+    } catch (error) {
+      this.setState({
+        colorPickers: {
+          ...this.state.colorPickers,
+          loading: false,
+          error: `Could not fetch colors data`
+        }
+      });
+    }
+  }
+
   async componentDidMount() {
     await this.fetchSetupData();
+    await this.fetchColorPickers();
   }
 
   render() {
-    if (this.state.setup.loading) {
+    if (this.state.setup.loading || this.state.colorPickers.loading) {
       return <Loading />;
     } else if (this.state.setup.error) {
       return (
@@ -109,11 +172,25 @@ class Setup extends Component {
       const setup = this.state.setup.data;
 
       return (
-        <div className="center">
-          <h1>{setup.name}</h1>
-          <h3>Frame: {setup.frame}</h3>
+        <div>
+          <h1 className="center">{setup.name}</h1>
           <br />
-          <h5>Author: {setup.name}</h5>
+          <div className="row">
+            <div className="col-4">
+              <h3>Frame: {setup.frame}</h3>
+              <br />
+              <h5>Description: {setup.description}</h5>
+              <br />
+              <h5>Author: {setup.name}</h5>
+            </div>
+            <div className="col-8">
+              <img
+                src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
+                alt="Thumbnail"
+                className="setup-image"
+              />
+            </div>
+          </div>
           <hr className="divider" />
           <div
             className="center collapse-button-dark"
@@ -128,14 +205,16 @@ class Setup extends Component {
             <div className="card card-body">
               <div className="row">
                 <div className="col-6">
-                  Helmet: {setup.helmet}
+                  Helmet <h3>{setup.helmet}</h3>
                   <br />
-                  Skin: {setup.skin}
-                  <br />
+                  Skin <h3>{setup.skin}</h3>
                 </div>
                 <div className="col-6">
-                  <h4>Colors</h4>
-                  {getColorsBlock(setup.colorScheme)}
+                  {getColorsBlock(
+                    setup.colorScheme,
+                    this.state.colorPickers.data,
+                    "physique"
+                  )}
                 </div>
               </div>
             </div>
@@ -154,14 +233,31 @@ class Setup extends Component {
             <div className="card card-body">
               <div className="row">
                 <div className="col-6">
-                  Helmet: {setup.helmet}
-                  <br />
-                  Skin: {setup.skin}
-                  <br />
+                  <div className="row">
+                    <div className="col-6">
+                      Chest <h3>{setup.attachments.chest || "None"}</h3>
+                      <br />
+                      Left Arm <h3>{setup.attachments.leftArm || "None"}</h3>
+                      <br />
+                      Left Leg <h3>{setup.attachments.leftLeg || "None"}</h3>
+                      <br />
+                    </div>
+                    <div className="col-6">
+                      Ephemera <h3>{setup.attachments.ephemera || "None"}</h3>
+                      <br />
+                      Right Arm <h3>{setup.attachments.rightArm || "None"}</h3>
+                      <br />
+                      Left Leg <h3>{setup.attachments.rightArm || "None"}</h3>
+                      <br />
+                    </div>
+                  </div>
                 </div>
                 <div className="col-6">
-                  <h4>Colors</h4>
-                  {getColorsBlock(setup.attachments.colorScheme)}
+                  {getColorsBlock(
+                    setup.attachments.colorScheme,
+                    this.state.colorPickers.data,
+                    "attachments"
+                  )}
                 </div>
               </div>
             </div>
@@ -180,14 +276,14 @@ class Setup extends Component {
             <div className="card card-body">
               <div className="row">
                 <div className="col-6">
-                  Helmet: {setup.helmet}
-                  <br />
-                  Skin: {setup.skin}
-                  <br />
+                  Syandana <h3>{setup.syandana.name || "None"}</h3>
                 </div>
                 <div className="col-6">
-                  <h4>Colors</h4>
-                  {getColorsBlock(setup.syandana.colorScheme)}
+                  {getColorsBlock(
+                    setup.syandana.colorScheme,
+                    this.state.colorPickers.data,
+                    "syandana"
+                  )}
                 </div>
               </div>
             </div>

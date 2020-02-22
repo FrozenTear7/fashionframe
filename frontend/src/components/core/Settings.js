@@ -77,7 +77,6 @@ class Settings extends Component {
         });
       }
     } catch (err) {
-      console.log(err);
       this.setState({
         userData: {
           ...this.state.userData,

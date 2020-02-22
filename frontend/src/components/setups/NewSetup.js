@@ -144,7 +144,7 @@ class NewSetup extends Component {
 
     if (outputErrorMessage) {
       return (
-        <div class="alert alert-danger" role="alert">
+        <div className="alert alert-danger" role="alert">
           {outputErrorMessage}
         </div>
       );

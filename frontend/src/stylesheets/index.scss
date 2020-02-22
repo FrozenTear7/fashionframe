@@ -110,6 +110,13 @@ body {
   border: 1px solid $scheme-others;
 }
 
+.setup-image {
+  max-width: 1080px;
+  max-height: 500px;
+  object-fit: cover;
+  border: 1px solid $scheme-others;
+}
+
 .list-group-item {
   background-color: $scheme-secondary;
 }
@@ -130,4 +137,8 @@ body {
   border: 1px solid $scheme-others;
   border-radius: 5px;
   border-color: "#FFFFFF";
+}
+
+.modal-content {
+  background-color: $scheme-primary;
 }
