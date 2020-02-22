@@ -49,8 +49,8 @@ router.get("/:id", async (req, res) => {
 
   try {
     const setup = await client.query(
-      "SELECT u.username, s.id, s.name, s.screenshot, s.frame FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $1",
-      [72]
+      "SELECT u.username, s.* FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $1",
+      [req.params.id]
     );
 
     const attachments = await client.query(
@@ -69,12 +69,12 @@ router.get("/:id", async (req, res) => {
     );
 
     const attachmentsColorScheme = await client.query(
-      "SELECT c.* FROM color_schemes c JOIN setups s ON s.color_scheme_id = c.id WHERE s.id = $1",
+      "SELECT c.* FROM color_schemes c JOIN attachments a ON a.color_scheme_id = c.id WHERE a.id = $1",
       [attachments.rows[0].id]
     );
 
     const syandanaColorScheme = await client.query(
-      "SELECT c.* FROM color_schemes c JOIN setups s ON s.color_scheme_id = c.id WHERE s.id = $1",
+      "SELECT c.* FROM color_schemes c JOIN syandanas sy ON sy.color_scheme_id = c.id WHERE sy.id = $1",
       [syandana.rows[0].id]
     );
 
