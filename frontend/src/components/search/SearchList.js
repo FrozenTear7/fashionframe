@@ -1,0 +1,285 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Select from "react-select";
+import { fetchAuth } from "../../utils/fetchAuth";
+import {
+  mapToOption,
+  mapToOptions,
+  mapToOptionsWithNone
+} from "../../utils/mapToOptions";
+import Loading from "../utils/Loading.js";
+
+const fetchLimit = 9;
+const paginationPagesLimit = 5;
+const setupFilters = ["Popular", "New"];
+
+const getSurroundingPageNumbers = (numberOfPages, currentPage) => {
+  let startIndex = Math.max(
+    currentPage - Math.floor(paginationPagesLimit / 2),
+    1
+  );
+
+  if (startIndex + paginationPagesLimit > numberOfPages)
+    startIndex = numberOfPages - paginationPagesLimit + 1;
+
+  if (numberOfPages < paginationPagesLimit) startIndex = 1;
+
+  let resultArray = [];
+
+  for (let i = 0; i < Math.min(numberOfPages, paginationPagesLimit); i++) {
+    resultArray = [...resultArray, startIndex + i - 1];
+  }
+
+  return resultArray;
+};
+
+class SearchList extends Component {
+  constructor() {
+    super();
+    this.state = {
+      filter: setupFilters[0],
+      currentFetchPage: 0,
+      numberOfPages: 1,
+      frame: "None",
+      setups: {
+        loading: true,
+        data: [],
+        error: ""
+      },
+      frames: {
+        loading: true,
+        data: [],
+        error: ""
+      }
+    };
+  }
+
+  async fetchFrames() {
+    try {
+      const res = await fetchAuth(`/api/frames`);
+      const resJson = await res.json();
+
+      if (res.ok) {
+        this.setState({
+          frames: {
+            ...this.state.frames,
+            loading: false,
+            error: "",
+            data: resJson.frames
+          }
+        });
+      } else {
+        this.setState({
+          frames: {
+            ...this.state.frames,
+            loading: false,
+            error: resJson.message
+          }
+        });
+      }
+    } catch (error) {
+      this.setState({
+        frames: {
+          ...this.state.frames,
+          loading: false,
+          error: `Could not fetch frames`
+        }
+      });
+    }
+  }
+
+  async fetchSetups(index) {
+    try {
+      const res = await fetchAuth(
+        `/builds?frame=${this.state.frame}&limit=${fetchLimit}&offset=${(index -
+          1) *
+          fetchLimit}`
+      );
+      const resJson = await res.json();
+
+      if (res.ok) {
+        this.setState({
+          currentFetchPage: index,
+          numberOfPages: Math.ceil(resJson.setupsCount / fetchLimit),
+          setups: {
+            ...this.state.setups,
+            loading: false,
+            error: "",
+            data: resJson.setups
+          }
+        });
+      } else {
+        this.setState({
+          setups: {
+            ...this.state.setups,
+            loading: false,
+            error: resJson.message
+          }
+        });
+      }
+    } catch (error) {
+      this.setState({
+        setups: {
+          ...this.state.setups,
+          loading: false,
+          error: `Could not fetch setups`
+        }
+      });
+    }
+  }
+
+  async componentDidMount() {
+    await this.fetchFrames();
+    await this.fetchSetups(1);
+  }
+
+  render() {
+    console.log(this.state.currentFetchPage);
+
+    if (this.state.frames.loading || this.state.setups.loading) {
+      return <Loading />;
+    } else {
+      return (
+        <div className="center">
+          <nav aria-label="...">
+            <ul className="pagination center">
+              <li
+                className={
+                  this.state.currentFetchPage - 1 === 0
+                    ? "page-item disabled"
+                    : "page-item"
+                }
+              >
+                <button
+                  className="page-link"
+                  disabled={this.state.currentFetchPage - 1 === 0}
+                  onClick={() => this.fetchSetups(1)}
+                >
+                  {"<<"}
+                </button>
+              </li>
+              <li
+                className={
+                  this.state.currentFetchPage - 1 === 0
+                    ? "page-item disabled"
+                    : "page-item"
+                }
+              >
+                <button
+                  className="page-link"
+                  disabled={this.state.currentFetchPage - 1 === 0}
+                  onClick={() =>
+                    this.fetchSetups(this.state.currentFetchPage - 1)
+                  }
+                >
+                  {"<"}
+                </button>
+              </li>
+              {getSurroundingPageNumbers(
+                this.state.numberOfPages,
+                this.state.currentFetchPage
+              ).map(i => (
+                <li
+                  className={
+                    i + 1 === this.state.currentFetchPage
+                      ? "page-item active"
+                      : "page-item"
+                  }
+                >
+                  <button
+                    className="page-link"
+                    onClick={() => this.fetchSetups(i + 1)}
+                  >
+                    {i + 1}
+                  </button>
+                </li>
+              ))}
+              <li
+                className={
+                  this.state.currentFetchPage === this.state.numberOfPages
+                    ? "page-item disabled"
+                    : "page-item"
+                }
+              >
+                <button
+                  className="page-link"
+                  disabled={
+                    this.state.currentFetchPage === this.state.numberOfPages
+                  }
+                  onClick={() =>
+                    this.fetchSetups(this.state.currentFetchPage + 1)
+                  }
+                >
+                  {">"}
+                </button>
+              </li>
+              <li
+                className={
+                  this.state.currentFetchPage === this.state.numberOfPages
+                    ? "page-item disabled"
+                    : "page-item"
+                }
+              >
+                <button
+                  className="page-link"
+                  disabled={
+                    this.state.currentFetchPage === this.state.numberOfPages
+                  }
+                  onClick={() => this.fetchSetups(this.state.numberOfPages)}
+                >
+                  {">>"}
+                </button>
+              </li>
+            </ul>
+          </nav>
+          <div className="row">
+            <div className="col-3"></div>
+            <div className="col-3">
+              <div className="form-group">
+                <label htmlFor="frameSelect">Filter by frame</label>
+                <Select
+                  id="frameSelect"
+                  value={mapToOption(this.state.frame)}
+                  options={mapToOptionsWithNone(this.state.frames.data)}
+                  onChange={e => this.setState({ colorPicker: e.value })}
+                />
+              </div>
+            </div>
+            <div className="col-3">
+              <div className="form-group">
+                <label htmlFor="frameSelect">Sort by</label>
+                <Select
+                  id="frameSelect"
+                  value={mapToOption(this.state.filter)}
+                  options={mapToOptions(setupFilters)}
+                  onChange={e => this.setState({ colorPicker: e.value })}
+                />
+              </div>
+            </div>
+            <div className="col-3"></div>
+          </div>
+          <ul className="horizontal-list">
+            {this.state.setups.data.map((setup, i) => (
+              <Link to={"/"} key={i}>
+                <li className="search-list-item center">
+                  <h3>{setup.name}</h3>
+                  <h4>Frame: {setup.frame}</h4>
+                  <hr className="divider" />
+                  <h5>Author: {setup.username}</h5>
+                  <img
+                    src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
+                    alt="Thumbnail"
+                    className="search-thumbnail"
+                  />
+                </li>
+              </Link>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+  }
+}
+
+export default SearchList;

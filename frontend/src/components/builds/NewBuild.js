@@ -7,6 +7,7 @@ import NewBuildColors from "./NewBuildColors";
 import NewBuildTopPanel from "./NewBuildTopPanel";
 import NewBuildDescription from "./NewBuildDescription";
 import NewBuildSyandana from "./NewBuildSyandana";
+import Loading from "../utils/Loading";
 
 class NewBuild extends Component {
   constructor() {
@@ -315,13 +316,7 @@ class NewBuild extends Component {
       this.state.legAttachments.loading ||
       this.state.syandanas.loading
     ) {
-      return (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-grow text-dark" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      );
+      return <Loading />;
     } else {
       return (
         <div>

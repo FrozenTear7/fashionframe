@@ -26,9 +26,11 @@ class Navbar extends Component {
               <Link className="nav-item nav-link" to={"/search"}>
                 Search
               </Link>
-              <Link className="nav-item nav-link" to={"/builds/new"}>
-                New setup
-              </Link>
+              {this.props.isAuthorized && (
+                <Link className="nav-item nav-link" to={"/builds/new"}>
+                  New setup
+                </Link>
+              )}
             </ul>
           </div>
           <div className="mx-auto order-0">

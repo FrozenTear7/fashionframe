@@ -44,7 +44,6 @@ class ColorPicker extends Component {
               overlay={
                 <Popover id="popover-basic" title="Change color">
                   <GithubPicker
-                    color={this.props.color}
                     onChangeComplete={this.props.buttonColorOnClick}
                     triangle="hide"
                     width="138px"
@@ -56,7 +55,6 @@ class ColorPicker extends Component {
               <Button
                 variant="success"
                 className={!this.props.color ? "transparent-checkered" : ""}
-                // className={this.props.color && "transparent-checkered"}
                 style={{
                   width: "50px",
                   height: "50px",

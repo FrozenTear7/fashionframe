@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Navbar from "./core/Navbar.js";
 import Main from "./core/Main.js";
 import { fetchAuth } from "../utils/fetchAuth";
+import Loading from "./utils/Loading.js";
 
 class App extends Component {
   constructor() {
@@ -30,13 +31,7 @@ class App extends Component {
 
   render() {
     if (this.state.loadingUserData) {
-      return (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-grow text-dark" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      );
+      return <Loading />;
     } else {
       return (
         <div>

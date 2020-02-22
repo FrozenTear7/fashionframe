@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { fetchAuth } from "../../utils/fetchAuth";
+import Loading from "../utils/Loading";
 
 class Settings extends Component {
   constructor() {
@@ -88,13 +89,7 @@ class Settings extends Component {
 
   render() {
     if (this.state.userData.loading) {
-      return (
-        <div className="d-flex justify-content-center">
-          <div className="spinner-grow text-dark" role="status">
-            <span className="sr-only">Loading...</span>
-          </div>
-        </div>
-      );
+      return <Loading />;
     } else {
       return (
         <div>

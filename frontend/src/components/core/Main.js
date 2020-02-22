@@ -6,6 +6,7 @@ import SignIn from "./SignIn.js";
 import NotFound from "./NotFound.js";
 import Settings from "./Settings.js";
 import NewBuild from "../builds/NewBuild.js";
+import SearchList from "../search/SearchList.js";
 
 class Main extends Component {
   render() {
@@ -14,6 +15,7 @@ class Main extends Component {
         <Switch>
           <Route exact path="/" component={MainPanel} />
           <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/search" component={SearchList} />
           <PrivateRoute
             exact
             path="/settings"

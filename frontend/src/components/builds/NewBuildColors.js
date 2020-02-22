@@ -11,7 +11,7 @@ class NewBuildColors extends Component {
       <div>
         <div className="row">
           {this.props.colorNames.slice(0, 4).map((colorName, i) => (
-            <div className="col-3">
+            <div className="col-3" key={i}>
               <ColorPicker
                 key={colorName}
                 colorName={formatName(colorName)}
@@ -27,7 +27,7 @@ class NewBuildColors extends Component {
         <br />
         <div className="row">
           {this.props.colorNames.slice(4, 8).map((colorName, i) => (
-            <div className="col-3">
+            <div className="col-3" key={i}>
               <ColorPicker
                 key={colorName}
                 colorName={formatName(colorName)}
