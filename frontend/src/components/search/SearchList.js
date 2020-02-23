@@ -127,8 +127,6 @@ class SearchList extends Component {
   }
 
   render() {
-    console.log(this.state.setups.data);
-
     if (this.state.frames.loading || this.state.setups.loading) {
       return <Loading />;
     } else {
@@ -173,7 +171,7 @@ class SearchList extends Component {
                   <h3>{setup.name}</h3>
                   <h4>Frame: {setup.frame}</h4>
                   <hr className="divider" />
-                  <span class="badge badge-primary">
+                  <span className="badge badge-primary">
                     <i className="fa fa-star"></i>
                     {setup.liked}
                   </span>

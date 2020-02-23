@@ -29,12 +29,24 @@ class Main extends Component {
             path="/setups/new"
             component={NewSetup}
             isAuthorized={this.props.isAuthorized}
+            mode="new"
+          />
+          <PrivateRoute
+            exact
+            path="/setups/:id/edit"
+            component={NewSetup}
+            isAuthorized={this.props.isAuthorized}
+            mode="edit"
           />
           <Route
             exact
             path="/setups/:id"
             render={props => (
-              <Setup {...props} isAuthorized={this.props.isAuthorized} />
+              <Setup
+                {...props}
+                isAuthorized={this.props.isAuthorized}
+                userId={this.props.userData.id}
+              />
             )}
           />
           <Route component={NotFound} />

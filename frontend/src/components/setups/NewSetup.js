@@ -10,13 +10,16 @@ import NewSetupSyandana from "./NewSetupSyandana";
 import Loading from "../utils/Loading";
 
 class NewSetup extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       createSetupRedirect: false,
+      deleteSetupRedirect: false,
       setupId: "",
       setupError: "",
+      setupLoading: this.props.mode === "edit" ? true : false,
       setup: {
+        id: "",
         name: "",
         frame: "Ash",
         description: "",
@@ -24,6 +27,7 @@ class NewSetup extends Component {
         skin: "Ash Skin",
         helmet: "Ash Helmet",
         attachments: {
+          id: "",
           chest: "",
           leftArm: "",
           rightArm: "",
@@ -31,6 +35,7 @@ class NewSetup extends Component {
           rightLeg: "",
           ephemera: "",
           colorScheme: {
+            id: "",
             primary: null,
             secondary: null,
             tertiary: null,
@@ -42,8 +47,10 @@ class NewSetup extends Component {
           }
         },
         syandana: {
+          id: "",
           name: "",
           colorScheme: {
+            id: "",
             primary: null,
             secondary: null,
             tertiary: null,
@@ -55,6 +62,7 @@ class NewSetup extends Component {
           }
         },
         colorScheme: {
+          id: "",
           primary: null,
           secondary: null,
           tertiary: null,
@@ -116,6 +124,7 @@ class NewSetup extends Component {
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleScreenshotChange = this.handleScreenshotChange.bind(this);
     this.postNewSetup = this.postNewSetup.bind(this);
+    this.deleteSetup = this.deleteSetup.bind(this);
   }
 
   getErrorMessages() {
@@ -189,15 +198,44 @@ class NewSetup extends Component {
     }
   }
 
+  async fetchSetupData() {
+    try {
+      const res = await fetchAuth(`/setups/${this.props.match.params.id}`);
+      const resJson = await res.json();
+
+      if (res.ok) {
+        this.setState({
+          setupLoading: false,
+          setup: resJson.setup
+        });
+      } else {
+        this.setState({
+          setupLoading: false,
+          setupError: resJson.message
+        });
+      }
+    } catch (error) {
+      this.setState({
+        setupLoading: false,
+        setupError: `Could not fetch setup data`
+      });
+    }
+  }
+
   async postNewSetup() {
     try {
-      const res = await fetchAuth(`/setups`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ setup: this.state.setup })
-      });
+      const res = await fetchAuth(
+        `/setups${
+          this.props.mode === "edit" ? `/${this.props.match.params.id}` : ""
+        }`,
+        {
+          method: this.props.mode === "edit" ? "PUT" : "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ setup: this.state.setup })
+        }
+      );
       const resJson = await res.json();
 
       if (res.ok) {
@@ -212,8 +250,39 @@ class NewSetup extends Component {
       }
     } catch (error) {
       this.setState({
-        setupError: "Could not create setup"
+        setupError:
+          this.props.mode === "edit"
+            ? "Could not update setup"
+            : "Could not create setup"
       });
+    }
+  }
+
+  async deleteSetup() {
+    if (this.props.mode === "edit") {
+      try {
+        const res = await fetchAuth(`/setups/${this.props.match.params.id}`, {
+          method: "DELETE"
+        });
+
+        if (res.ok) {
+          this.setState({
+            deleteSetupRedirect: true
+          });
+        } else {
+          const resJson = await res.json();
+
+          this.setState({
+            setupError: resJson.message
+          });
+        }
+      } catch (error) {
+        this.setState({
+          setupError: "Could delete setup"
+        });
+      }
+    } else if (this.props.mode === "new") {
+      this.setState({ deleteSetupRedirect: true });
     }
   }
 
@@ -227,6 +296,8 @@ class NewSetup extends Component {
     await this.fetchWarframeData("armAttachments");
     await this.fetchWarframeData("legAttachments");
     await this.fetchWarframeData("syandanas");
+
+    if (this.props.mode === "edit") await this.fetchSetupData();
   }
 
   handleNameChange(event) {
@@ -310,12 +381,14 @@ class NewSetup extends Component {
   }
 
   render() {
-    console.log(this.state.createSetupRedirect);
-    console.log(this.state.setupId);
-
     if (this.state.createSetupRedirect) {
       this.setState({ createSetupRedirect: false });
       return <Redirect push to={`/setups/${this.state.setupId}`} />;
+    }
+
+    if (this.state.deleteSetupRedirect) {
+      this.setState({ deleteSetupRedirect: false });
+      return <Redirect push to={`/`} />;
     }
 
     if (
@@ -327,7 +400,8 @@ class NewSetup extends Component {
       this.state.chestAttachments.loading ||
       this.state.armAttachments.loading ||
       this.state.legAttachments.loading ||
-      this.state.syandanas.loading
+      this.state.syandanas.loading ||
+      this.state.setupLoading
     ) {
       return <Loading />;
     } else {
@@ -339,6 +413,7 @@ class NewSetup extends Component {
             handleNameChange={this.handleNameChange}
             frameOnChange={frame => this.setupElementOnChange("frame", frame)}
             saveSetupOnClick={this.postNewSetup}
+            deleteSetupOnClick={this.deleteSetup}
           />
           {this.getErrorMessages()}
           <hr className="divider" />

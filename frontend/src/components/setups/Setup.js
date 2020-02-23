@@ -229,7 +229,7 @@ class Setup extends Component {
               <br />
               <h5>Description: {setup.description}</h5>
               <br />
-              <h5>Author: {setup.name}</h5>
+              <h5>Author: {setup.username}</h5>
               {this.props.isAuthorized && (
                 <button
                   className={`btn btn-${
@@ -239,11 +239,23 @@ class Setup extends Component {
                 >
                   {this.state.setup.data.likedbyyou ? "Unlike" : "Like"}:{" "}
                   <i className="fa fa-star"></i>{" "}
-                  <span class="badge badge-light">
+                  <span className="badge badge-light">
                     {this.state.setup.data.liked}
                   </span>
                 </button>
               )}
+              {this.props.isAuthorized &&
+                this.props.userId === this.state.setup.data.userid && (
+                  <div>
+                    <br />
+                    <Link
+                      className={`btn btn-primary`}
+                      to={`/setups/${this.props.match.params.id}/edit`}
+                    >
+                      Edit
+                    </Link>
+                  </div>
+                )}
             </div>
             <div className="col-8">
               <img
