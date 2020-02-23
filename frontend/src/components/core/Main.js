@@ -30,7 +30,13 @@ class Main extends Component {
             component={NewSetup}
             isAuthorized={this.props.isAuthorized}
           />
-          <Route exact path="/setups/:id" component={Setup} />
+          <Route
+            exact
+            path="/setups/:id"
+            render={props => (
+              <Setup {...props} isAuthorized={this.props.isAuthorized} />
+            )}
+          />
           <Route component={NotFound} />
         </Switch>
       </div>

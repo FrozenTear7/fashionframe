@@ -122,6 +122,8 @@ class SearchList extends Component {
   }
 
   render() {
+    console.log(this.state.setups.data);
+
     if (this.state.frames.loading || this.state.setups.loading) {
       return <Loading />;
     } else {

@@ -72,6 +72,7 @@ class SearchPagination extends Component {
             >
               <button
                 className="page-link"
+                disabled={i + 1 === this.props.currentFetchPage}
                 onClick={() => this.props.fetchSetups(i + 1)}
               >
                 {i + 1}
