@@ -8,10 +8,12 @@ $collapse-button-font-size: 30px;
 $collapse-button-border-radius: 20px;
 
 $theme-colors: (
-  "primary": $scheme-text
+  "primary": $scheme-text,
+  "secondary": $scheme-others
 );
 
 @import "~bootstrap/scss/bootstrap";
+@import "./navbar.scss";
 
 /* roboto-regular - latin */
 @font-face {
@@ -32,14 +34,6 @@ body {
 
 .main-body {
   padding: 5%;
-}
-
-.navbar-bg-dark {
-  background-color: $scheme-secondary;
-}
-
-.navbar-nav > li > .dropdown-menu {
-  background-color: $scheme-secondary;
 }
 
 .center {
@@ -82,14 +76,6 @@ body {
   border-radius: 0px;
 }
 
-.nav-link {
-  color: $scheme-text !important;
-}
-
-.navbar-brand {
-  color: $scheme-others !important;
-}
-
 .divider {
   background-color: $scheme-others;
 }
@@ -114,6 +100,9 @@ body {
   max-width: 1080px;
   max-height: 500px;
   object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
   border: 1px solid $scheme-others;
 }
 

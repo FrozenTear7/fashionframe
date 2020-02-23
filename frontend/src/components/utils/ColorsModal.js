@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import nearestColor from "nearest-color";
 import { mapColors } from "../../utils/mapColors.js";
-import { ColorButton } from "./ColorButton.js";
+import ColorButton from "./ColorButton.js";
 
 const columnCount = 5;
 const rowCount = 18;

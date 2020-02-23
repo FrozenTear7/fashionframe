@@ -12,7 +12,7 @@ router.get("/", async (req, res) => {
   try {
     if (frames.frames.includes(req.query.frame)) {
       const setups = await client.query(
-        "SELECT u.username, s.id, s.name, s.screenshot, s.frame FROM setups s JOIN users u ON u.id = s.user_id WHERE s.frame = $1 LIMIT $2 OFFSET $3",
+        "SELECT u.username, s.id, s.name, s.screenshot, s.frame, (SELECT COUNT(*) FROM setups_users WHERE user_id = u.id) AS liked FROM setups s JOIN users u ON u.id = s.user_id WHERE s.frame = $1 LIMIT $2 OFFSET $3",
         [req.query.frame, req.query.limit, req.query.offset]
       );
 
@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
       res.send({ setups: setups.rows, setupsCount: setupsCount.rows[0].count });
     } else {
       const setups = await client.query(
-        "SELECT u.username, s.id, s.name, s.screenshot, s.frame FROM setups s JOIN users u ON u.id = s.user_id LIMIT $1 OFFSET $2",
+        "SELECT u.username, s.id, s.name, s.screenshot, s.frame, (SELECT COUNT(*) FROM setups_users WHERE user_id = u.id) AS liked FROM setups s JOIN users u ON u.id = s.user_id LIMIT $1 OFFSET $2",
         [req.query.limit, req.query.offset]
       );
 
@@ -49,9 +49,11 @@ router.get("/:id", async (req, res) => {
 
   try {
     const setup = await client.query(
-      "SELECT u.username, s.* FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $1",
-      [req.params.id]
+      "SELECT u.username, s.*, (SELECT COUNT(*) FROM setups_users WHERE user_id = u.id) AS liked, EXISTS(SELECT 1 FROM setups_users WHERE user_id=$1) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $2",
+      [req.user.id, req.params.id]
     );
+
+    console.log(setup.rows[0].likedbyyou);
 
     const attachments = await client.query(
       "SELECT a.* FROM attachments a JOIN setups s ON s.attachment_id = a.id WHERE s.id = $1",
@@ -103,6 +105,44 @@ router.get("/:id", async (req, res) => {
     client.release();
   }
 });
+
+router.post(
+  "/like/:id",
+  connectEnsureLogin.ensureLoggedIn("http://localhost:3000/signin"),
+  async (req, res) => {
+    const client = await pool.connect();
+
+    console.log(req.params.id);
+    console.log(req.user.id);
+    console.log(req.body);
+    console.log(req.body.like);
+
+    try {
+      if (req.body.like) {
+        const likeSetup = await client.query(
+          "INSERT INTO setups_users (setup_id, user_id) VALUES ($1, $2)",
+          [req.params.id, req.user.id]
+        );
+
+        res.sendStatus(200);
+      } else {
+        const unlikeSetup = await client.query(
+          "DELETE FROM setups_users WHERE setup_id = $1 AND user_id = $2",
+          [req.params.id, req.user.id]
+        );
+
+        res.sendStatus(200);
+      }
+    } catch (err) {
+      console.log(err);
+      res.status(400).send({
+        message: "Error while liking the setup"
+      });
+    } finally {
+      client.release();
+    }
+  }
+);
 
 router.post(
   "/",
