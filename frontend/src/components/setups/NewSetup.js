@@ -13,6 +13,8 @@ class NewSetup extends Component {
   constructor() {
     super();
     this.state = {
+      createSetupRedirect: false,
+      setupId: "",
       setupError: "",
       setup: {
         name: "",
@@ -196,11 +198,14 @@ class NewSetup extends Component {
         },
         body: JSON.stringify({ setup: this.state.setup })
       });
+      const resJson = await res.json();
 
       if (res.ok) {
-        return <Redirect push to="/" />;
+        this.setState({
+          createSetupRedirect: true,
+          setupId: resJson.setupId
+        });
       } else {
-        const resJson = await res.json();
         this.setState({
           setupError: resJson.message
         });
@@ -305,6 +310,14 @@ class NewSetup extends Component {
   }
 
   render() {
+    console.log(this.state.createSetupRedirect);
+    console.log(this.state.setupId);
+
+    if (this.state.createSetupRedirect) {
+      this.setState({ createSetupRedirect: false });
+      return <Redirect push to={`/setups/${this.state.setupId}`} />;
+    }
+
     if (
       this.state.frames.loading ||
       this.state.ephemeras.loading ||

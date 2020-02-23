@@ -35,6 +35,7 @@ class SearchList extends Component {
     };
 
     this.frameSelectOnChange = this.frameSelectOnChange.bind(this);
+    this.filterSelectOnChange = this.filterSelectOnChange.bind(this);
     this.fetchSetups = this.fetchSetups.bind(this);
   }
 
@@ -75,9 +76,9 @@ class SearchList extends Component {
   async fetchSetups(index) {
     try {
       const res = await fetchAuth(
-        `/setups?frame=${this.state.frame}&limit=${fetchLimit}&offset=${(index -
-          1) *
-          fetchLimit}`
+        `/setups?frame=${this.state.frame}&order=${
+          this.state.filter
+        }&limit=${fetchLimit}&offset=${(index - 1) * fetchLimit}`
       );
       const resJson = await res.json();
 
@@ -114,6 +115,10 @@ class SearchList extends Component {
 
   async frameSelectOnChange(e) {
     await this.setState({ frame: e.value }, () => this.fetchSetups(1));
+  }
+
+  async filterSelectOnChange(e) {
+    await this.setState({ filter: e.value }, () => this.fetchSetups(1));
   }
 
   async componentDidMount() {
@@ -155,7 +160,7 @@ class SearchList extends Component {
                   id="filterSelect"
                   value={mapToOption(this.state.filter)}
                   options={mapToOptions(setupFilters)}
-                  onChange={e => this.setState({ filter: e.value })}
+                  onChange={this.filterSelectOnChange}
                 />
               </div>
             </div>
@@ -168,6 +173,10 @@ class SearchList extends Component {
                   <h3>{setup.name}</h3>
                   <h4>Frame: {setup.frame}</h4>
                   <hr className="divider" />
+                  <span class="badge badge-primary">
+                    <i className="fa fa-star"></i>
+                    {setup.liked}
+                  </span>
                   <h5>Author: {setup.username}</h5>
                   <img
                     src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
