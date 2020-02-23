@@ -10,30 +10,32 @@ router.get("/", async (req, res) => {
   const client = await pool.connect();
 
   try {
-    if (frames.frames.includes(req.query.frame)) {
-      const setups = await client.query(
-        "SELECT u.username, s.id, s.name, s.screenshot, s.frame, (SELECT COUNT(*) FROM setups_users WHERE user_id = u.id) AS liked FROM setups s JOIN users u ON u.id = s.user_id WHERE s.frame = $1 LIMIT $2 OFFSET $3",
-        [req.query.frame, req.query.limit, req.query.offset]
-      );
+    let setupsQueryString =
+      "SELECT u.username, s.id, s.name, s.screenshot, s.frame, s.created_at, (SELECT COUNT(*) FROM setups_users WHERE user_id = u.id AND setup_id = s.id) AS liked FROM setups s\n" +
+      "JOIN users u ON u.id = s.user_id";
 
-      const setupsCount = await client.query(
-        "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE s.frame = $1",
-        [req.query.frame]
-      );
+    if (req.query.frame && frames.frames.includes(req.query.frame))
+      setupsQueryString += ` WHERE s.frame = '${req.query.frame}'`;
 
-      res.send({ setups: setups.rows, setupsCount: setupsCount.rows[0].count });
-    } else {
-      const setups = await client.query(
-        "SELECT u.username, s.id, s.name, s.screenshot, s.frame, (SELECT COUNT(*) FROM setups_users WHERE user_id = u.id) AS liked FROM setups s JOIN users u ON u.id = s.user_id LIMIT $1 OFFSET $2",
-        [req.query.limit, req.query.offset]
-      );
+    let orderBy = "liked";
 
-      const setupsCount = await client.query(
-        "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id"
-      );
+    if (req.query.order === "New") orderBy = "created_at";
 
-      res.send({ setups: setups.rows, setupsCount: setupsCount.rows[0].count });
-    }
+    setupsQueryString += ` ORDER BY ${orderBy} DESC`;
+
+    setupsQueryString += " LIMIT $1 OFFSET $2";
+
+    const setups = await client.query(setupsQueryString, [
+      req.query.limit,
+      req.query.offset
+    ]);
+
+    const setupsCount = await client.query(
+      "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE s.frame = $1",
+      [req.query.frame]
+    );
+
+    res.send({ setups: setups.rows, setupsCount: setupsCount.rows[0].count });
   } catch (err) {
     console.log(err);
     res.status(400).send({
@@ -49,11 +51,10 @@ router.get("/:id", async (req, res) => {
 
   try {
     const setup = await client.query(
-      "SELECT u.username, s.*, (SELECT COUNT(*) FROM setups_users WHERE user_id = u.id) AS liked, EXISTS(SELECT 1 FROM setups_users WHERE user_id=$1) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $2",
+      "SELECT u.username, s.*, (SELECT COUNT(*) FROM setups_users WHERE user_id = u.id AND setup_id = $2) AS liked,\n" +
+        "EXISTS(SELECT 1 FROM setups_users WHERE user_id=$1 AND setup_id = $2) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $2",
       [req.user.id, req.params.id]
     );
-
-    console.log(setup.rows[0].likedbyyou);
 
     const attachments = await client.query(
       "SELECT a.* FROM attachments a JOIN setups s ON s.attachment_id = a.id WHERE s.id = $1",
@@ -112,11 +113,6 @@ router.post(
   async (req, res) => {
     const client = await pool.connect();
 
-    console.log(req.params.id);
-    console.log(req.user.id);
-    console.log(req.body);
-    console.log(req.body.like);
-
     try {
       if (req.body.like) {
         const likeSetup = await client.query(
@@ -161,7 +157,8 @@ router.post(
       const syandanaColorScheme = syandana.colorScheme;
 
       const newSetupColorScheme = await client.query(
-        'INSERT INTO color_schemes ("primary", secondary, tertiary, accents, emmissive1, emmissive2, energy1, energy2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+        'INSERT INTO color_schemes ("primary", secondary, tertiary, accents, emmissive1, emmissive2, energy1, energy2)\n' +
+          "VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
         [
           setupColorScheme.primary,
           setupColorScheme.secondary,
@@ -175,7 +172,8 @@ router.post(
       );
 
       const newAttachmentsColorScheme = await client.query(
-        'INSERT INTO color_schemes ("primary", secondary, tertiary, accents, emmissive1, emmissive2, energy1, energy2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+        'INSERT INTO color_schemes ("primary", secondary, tertiary, accents, emmissive1, emmissive2, energy1, energy2)\n' +
+          "VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
         [
           attachmentsColorScheme.primary,
           attachmentsColorScheme.secondary,
@@ -189,7 +187,8 @@ router.post(
       );
 
       const newSyandanaColorScheme = await client.query(
-        'INSERT INTO color_schemes ("primary", secondary, tertiary, accents, emmissive1, emmissive2, energy1, energy2) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id',
+        'INSERT INTO color_schemes ("primary", secondary, tertiary, accents, emmissive1, emmissive2, energy1, energy2)\n' +
+          "VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id",
         [
           syandanaColorScheme.primary,
           syandanaColorScheme.secondary,
@@ -203,7 +202,8 @@ router.post(
       );
 
       const newAttachments = await client.query(
-        "INSERT INTO attachments (chest, left_arm, right_arm, left_leg, right_leg, ephemera, color_scheme_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
+        "INSERT INTO attachments (chest, left_arm, right_arm, left_leg, right_leg, ephemera, color_scheme_id)\n" +
+          "VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
         [
           attachments.chest,
           attachments.leftArm,
@@ -220,8 +220,9 @@ router.post(
         [syandana.name, newSyandanaColorScheme.rows[0].id]
       );
 
-      await client.query(
-        "INSERT INTO setups (name, frame, description, screenshot, helmet, skin, attachment_id, syandana_id, color_scheme_id, user_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+      const newSetup = await client.query(
+        "INSERT INTO setups (name, frame, description, screenshot, helmet, skin, attachment_id, syandana_id, color_scheme_id, user_id)\n" +
+          "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id",
         [
           setup.name,
           setup.frame,
@@ -237,7 +238,7 @@ router.post(
       );
 
       await client.query("COMMIT");
-      res.sendStatus(200);
+      res.send({ setupId: newSetup.rows[0].id });
     } catch (err) {
       await client.query("ROLLBACK");
       console.log(err);

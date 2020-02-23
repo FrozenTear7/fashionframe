@@ -237,7 +237,8 @@ class Setup extends Component {
                   }`}
                   onClick={() => this.likeSetup()}
                 >
-                  Like: <i className="fa fa-star"></i>{" "}
+                  {this.state.setup.data.likedbyyou ? "Unlike" : "Like"}:{" "}
+                  <i className="fa fa-star"></i>{" "}
                   <span class="badge badge-light">
                     {this.state.setup.data.liked}
                   </span>
