@@ -98,7 +98,7 @@ router.get(
 router.get(
   "/facebook",
   passport.authenticate("facebook", {
-    scope: ["read_stream"]
+    scope: ["user_about_me"]
   })
 );
 
