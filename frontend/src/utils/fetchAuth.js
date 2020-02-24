@@ -7,7 +7,7 @@ export const fetchAuth = (path, options) => {
   // eslint-disable-next-line no-unused-vars
   const frontendDeployUrl = "http://frozentear7.github.io/fashionframe";
   // eslint-disable-next-line no-unused-vars
-  const frontendLocalUrl = "http://localhost:3000";
+  const frontendLocalUrl = "http://localhost:3000/fashionframe";
 
   let requestURL = new URL(serverUrl + path);
 
