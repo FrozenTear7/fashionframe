@@ -144,3 +144,7 @@ body::-webkit-scrollbar-thumb {
   background-color: $scheme-others;
   outline: 1px solid $scheme-primary;
 }
+
+.list-group-item {
+  border: 1px solid $scheme-others;
+}

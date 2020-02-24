@@ -77,4 +77,23 @@ router.get(
   }
 );
 
+// Facebook
+
+router.get(
+  "/facebook",
+  passport.authenticate("facebook", {
+    scope: ["read_stream"]
+  })
+);
+
+router.get(
+  "/facebook/redirect",
+  passport.authenticate("facebook", {
+    failureRedirect: redirectSigninUrl
+  }),
+  (req, res) => {
+    res.redirect(redirectMainUrl);
+  }
+);
+
 export default router;

@@ -28,6 +28,15 @@ class NotFound extends Component {
           >
             Sign in with<span> </span> <i className="fa fa-twitch"></i>
           </a>
+          <br />
+          <br />
+          <a
+            className="btn btn-primary btn-lg"
+            href="http://localhost:3001/auth/facebook"
+            role="button"
+          >
+            Sign in with<span> </span> <i className="fa fa-facebook"></i>
+          </a>
         </div>
       </div>
     );

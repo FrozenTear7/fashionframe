@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute.js";
-import MainPanel from "./MainPanel.js";
 import SignIn from "./SignIn.js";
 import NotFound from "./NotFound.js";
 import Settings from "./Settings.js";
@@ -14,9 +13,8 @@ class Main extends Component {
     return (
       <div className="container-fluid main-body">
         <Switch>
-          <Route exact path="/" component={MainPanel} />
+          <Route exact path="/" component={SearchList} />
           <Route exact path="/signin" component={SignIn} />
-          <Route exact path="/search" component={SearchList} />
           <PrivateRoute
             exact
             path="/settings"
