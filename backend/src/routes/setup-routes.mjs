@@ -82,6 +82,8 @@ router.get("/:id", async (req, res) => {
       syandana.id
     ]);
 
+    console.log(setup);
+
     const resultJson = {
       setup: {
         ...setup,

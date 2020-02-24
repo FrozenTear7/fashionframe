@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import TwitchStrategy from "passport-twitch-new";
+import FacebookStrategy from "passport-facebook";
 import pool from "./db-connect.mjs";
 import { getUserById, createUser } from "../model/usersModel.mjs";
 
@@ -68,6 +69,25 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       profile = { ...profile, displayName: profile.login };
+      const user = await findUserOrCreate(profile);
+
+      done(null, user);
+    }
+  )
+);
+
+passport.use(
+  new FacebookStrategy.Strategy(
+    {
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
+      callbackURL: "/auth/facebook/redirect",
+      scope: "user_read"
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      profile = { ...profile, displayName: profile.login };
+      console.log(profile);
+
       const user = await findUserOrCreate(profile);
 
       done(null, user);

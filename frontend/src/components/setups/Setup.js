@@ -230,6 +230,10 @@ class Setup extends Component {
               <h5>Description: {setup.description}</h5>
               <br />
               <h5>Author: {setup.username}</h5>
+              <small>
+                Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}
+              </small>
+              <br />
               {this.props.isAuthorized && (
                 <button
                   className={`btn btn-${
@@ -259,7 +263,7 @@ class Setup extends Component {
             </div>
             <div className="col-8">
               <img
-                src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
+                src={this.state.setup.data.screenshot}
                 alt="Thumbnail"
                 className="setup-image"
               />

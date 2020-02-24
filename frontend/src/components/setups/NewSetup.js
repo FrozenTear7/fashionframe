@@ -127,6 +127,16 @@ class NewSetup extends Component {
     this.deleteSetup = this.deleteSetup.bind(this);
   }
 
+  getErrorFormMessages() {
+    let outputErrorMessage = "";
+
+    if (!this.state.setup.name) outputErrorMessage += ", provide setup name";
+    if (!this.state.setup.screenshot)
+      outputErrorMessage += ", provide setup screenshot URL";
+
+    return outputErrorMessage;
+  }
+
   getErrorMessages() {
     let outputErrorMessage = "";
 
@@ -152,6 +162,8 @@ class NewSetup extends Component {
         0,
         outputErrorMessage.length - 2
       );
+
+    if (outputErrorMessage) outputErrorMessage += this.getErrorFormMessages();
 
     if (outputErrorMessage) {
       return (

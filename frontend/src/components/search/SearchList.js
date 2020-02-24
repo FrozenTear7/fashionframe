@@ -85,7 +85,7 @@ class SearchList extends Component {
       if (res.ok) {
         this.setState({
           currentFetchPage: index,
-          numberOfPages: Math.ceil(resJson.setupsCount / fetchLimit),
+          numberOfPages: Math.ceil(resJson.setupsCount / fetchLimit) || 1,
           setups: {
             ...this.state.setups,
             loading: false,
@@ -127,6 +127,8 @@ class SearchList extends Component {
   }
 
   render() {
+    console.log(this.state.numberOfPages);
+
     if (this.state.frames.loading || this.state.setups.loading) {
       return <Loading />;
     } else {
@@ -164,7 +166,56 @@ class SearchList extends Component {
             </div>
             <div className="col-3"></div>
           </div>
-          <ul className="horizontal-list">
+          <ul class="list-group">
+            {this.state.setups.data.map((setup, i) => (
+              <Link to={`/setups/${setup.id}`} key={i}>
+                <li class="list-group-item" style={{ marginBottom: "10px" }}>
+                  <div className="row">
+                    <div className="col-6">
+                      <h3>{setup.name}</h3>
+                      <h4>Frame: {setup.frame}</h4>
+                      <hr className="divider" />
+                      <span className="badge badge-primary">
+                        <i className="fa fa-star"></i>
+                        {setup.liked}
+                      </span>
+                      <h5>Author: {setup.username}</h5>
+                      <small>
+                        Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}
+                      </small>
+                    </div>
+                    <div className="col-6">
+                      <img
+                        src={setup.screenshot}
+                        alt="Thumbnail"
+                        className="search-thumbnail"
+                      />
+                    </div>
+                  </div>
+                </li>
+                {/* <li className="search-list-item center">
+                  <h3>{setup.name}</h3>
+                  <h4>Frame: {setup.frame}</h4>
+                  <hr className="divider" />
+                  <span className="badge badge-primary">
+                    <i className="fa fa-star"></i>
+                    {setup.liked}
+                  </span>
+                  <h5>Author: {setup.username}</h5>
+                  <small>
+                    Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}
+                  </small>
+                  <br />
+                  <img
+                    src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
+                    alt="Thumbnail"
+                    className="search-thumbnail"
+                  />
+                </li> */}
+              </Link>
+            ))}
+          </ul>
+          {/* <ul className="horizontal-list">
             {this.state.setups.data.map((setup, i) => (
               <Link to={`/setups/${setup.id}`} key={i}>
                 <li className="search-list-item center">
@@ -176,6 +227,10 @@ class SearchList extends Component {
                     {setup.liked}
                   </span>
                   <h5>Author: {setup.username}</h5>
+                  <small>
+                    Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}
+                  </small>
+                  <br />
                   <img
                     src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
                     alt="Thumbnail"
@@ -184,7 +239,7 @@ class SearchList extends Component {
                 </li>
               </Link>
             ))}
-          </ul>
+          </ul> */}
         </div>
       );
     }
