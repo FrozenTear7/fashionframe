@@ -3,23 +3,21 @@ import passport from "passport";
 import GoogleStrategy from "passport-google-oauth20";
 import TwitchStrategy from "passport-twitch-new";
 import pool from "./db-connect.mjs";
+import { getUserById, createUser } from "../model/usersModel.mjs";
 
 dotenv.config();
 
 passport.serializeUser((user, done) => {
-  done(null, user.rows[0].id);
+  done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
   const client = await pool.connect();
 
   try {
-    const getUser = await client.query(
-      "SELECT * FROM users WHERE users.id = ($1)",
-      [id]
-    );
+    const user = await getUserById(client, [id]);
 
-    done(null, getUser.rows[0]);
+    done(null, user);
   } catch (err) {
     console.log(err);
   } finally {
@@ -32,15 +30,10 @@ const findUserOrCreate = async profile => {
   let user = null;
 
   try {
-    user = await client.query("SELECT * FROM users WHERE users.id = ($1)", [
-      profile.id
-    ]);
+    user = await getUserById(client, [profile.id]);
 
-    if (user.rowCount == 0) {
-      user = await client.query("INSERT INTO users VALUES ($1, $2)", [
-        profile.id,
-        profile.displayName
-      ]);
+    if (!user) {
+      user = await createUser(client, [profile.id, profile.displayName]);
     }
   } catch (err) {
     console.error(err);
