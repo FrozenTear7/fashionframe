@@ -1,5 +1,4 @@
 import frames from "../../public/warframe_data/frames.json";
-// const frames = require("../../public/warframe_data/frames.json");
 
 export const getSetupList = async (client, args, frame, orderBy, order) => {
   let setupsQueryString =

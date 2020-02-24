@@ -50,17 +50,17 @@ The exception are the Color Pickers where the Json data looks like:
 }
 ```
 
-| Endpoint              | Data              |
-| --------------------- | ----------------- |
-| /api/frames           | Frames            |
-| /api/ephemeras        | Ephemeras         |
-| /api/helmets          | Helmets           |
-| /api/skins            | Skins             |
-| /api/colorPickers     | Color pickers     |
-| /api/chestAttachments | Chest attachments |
-| /api/armAttachments   | Arm attachments   |
-| /api/legAttachments   | Leg attachments   |
-| /api/syandanas        | Syandanas         |
+| Endpoint              | Data                                                                        |
+| --------------------- | --------------------------------------------------------------------------- |
+| /api/frames           | [Frames](https://fashionframe.herokuapp.com/api/frames)                     |
+| /api/ephemeras        | [Ephemeras](https://fashionframe.herokuapp.com/api/ephemeras)               |
+| /api/helmets          | [Helmets](https://fashionframe.herokuapp.com/api/helmets)                   |
+| /api/skins            | [Skins](https://fashionframe.herokuapp.com/api/skins)                       |
+| /api/colorPickers     | [ColorPickers](https://fashionframe.herokuapp.com/api/colorPickers)         |
+| /api/chestAttachments | [ChestAttachments](https://fashionframe.herokuapp.com/api/chestAttachments) |
+| /api/armAttachments   | [ArmAttachments](https://fashionframe.herokuapp.com/api/armAttachments)     |
+| /api/legAttachments   | [LegAttachments](https://fashionframe.herokuapp.com/api/legAttachments)     |
+| /api/syandanas        | [Syandanas](https://fashionframe.herokuapp.com/api/syandanas)               |
 
 ## License
 

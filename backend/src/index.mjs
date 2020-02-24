@@ -13,6 +13,11 @@ import pool from "./config/db-connect.mjs";
 
 dotenv.config();
 
+const serverUrl =
+  process.env.mode === "server"
+    ? "http://frozentear7.github.io/fashionframe"
+    : "http://localhost:3000";
+
 const app = express();
 
 const __dirname = path.resolve();
@@ -33,7 +38,7 @@ app.use(passport.session());
 app.use(
   cors({
     credentials: true,
-    origin: "http://localhost:3000"
+    origin: serverUrl
   })
 );
 app.use(bodyParser.urlencoded({ extended: false }));

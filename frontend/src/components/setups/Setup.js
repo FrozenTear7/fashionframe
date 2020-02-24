@@ -218,7 +218,7 @@ class Setup extends Component {
             <div className="alert alert-danger center" role="alert">
               {this.state.setup.error}
               <br />
-              <Link to={"/search"}>Go back to setups</Link>
+              <Link to={"/fashionframe/"}>Go back to setups</Link>
             </div>
           )}
           <h1 className="center">{setup.name}</h1>

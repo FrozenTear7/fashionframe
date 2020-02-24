@@ -168,7 +168,7 @@ class SearchList extends Component {
           </div>
           <ul class="list-group">
             {this.state.setups.data.map((setup, i) => (
-              <Link to={`/setups/${setup.id}`} key={i}>
+              <Link to={`/fashionframe/setups/${setup.id}`} key={i}>
                 <li class="list-group-item" style={{ marginBottom: "10px" }}>
                   <div className="row">
                     <div className="col-6">
@@ -198,7 +198,7 @@ class SearchList extends Component {
           </ul>
           {/* <ul className="horizontal-list">
             {this.state.setups.data.map((setup, i) => (
-              <Link to={`/setups/${setup.id}`} key={i}>
+              <Link to={`/fashionframe/setups/${setup.id}`} key={i}>
                 <li className="search-list-item center">
                   <h3>{setup.name}</h3>
                   <h4>Frame: {setup.frame}</h4>
