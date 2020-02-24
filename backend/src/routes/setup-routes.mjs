@@ -39,7 +39,7 @@ dotenv.config();
 const redirectSigninUrl =
   process.env.mode === "server"
     ? "http://frozentear7.github.io/fashionframe/signin"
-    : "http://localhost:3000/signin";
+    : "http://localhost:3000/fashionframe/signin";
 
 const router = express.Router();
 
@@ -97,8 +97,6 @@ router.get("/:id", async (req, res) => {
     const syandanaColorScheme = await getSyandanaColorSchemeById(client, [
       syandana.id
     ]);
-
-    console.log(setup);
 
     const resultJson = {
       setup: {

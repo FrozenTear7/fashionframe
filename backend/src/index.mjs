@@ -15,7 +15,7 @@ dotenv.config();
 
 const serverUrl =
   process.env.mode === "server"
-    ? "http://frozentear7.github.io/fashionframe"
+    ? "http://frozentear7.github.io"
     : "http://localhost:3000";
 
 const app = express();
