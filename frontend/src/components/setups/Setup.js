@@ -156,7 +156,6 @@ class Setup extends Component {
         });
       }
     } catch (error) {
-      console.log(error);
       this.setState({
         setup: {
           ...this.state.setup,

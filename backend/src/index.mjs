@@ -14,7 +14,7 @@ import pool from "./config/db-connect.mjs";
 dotenv.config();
 
 const serverUrl =
-  process.env.mode === "server"
+  process.env.MODE === "server"
     ? "http://frozentear7.github.io"
     : "http://localhost:3000";
 
