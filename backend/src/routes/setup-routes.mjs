@@ -1,5 +1,6 @@
 import express from "express";
 import connectEnsureLogin from "connect-ensure-login";
+import dotenv from "dotenv";
 import pool from "../config/db-connect.mjs";
 import {
   getSetupList,
@@ -32,6 +33,13 @@ import { createSetup } from "../model/setupsModel.mjs";
 import { createSyandana, updateSyandana } from "../model/syandanasModel.mjs";
 import { deleteSetupBySetupAndUserId } from "../model/setupsModel.mjs";
 import { getSetupAuthor } from "../model/setupsModel.mjs";
+
+dotenv.config();
+
+const redirectSigninUrl =
+  process.env.mode === "server"
+    ? "https://fashionframe.herokuapp.com/signin"
+    : "http://localhost:3000/signin";
 
 const router = express.Router();
 
@@ -120,7 +128,7 @@ router.get("/:id", async (req, res) => {
 
 router.post(
   "/like/:id",
-  connectEnsureLogin.ensureLoggedIn("http://localhost:3000/signin"),
+  connectEnsureLogin.ensureLoggedIn(redirectSigninUrl),
   async (req, res) => {
     const client = await pool.connect();
 
@@ -147,7 +155,7 @@ router.post(
 
 router.post(
   "/",
-  connectEnsureLogin.ensureLoggedIn("http://localhost:3000/signin"),
+  connectEnsureLogin.ensureLoggedIn(redirectSigninUrl),
   async (req, res) => {
     const client = await pool.connect();
 
@@ -238,7 +246,7 @@ router.post(
 
 router.put(
   "/:id",
-  connectEnsureLogin.ensureLoggedIn("http://localhost:3000/signin"),
+  connectEnsureLogin.ensureLoggedIn(redirectSigninUrl),
   async (req, res) => {
     const client = await pool.connect();
 
@@ -336,7 +344,7 @@ router.put(
 
 router.delete(
   "/:id",
-  connectEnsureLogin.ensureLoggedIn("http://localhost:3000/signin"),
+  connectEnsureLogin.ensureLoggedIn(redirectSigninUrl),
   async (req, res) => {
     const client = await pool.connect();
 

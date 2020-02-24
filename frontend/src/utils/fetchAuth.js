@@ -1,5 +1,7 @@
 export const fetchAuth = (path, options) => {
-  const serverUrl = "http://localhost:3001";
+  const serverUrl = "https://fashionframe.herokuapp.com";
+  // eslint-disable-next-line no-unused-vars
+  const localUrl = "http://localhost:3001";
 
   let requestURL = new URL(serverUrl + path);
 

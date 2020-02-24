@@ -1,13 +1,22 @@
 import express from "express";
+import dotenv from "dotenv";
 import passport from "passport";
 import connectEnsureLogin from "connect-ensure-login";
 import pool from "../config/db-connect.mjs";
 import { updateUserUsername } from "../model/usersModel.mjs";
 
+dotenv.config();
+
 const router = express.Router();
 
-const redirectMainUrl = "http://localhost:3000/";
-const redirectSigninUrl = "http://localhost:3000/signin";
+const redirectMainUrl =
+  process.env.mode === "server"
+    ? "https://fashionframe.herokuapp.com/"
+    : "http://localhost:3000/";
+const redirectSigninUrl =
+  process.env.mode === "server"
+    ? "https://fashionframe.herokuapp.com/signin"
+    : "http://localhost:3000/signin";
 
 router.get("/user", (req, res) => {
   if (req.user) {
@@ -17,22 +26,29 @@ router.get("/user", (req, res) => {
   }
 });
 
-router.put("/user", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
-  const client = await pool.connect(redirectSigninUrl);
+router.put(
+  "/user",
+  connectEnsureLogin.ensureLoggedIn(redirectSigninUrl),
+  async (req, res) => {
+    const client = await pool.connect();
 
-  try {
-    await updateUserUsername(client, [req.body.userData.username, req.user.id]);
+    try {
+      await updateUserUsername(client, [
+        req.body.userData.username,
+        req.user.id
+      ]);
 
-    res.sendStatus(200);
-  } catch (err) {
-    console.log(err);
-    res.status(400).send({
-      message: "Could not update user data"
-    });
-  } finally {
-    client.release();
+      res.sendStatus(200);
+    } catch (err) {
+      console.log(err);
+      res.status(400).send({
+        message: "Could not update user data"
+      });
+    } finally {
+      client.release();
+    }
   }
-});
+);
 
 router.get("/logout", (req, res) => {
   req.logout();

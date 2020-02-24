@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+const serverUrl = "https://fashionframe.herokuapp.com";
+// eslint-disable-next-line no-unused-vars
+const localUrl = "http://localhost:3001";
 class NotFound extends Component {
   constructor() {
     super();
@@ -14,7 +17,7 @@ class NotFound extends Component {
           <hr className="my-4" />
           <a
             className="btn btn-primary btn-lg"
-            href="http://localhost:3001/auth/google"
+            href={serverUrl + "/auth/google"}
             role="button"
           >
             Sign in with<span> </span> <i className="fa fa-google-plus"></i>
@@ -23,7 +26,7 @@ class NotFound extends Component {
           <br />
           <a
             className="btn btn-primary btn-lg"
-            href="http://localhost:3001/auth/twitchtv"
+            href={serverUrl + "/auth/twitchtv"}
             role="button"
           >
             Sign in with<span> </span> <i className="fa fa-twitch"></i>
@@ -32,7 +35,7 @@ class NotFound extends Component {
           <br />
           <a
             className="btn btn-primary btn-lg"
-            href="http://localhost:3001/auth/facebook"
+            href={serverUrl + "/auth/twitchtv"}
             role="button"
           >
             Sign in with<span> </span> <i className="fa fa-facebook"></i>
