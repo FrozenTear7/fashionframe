@@ -29,7 +29,8 @@
     "pretty-quick": "^2.0.1"
   },
   "scripts": {
-    "start": "nodemon --experimental-json-modules src/index.mjs",
+    "start": "node --experimental-json-modules src/index.mjs",
+    "start_local": "nodemon --experimental-json-modules src/index.mjs",
     "precommit": "pretty-quick --staged"
   },
   "type": "module"

@@ -90,27 +90,33 @@ class Navbar extends Component {
                       programmer, so the app will have some bugs and it might
                       not have the best looking interface. <br />
                       If you have any issues regarding existing problems or want
-                      to share your feedback visit the app repository on Github
+                      to share your feedback, visit the app repository on Github
                       and create an Issue.
+                      <br />
+                      <br />
                       <a
-                        className="nav-item nav-link"
                         href={
                           "https://github.com/FrozenTear7/fashionframe/issues"
                         }
                       >
                         Visit repository <i className="fa fa-github"></i>
                       </a>
+                      <br />
+                      <br />
                       Or{" "}
                       <a href="mailto:pawelmendroch7@gmail.com">
                         write to me personally
                       </a>
+                      <br />
                       Or whisper in-game at FrozenTear7
+                      <br />
                       <br />
                       If you like the app and have a Github account it would be
                       awesome if you gave the project a Star
                       <i className="fa fa-star"></i>.
                       <br />
                       <br />
+                      <hr className="divider" />
                       The app is deployed to Heroku running on a free plan
                       server, so there might be some maintenance time every
                       month if there is too much traffic. <br />I will act

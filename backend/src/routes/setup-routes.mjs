@@ -41,12 +41,20 @@ router.get("/", async (req, res) => {
   try {
     let orderBy = "liked";
 
-    if (req.query.order === "New") orderBy = "created_at";
+    if (req.query.order === "New" || req.query.order === "Oldest")
+      orderBy = "created_at";
+
+    let order;
+
+    if (req.query.order !== "Oldest") order = "DESC";
+    else order = "ASC";
 
     const setupList = await getSetupList(
       client,
-      [orderBy, req.query.limit, req.query.offset],
-      req.query.frame
+      [req.query.limit, req.query.offset],
+      req.query.frame,
+      orderBy,
+      order
     );
 
     const setupsCount = await getSetupsCount(client, [req.query.frame]);

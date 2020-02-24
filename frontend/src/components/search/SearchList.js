@@ -12,7 +12,7 @@ import Loading from "../utils/Loading.js";
 import SearchPagination from "./SearchPagination";
 
 const fetchLimit = 9;
-const setupFilters = ["Popular", "New"];
+const setupFilters = ["Popular", "New", "Oldest"];
 
 class SearchList extends Component {
   constructor() {
@@ -193,25 +193,6 @@ class SearchList extends Component {
                     </div>
                   </div>
                 </li>
-                {/* <li className="search-list-item center">
-                  <h3>{setup.name}</h3>
-                  <h4>Frame: {setup.frame}</h4>
-                  <hr className="divider" />
-                  <span className="badge badge-primary">
-                    <i className="fa fa-star"></i>
-                    {setup.liked}
-                  </span>
-                  <h5>Author: {setup.username}</h5>
-                  <small>
-                    Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}
-                  </small>
-                  <br />
-                  <img
-                    src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
-                    alt="Thumbnail"
-                    className="search-thumbnail"
-                  />
-                </li> */}
               </Link>
             ))}
           </ul>
@@ -232,7 +213,7 @@ class SearchList extends Component {
                   </small>
                   <br />
                   <img
-                    src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
+                    src={setup.screenshot}
                     alt="Thumbnail"
                     className="search-thumbnail"
                   />
