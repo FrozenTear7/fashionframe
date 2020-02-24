@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import pool from "../config/db-connect.mjs";
 import {
   getSetupList,
-  getSetupByUserAndSetupId,
+  getSetupBySetupId,
   getSetupsCount,
   updateSetup
 } from "../model/setupsModel.mjs";
@@ -37,8 +37,8 @@ import { getSetupAuthor } from "../model/setupsModel.mjs";
 dotenv.config();
 
 const redirectSigninUrl =
-  process.env.mode === "server"
-    ? "http://frozentear7.github.io/fashionframe/signin"
+  process.env.MODE === "server"
+    ? "https://frozentear7.github.io/fashionframe/signin"
     : "http://localhost:3000/fashionframe/signin";
 
 const router = express.Router();
@@ -82,10 +82,7 @@ router.get("/:id", async (req, res) => {
   const client = await pool.connect();
 
   try {
-    const setup = await getSetupByUserAndSetupId(client, [
-      req.user.id,
-      req.params.id
-    ]);
+    const setup = await getSetupBySetupId(client, [req.params.id]);
 
     const attachments = await getAttachmentsById(client, [setup.id]);
     const syandana = await getSyandanaById(client, [setup.id]);

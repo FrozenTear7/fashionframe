@@ -10,12 +10,12 @@ dotenv.config();
 const router = express.Router();
 
 const redirectMainUrl =
-  process.env.mode === "server"
-    ? "http://frozentear7.github.io/fashionframe"
+  process.env.MODE === "server"
+    ? "https://frozentear7.github.io/fashionframe"
     : "http://localhost:3000/fashionframe";
 const redirectSigninUrl =
-  process.env.mode === "server"
-    ? "http://frozentear7.github.io/fashionframe/signin"
+  process.env.MODE === "server"
+    ? "https://frozentear7.github.io/fashionframe/signin"
     : "http://localhost:3000/fashionframe/signin";
 
 router.get("/user", (req, res) => {
@@ -98,7 +98,7 @@ router.get(
 router.get(
   "/facebook",
   passport.authenticate("facebook", {
-    scope: ["read_stream"]
+    scope: ["user_about_me"]
   })
 );
 

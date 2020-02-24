@@ -15,10 +15,10 @@ export const getSetupList = async (client, args, frame, orderBy, order) => {
   return setupListInfo.rows;
 };
 
-export const getSetupByUserAndSetupId = async (client, args) => {
+export const getSetupBySetupId = async (client, args) => {
   const setup = await client.query(
-    "SELECT u.username, s.*, (SELECT COUNT(*) FROM setups_users WHERE setup_id = $2) AS liked,\n" +
-      "EXISTS(SELECT 1 FROM setups_users WHERE user_id = $1 AND setup_id = $2) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $2",
+    "SELECT u.username, s.*, (SELECT COUNT(*) FROM setups_users WHERE setup_id = $1) AS liked,\n" +
+      "EXISTS(SELECT 1 FROM setups_users WHERE setup_id = $1) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $1",
     args
   );
 

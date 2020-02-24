@@ -14,8 +14,8 @@ import pool from "./config/db-connect.mjs";
 dotenv.config();
 
 const serverUrl =
-  process.env.mode === "server"
-    ? "http://frozentear7.github.io"
+  process.env.MODE === "server"
+    ? "https://frozentear7.github.io"
     : "http://localhost:3000";
 
 const app = express();
@@ -28,6 +28,7 @@ app.use(
     saveUninitialized: false,
     resave: true,
     rolling: true,
+    secure: true,
     cookie: {
       expires: 24 * 60 * 60 * 1000
     }

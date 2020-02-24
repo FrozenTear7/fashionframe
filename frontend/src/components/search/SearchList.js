@@ -127,8 +127,6 @@ class SearchList extends Component {
   }
 
   render() {
-    console.log(this.state.numberOfPages);
-
     if (this.state.frames.loading || this.state.setups.loading) {
       return <Loading />;
     } else {
