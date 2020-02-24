@@ -28,6 +28,10 @@
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1"
   },
+  "engines": {
+    "node": "13.8.0",
+    "npm": "6.13.7"
+  },
   "scripts": {
     "start": "node --experimental-json-modules src/index.mjs",
     "start_local": "nodemon --experimental-json-modules src/index.mjs",
