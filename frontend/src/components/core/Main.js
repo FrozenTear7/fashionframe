@@ -13,32 +13,32 @@ class Main extends Component {
     return (
       <div className="container-fluid main-body">
         <Switch>
-          <Route exact path="/" component={SearchList} />
-          <Route exact path="/signin" component={SignIn} />
+          <Route exact path="/fashionframe/" component={SearchList} />
+          <Route exact path="/fashionframe/signin" component={SignIn} />
           <PrivateRoute
             exact
-            path="/settings"
+            path="/fashionframe/settings"
             component={Settings}
             isAuthorized={this.props.isAuthorized}
             userData={this.props.userData}
           />
           <PrivateRoute
             exact
-            path="/setups/new"
+            path="/fashionframe/setups/new"
             component={NewSetup}
             isAuthorized={this.props.isAuthorized}
             mode="new"
           />
           <PrivateRoute
             exact
-            path="/setups/:id/edit"
+            path="/fashionframe/setups/:id/edit"
             component={NewSetup}
             isAuthorized={this.props.isAuthorized}
             mode="edit"
           />
           <Route
             exact
-            path="/setups/:id"
+            path="/fashionframe/setups/:id"
             render={props => (
               <Setup
                 {...props}

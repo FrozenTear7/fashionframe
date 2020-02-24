@@ -36,7 +36,7 @@ class NotFound extends Component {
           <br />
           <a
             className="btn btn-primary btn-lg"
-            href={localUrl + "/auth/twitchtv"}
+            href={localUrl + "/auth/facebook"}
             role="button"
           >
             Sign in with<span> </span> <i className="fa fa-facebook"></i>
