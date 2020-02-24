@@ -28,6 +28,7 @@ app.use(
     saveUninitialized: false,
     resave: true,
     rolling: true,
+    secure: true,
     cookie: {
       expires: 24 * 60 * 60 * 1000
     }
