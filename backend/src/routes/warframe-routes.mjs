@@ -1,4 +1,15 @@
 import express from "express";
+
+// const frames = require("../../public/warframe_data/frames.json");
+// const ephemeras = require("../../public/warframe_data/ephemeras.json");
+// const helmets = require("../../public/warframe_data/helmets.json");
+// const skins = require("../../public/warframe_data/skins.json");
+// const colorPickers = require("../../public/warframe_data/colorPickers.json");
+// const chestAttachments = require("../../public/warframe_data/chestAttachments.json");
+// const armAttachments = require("../../public/warframe_data/armAttachments.json");
+// const legAttachments = require("../../public/warframe_data/legAttachments.json");
+// const syandanas = require("../../public/warframe_data/syandanas.json");
+
 import frames from "../../public/warframe_data/frames.json";
 import ephemeras from "../../public/warframe_data/ephemeras.json";
 import helmets from "../../public/warframe_data/helmets.json";
