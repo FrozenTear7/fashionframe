@@ -1,6 +1,6 @@
 export const getSyandanaById = async (client, args) => {
   const syandana = await client.query(
-    "SELECT * FROM syandanas WHERE id = $1",
+    "SELECT * FROM syandanas WHERE setup_id = $1",
     args
   );
 
@@ -9,7 +9,7 @@ export const getSyandanaById = async (client, args) => {
 
 export const createSyandana = async (client, args) => {
   const syandana = await client.query(
-    "INSERT INTO syandanas (name, color_scheme_id) VALUES ($1, $2) RETURNING id",
+    "INSERT INTO syandanas (name, setup_id) VALUES ($1, $2) RETURNING id",
     args
   );
 
@@ -18,7 +18,7 @@ export const createSyandana = async (client, args) => {
 
 export const updateSyandana = async (client, args) => {
   const syandana = await client.query(
-    "UPDATE syandanas SET name = $1 WHERE id = $2 RETURNING id",
+    "UPDATE syandanas SET name = $1 WHERE setup_id = $2 RETURNING id",
     args
   );
 

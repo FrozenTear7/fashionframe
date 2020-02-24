@@ -5,20 +5,20 @@ export const getSetupList = async (client, args, frame, orderBy) => {
     "SELECT u.username, s.id, s.name, s.screenshot, s.frame, s.created_at, (SELECT COUNT(*) FROM setups_users WHERE setup_id = s.id) AS liked FROM setups s\n" +
     "JOIN users u ON u.id = s.user_id";
 
-  if (frame && frames.frames.includes(req.query.frame))
+  if (frame && frames.frames.includes(frame))
     setupsQueryString += ` WHERE s.frame = '${frame}'`;
 
   setupsQueryString += " ORDER BY $1 DESC LIMIT $2 OFFSET $3";
 
   const setupListInfo = await client.query(setupsQueryString, args);
 
-  return setupListInfo.rows[0];
+  return setupListInfo.rows;
 };
 
 export const getSetupByUserAndSetupId = async (client, args) => {
   const setup = await client.query(
-    "SELECT u.id AS userid, u.username, s.*, (SELECT COUNT(*) FROM setups_users WHERE setup_id = $2) AS liked,\n" +
-      "EXISTS(SELECT 1 FROM setups_users WHERE user_id=$1 AND setup_id = $2) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $2",
+    "SELECT u.username, s.*, (SELECT COUNT(*) FROM setups_users WHERE setup_id = $2) AS liked,\n" +
+      "EXISTS(SELECT 1 FROM setups_users WHERE user_id = $1 AND setup_id = $2) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $2",
     args
   );
 
@@ -45,8 +45,8 @@ export const getSetupAuthor = async (client, args) => {
 
 export const createSetup = async (client, args) => {
   const setup = await client.query(
-    "INSERT INTO setups (name, frame, description, screenshot, helmet, skin, attachment_id, syandana_id, color_scheme_id, user_id)\n" +
-      "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id",
+    "INSERT INTO setups (name, frame, description, screenshot, helmet, skin, user_id)\n" +
+      "VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
     args
   );
 
@@ -60,7 +60,7 @@ export const deleteSetupBySetupAndUserId = async (client, args) => {
 export const updateSetup = async (client, args) => {
   const setup = await client.query(
     "UPDATE setups SET name = $1, frame = $2, description = $3, screenshot = $4, helmet = $5, skin = $6\n" +
-      "WHERE id = $7 RETURNING id, attachment_id, syandana_id, color_scheme_id",
+      "WHERE id = $7 RETURNING id",
     args
   );
 

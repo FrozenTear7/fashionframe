@@ -245,7 +245,7 @@ class Setup extends Component {
                 </button>
               )}
               {this.props.isAuthorized &&
-                this.props.userId === this.state.setup.data.userid && (
+                this.props.userId === this.state.setup.data.user_id && (
                   <div>
                     <br />
                     <Link
