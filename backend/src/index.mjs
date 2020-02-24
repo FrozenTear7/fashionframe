@@ -15,7 +15,7 @@ dotenv.config();
 
 const serverUrl =
   process.env.mode === "server"
-    ? "https://fashionframe.herokuapp.com"
+    ? "http://frozentear7.github.io/fashionframe"
     : "http://localhost:3000";
 
 const app = express();

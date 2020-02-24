@@ -11,11 +11,11 @@ const router = express.Router();
 
 const redirectMainUrl =
   process.env.mode === "server"
-    ? "https://fashionframe.herokuapp.com/"
-    : "http://localhost:3000/";
+    ? "http://frozentear7.github.io/fashionframe"
+    : "http://localhost:3000";
 const redirectSigninUrl =
   process.env.mode === "server"
-    ? "https://fashionframe.herokuapp.com/signin"
+    ? "http://frozentear7.github.io/fashionframe/signin"
     : "http://localhost:3000/signin";
 
 router.get("/user", (req, res) => {

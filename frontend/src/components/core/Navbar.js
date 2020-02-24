@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
 
+// eslint-disable-next-line no-unused-vars
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
@@ -167,7 +168,7 @@ class Navbar extends Component {
               )}
               {this.props.isAuthorized && (
                 <li className="nav-item">
-                  <a className="nav-link" href={serverUrl + "auth/logout"}>
+                  <a className="nav-link" href={localUrl + "auth/logout"}>
                     Sign out
                   </a>
                 </li>
