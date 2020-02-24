@@ -25,11 +25,14 @@ class Navbar extends Component {
         <nav className="navbar navbar-expand-lg navbar-dark navbar-bg-dark">
           <div className="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
             <ul className="navbar-nav mr-auto">
-              <Link className="nav-item nav-link" to={"/"}>
+              <Link className="nav-item nav-link" to={"/fashionframe/"}>
                 Home
               </Link>
               {this.props.isAuthorized && (
-                <Link className="nav-item nav-link" to={"/setups/new"}>
+                <Link
+                  className="nav-item nav-link"
+                  to={"/fashionframe/setups/new"}
+                >
                   New setup
                 </Link>
               )}
@@ -45,14 +48,17 @@ class Navbar extends Component {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <Link className="navbar-brand mx-auto" to={"/"}>
+            <Link className="navbar-brand mx-auto" to={"/fashionframe/"}>
               Fashionframe
             </Link>
           </div>
           <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
             <ul className="navbar-nav ml-auto">
               {this.props.isAuthorized && (
-                <Link className="nav-item nav-link" to={"/settings"}>
+                <Link
+                  className="nav-item nav-link"
+                  to={"/fashionframe/settings"}
+                >
                   Settings
                 </Link>
               )}
@@ -60,23 +66,23 @@ class Navbar extends Component {
                 type="button"
                 class="nav-item nav-link"
                 data-toggle="modal"
-                data-target="#exampleModal"
+                data-target="#aboutModal"
               >
                 About
               </a>
 
               <div
                 class="modal fade"
-                id="exampleModal"
+                id="aboutModal"
                 tabindex="-1"
                 role="dialog"
-                aria-labelledby="exampleModalLabel"
+                aria-labelledby="aboutModalLabel"
                 aria-hidden="true"
               >
                 <div class="modal-dialog" role="document">
                   <div class="modal-content">
                     <div class="modal-header">
-                      <h5 class="modal-title" id="exampleModalLabel">
+                      <h5 class="modal-title" id="aboutModalLabel">
                         About the app
                       </h5>
                       <button
@@ -157,7 +163,7 @@ class Navbar extends Component {
                 </div>
               </div>
               {!this.props.isAuthorized && (
-                <Link className="nav-item nav-link" to={"/signin"}>
+                <Link className="nav-item nav-link" to={"/fashionframe/signin"}>
                   Sign in
                 </Link>
               )}
