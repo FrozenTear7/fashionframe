@@ -4,23 +4,32 @@ import pool from "../config/db-connect.mjs";
 import {
   getSetupList,
   getSetupByUserAndSetupId,
-  getSetupsCount
+  getSetupsCount,
+  updateSetup
 } from "../model/setupsModel.mjs";
 import {
   getAttachmentsById,
-  createAttachments
+  createAttachments,
+  updateAttachments
 } from "../model/attachmentsModel.mjs";
 import { getSyandanaById } from "../model/syandanasModel.mjs";
 import {
-  getColorSchemeById,
-  createColorScheme
+  getSetupColorSchemeById,
+  getAttachmentsColorSchemeById,
+  getSyandanaColorSchemeById,
+  createSetupColorScheme,
+  createAttachmentsColorScheme,
+  createSyandanaColorScheme,
+  updateSetupColorScheme,
+  updateAttachmentsColorScheme,
+  updateSyandanaColorScheme
 } from "../model/colorSchemesModel.mjs";
 import {
   createSetupUserLike,
   deleteSetupUserLike
 } from "../model/setupsUsersModel.mjs";
 import { createSetup } from "../model/setupsModel.mjs";
-import { createSyandana } from "../model/syandanasModel.mjs";
+import { createSyandana, updateSyandana } from "../model/syandanasModel.mjs";
 import { deleteSetupBySetupAndUserId } from "../model/setupsModel.mjs";
 import { getSetupAuthor } from "../model/setupsModel.mjs";
 
@@ -34,7 +43,7 @@ router.get("/", async (req, res) => {
 
     if (req.query.order === "New") orderBy = "created_at";
 
-    const setupListInfo = await getSetupList(
+    const setupList = await getSetupList(
       client,
       [orderBy, req.query.limit, req.query.offset],
       req.query.frame
@@ -42,7 +51,7 @@ router.get("/", async (req, res) => {
 
     const setupsCount = await getSetupsCount(client, [req.query.frame]);
 
-    res.send({ setups: setupListInfo, setupsCount: setupsCount });
+    res.send({ setups: setupList, setupsCount: setupsCount });
   } catch (err) {
     console.log(err);
     res.status(400).send({
@@ -62,19 +71,15 @@ router.get("/:id", async (req, res) => {
       req.params.id
     ]);
 
-    const attachments = await getAttachmentsById(client, [setup.attachment_id]);
-    const syandana = await getSyandanaById(client, [setup.syandana_id]);
+    const attachments = await getAttachmentsById(client, [setup.id]);
+    const syandana = await getSyandanaById(client, [setup.id]);
 
-    const setupColorScheme = await getColorSchemeById(client, [
-      setup.color_scheme_id
+    const setupColorScheme = await getSetupColorSchemeById(client, [setup.id]);
+    const attachmentsColorScheme = await getAttachmentsColorSchemeById(client, [
+      attachments.id
     ]);
-
-    const attachmentsColorScheme = await getColorSchemeById(client, [
-      attachments.color_scheme_id
-    ]);
-
-    const syandanaColorScheme = await getColorSchemeById(client, [
-      syandana.color_scheme_id
+    const syandanaColorScheme = await getSyandanaColorSchemeById(client, [
+      syandana.id
     ]);
 
     const resultJson = {
@@ -146,37 +151,14 @@ router.post(
       const syandana = setup.syandana;
       const syandanaColorScheme = syandana.colorScheme;
 
-      const newSetupColorScheme = await createColorScheme(client, [
-        setupColorScheme.primary,
-        setupColorScheme.secondary,
-        setupColorScheme.tertiary,
-        setupColorScheme.accents,
-        setupColorScheme.emmissive1,
-        setupColorScheme.emmissive2,
-        setupColorScheme.energy1,
-        setupColorScheme.energy2
-      ]);
-
-      const newAttachmentsColorScheme = await createColorScheme(client, [
-        attachmentsColorScheme.primary,
-        attachmentsColorScheme.secondary,
-        attachmentsColorScheme.tertiary,
-        attachmentsColorScheme.accents,
-        attachmentsColorScheme.emmissive1,
-        attachmentsColorScheme.emmissive2,
-        attachmentsColorScheme.energy1,
-        attachmentsColorScheme.energy2
-      ]);
-
-      const newSyandanaColorScheme = createColorScheme(client, [
-        syandanaColorScheme.primary,
-        syandanaColorScheme.secondary,
-        syandanaColorScheme.tertiary,
-        syandanaColorScheme.accents,
-        syandanaColorScheme.emmissive1,
-        syandanaColorScheme.emmissive2,
-        syandanaColorScheme.energy1,
-        syandanaColorScheme.energy2
+      const newSetup = await createSetup(client, [
+        setup.name,
+        setup.frame,
+        setup.description,
+        setup.screenshot,
+        setup.helmet,
+        setup.skin,
+        req.user.id
       ]);
 
       const newAttachments = await createAttachments(client, [
@@ -186,29 +168,52 @@ router.post(
         attachments.leftLeg,
         attachments.rightLeg,
         attachments.ephemera,
-        newAttachmentsColorScheme.id
+        newSetup.id
       ]);
 
       const newSyandana = await createSyandana(client, [
         syandana.name,
-        newSyandanaColorScheme.id
+        newSetup.id
       ]);
 
-      const newSetup = await createSetup(client, [
-        setup.name,
-        setup.frame,
-        setup.description,
-        setup.screenshot,
-        setup.helmet,
-        setup.skin,
-        newAttachments.id,
-        newSyandana.id,
-        newSetupColorScheme.id,
-        req.user.id
+      await createSetupColorScheme(client, [
+        setupColorScheme.primary,
+        setupColorScheme.secondary,
+        setupColorScheme.tertiary,
+        setupColorScheme.accents,
+        setupColorScheme.emmissive1,
+        setupColorScheme.emmissive2,
+        setupColorScheme.energy1,
+        setupColorScheme.energy2,
+        newSetup.id
+      ]);
+
+      await createAttachmentsColorScheme(client, [
+        attachmentsColorScheme.primary,
+        attachmentsColorScheme.secondary,
+        attachmentsColorScheme.tertiary,
+        attachmentsColorScheme.accents,
+        attachmentsColorScheme.emmissive1,
+        attachmentsColorScheme.emmissive2,
+        attachmentsColorScheme.energy1,
+        attachmentsColorScheme.energy2,
+        newAttachments.id
+      ]);
+
+      await createSyandanaColorScheme(client, [
+        syandanaColorScheme.primary,
+        syandanaColorScheme.secondary,
+        syandanaColorScheme.tertiary,
+        syandanaColorScheme.accents,
+        syandanaColorScheme.emmissive1,
+        syandanaColorScheme.emmissive2,
+        syandanaColorScheme.energy1,
+        syandanaColorScheme.energy2,
+        newSyandana.id
       ]);
 
       await client.query("COMMIT");
-      res.send({ setupId: newSetup.rows[0].id });
+      res.send({ setupId: newSetup.id });
     } catch (err) {
       await client.query("ROLLBACK");
       console.log(err);
@@ -244,7 +249,7 @@ router.put(
       const syandana = setup.syandana;
       const syandanaColorScheme = syandana.colorScheme;
 
-      const updateSetup = await updateSetup(client, [
+      const newUpdateSetup = await updateSetup(client, [
         setup.name,
         setup.frame,
         setup.description,
@@ -254,22 +259,22 @@ router.put(
         req.params.id
       ]);
 
-      const updateAttachments = await updateAttachments(client, [
+      const newUpdateAttachments = await updateAttachments(client, [
         attachments.chest,
         attachments.leftArm,
         attachments.rightArm,
         attachments.leftLeg,
         attachments.rightLeg,
         attachments.ephemera,
-        updateSetup.attachment_id
+        newUpdateSetup.id
       ]);
 
-      const updateSyandana = await updateSyandana(client, [
+      const newUpdateSyandana = await updateSyandana(client, [
         syandana.name,
-        updateSetup.syandana_id
+        newUpdateSetup.id
       ]);
 
-      await updateColorScheme(client, [
+      await updateSetupColorScheme(client, [
         setupColorScheme.primary,
         setupColorScheme.secondary,
         setupColorScheme.tertiary,
@@ -278,10 +283,10 @@ router.put(
         setupColorScheme.emmissive2,
         setupColorScheme.energy1,
         setupColorScheme.energy2,
-        updateSetup.color_scheme_id
+        newUpdateSetup.id
       ]);
 
-      await updateColorScheme(client, [
+      await updateAttachmentsColorScheme(client, [
         attachmentsColorScheme.primary,
         attachmentsColorScheme.secondary,
         attachmentsColorScheme.tertiary,
@@ -290,10 +295,10 @@ router.put(
         attachmentsColorScheme.emmissive2,
         attachmentsColorScheme.energy1,
         attachmentsColorScheme.energy2,
-        updateAttachments.color_scheme_id
+        newUpdateAttachments.id
       ]);
 
-      await updateColorScheme(client, [
+      await updateSyandanaColorScheme(client, [
         syandanaColorScheme.primary,
         syandanaColorScheme.secondary,
         syandanaColorScheme.tertiary,
@@ -302,11 +307,11 @@ router.put(
         syandanaColorScheme.emmissive2,
         syandanaColorScheme.energy1,
         syandanaColorScheme.energy2,
-        updateSyandana.color_scheme_id
+        newUpdateSyandana.id
       ]);
 
       await client.query("COMMIT");
-      res.send({ setupId: updateSetup.id });
+      res.send({ setupId: newUpdateSetup.id });
     } catch (err) {
       await client.query("ROLLBACK");
       console.log(err);
