@@ -18,7 +18,7 @@ class NotFound extends Component {
           <hr className="my-4" />
           <a
             className="btn btn-primary btn-lg"
-            href={localUrl + "/auth/google"}
+            href={serverUrl + "/auth/google"}
             role="button"
           >
             Sign in with<span> </span> <i className="fa fa-google-plus"></i>
@@ -27,7 +27,7 @@ class NotFound extends Component {
           <br />
           <a
             className="btn btn-primary btn-lg"
-            href={localUrl + "/auth/twitchtv"}
+            href={serverUrl + "/auth/twitchtv"}
             role="button"
           >
             Sign in with<span> </span> <i className="fa fa-twitch"></i>
@@ -36,7 +36,7 @@ class NotFound extends Component {
           <br />
           <a
             className="btn btn-primary btn-lg"
-            href={localUrl + "/auth/facebook"}
+            href={serverUrl + "/auth/facebook"}
             role="button"
           >
             Sign in with<span> </span> <i className="fa fa-facebook"></i>
