@@ -44,7 +44,11 @@ class NewSetupTopPanel extends Component {
                   </button>
                 </li>
                 <li className="list-inline-item">
-                  <button type="button" className="btn btn-danger">
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={this.props.deleteSetupOnClick}
+                  >
                     Delete setup
                   </button>
                 </li>

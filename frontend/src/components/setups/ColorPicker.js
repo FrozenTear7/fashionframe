@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { GithubPicker } from "react-color";
 import Select from "react-select";
 import { Button, OverlayTrigger, Popover } from "react-bootstrap";
-import { mapToOptions } from "../../utils/mapToOptions";
+import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
 
 class ColorPicker extends Component {
   constructor() {
@@ -31,6 +31,7 @@ class ColorPicker extends Component {
             <div style={{ width: "175px" }}>
               {this.props.colorName}
               <Select
+                defaultValue={mapToOption("Classic")}
                 options={mapToOptions(Object.keys(this.props.colors))}
                 onChange={e => this.setState({ colorPicker: e.value })}
               />
@@ -53,15 +54,15 @@ class ColorPicker extends Component {
               }
             >
               <Button
-                variant="success"
-                className={!this.props.color ? "transparent-checkered" : ""}
+                className={
+                  !this.props.color
+                    ? "transparent-checkered color-button"
+                    : "color-button"
+                }
                 style={{
-                  width: "50px",
-                  height: "50px",
                   backgroundColor: this.props.color
                     ? this.props.color
-                    : "#d1d1d1",
-                  borderColor: "#FFFFFF"
+                    : "#d1d1d1"
                 }}
               />
             </OverlayTrigger>

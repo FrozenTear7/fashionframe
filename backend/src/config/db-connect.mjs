@@ -4,9 +4,13 @@ const { Pool } = pg;
 
 dotenv.config();
 
+pg.types.setTypeParser(1114, str => str);
+
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: true
+  ssl: {
+    rejectUnauthorized: false
+  }
 });
 
 export default pool;

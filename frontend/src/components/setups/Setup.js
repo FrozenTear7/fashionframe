@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { fetchAuth } from "../../utils/fetchAuth";
 import Loading from "../utils/Loading.js";
 import ColorsModal from "../utils/ColorsModal.js";
-import { ColorButton } from "../utils/ColorButton.js";
+import ColorButton from "../utils/ColorButton.js";
 
 const formatName = name => {
   return name.charAt(0).toUpperCase() + name.slice(1);
@@ -25,44 +25,46 @@ const getColorButton = (color, colorPickers, modalName) => {
   );
 };
 
+const colorNamesToButtons = (
+  colorScheme,
+  colorPickers,
+  modalName,
+  colorNames
+) => {
+  return colorNames.map((colorName, i) => (
+    <div className="col-3" key={i}>
+      <div className="form-group">
+        <label htmlFor={colorName}>{formatName(colorName)}</label>
+        <div id={colorName}>
+          {getColorButton(
+            colorScheme[colorName],
+            colorPickers,
+            modalName + colorName
+          )}
+        </div>
+      </div>
+    </div>
+  ));
+};
+
 const getColorsBlock = (colorScheme, colorPickers, modalName) => (
   <div>
     <div className="row">
-      {Object.keys(colorScheme)
-        .slice(1, 5)
-        .map((colorName, i) => (
-          <div className="col-3" key={i}>
-            <div className="form-group">
-              <label htmlFor={colorName}>{formatName(colorName)}</label>
-              <div id={colorName}>
-                {getColorButton(
-                  colorScheme[colorName],
-                  colorPickers,
-                  modalName + colorName
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+      {colorNamesToButtons(
+        colorScheme,
+        colorPickers,
+        modalName,
+        Object.keys(colorScheme).slice(1, 5)
+      )}
     </div>
     <br />
     <div className="row">
-      {Object.keys(colorScheme)
-        .slice(5, 9)
-        .map((colorName, i) => (
-          <div className="col-3" key={i}>
-            <div className="form-group">
-              <label htmlFor={colorName}>{formatName(colorName)}</label>
-              <div id={colorName}>
-                {getColorButton(
-                  colorScheme[colorName],
-                  colorPickers,
-                  modalName + colorName
-                )}
-              </div>
-            </div>
-          </div>
-        ))}
+      {colorNamesToButtons(
+        colorScheme,
+        colorPickers,
+        modalName,
+        Object.keys(colorScheme).slice(5, 9)
+      )}
     </div>
   </div>
 );
@@ -118,6 +120,53 @@ class Setup extends Component {
     }
   }
 
+  async likeSetup() {
+    try {
+      const res = await fetchAuth(
+        `/setups/like/${this.props.match.params.id}`,
+        {
+          method: "POST",
+          body: JSON.stringify({ like: !this.state.setup.data.likedbyyou })
+        }
+      );
+
+      if (res.ok) {
+        this.setState({
+          setup: {
+            ...this.state.setup,
+            loading: false,
+            error: "",
+            data: {
+              ...this.state.setup.data,
+              likedbyyou: !this.state.setup.data.likedbyyou,
+              liked:
+                parseInt(this.state.setup.data.liked) +
+                (this.state.setup.data.likedbyyou ? -1 : 1)
+            }
+          }
+        });
+      } else {
+        const resJson = await res.json();
+        this.setState({
+          setup: {
+            ...this.state.setup,
+            loading: false,
+            error: resJson.message
+          }
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      this.setState({
+        setup: {
+          ...this.state.setup,
+          loading: false,
+          error: `Could not like setup - please try again`
+        }
+      });
+    }
+  }
+
   async fetchColorPickers() {
     try {
       const res = await fetchAuth(`/api/colorPickers`);
@@ -160,19 +209,18 @@ class Setup extends Component {
   render() {
     if (this.state.setup.loading || this.state.colorPickers.loading) {
       return <Loading />;
-    } else if (this.state.setup.error) {
-      return (
-        <div className="alert alert-danger center" role="alert">
-          {this.state.setup.error}
-          <br />
-          <Link to={"/search"}>Go back to setups</Link>
-        </div>
-      );
     } else {
       const setup = this.state.setup.data;
 
       return (
         <div>
+          {this.state.setup.error && (
+            <div className="alert alert-danger center" role="alert">
+              {this.state.setup.error}
+              <br />
+              <Link to={"/search"}>Go back to setups</Link>
+            </div>
+          )}
           <h1 className="center">{setup.name}</h1>
           <br />
           <div className="row">
@@ -181,11 +229,41 @@ class Setup extends Component {
               <br />
               <h5>Description: {setup.description}</h5>
               <br />
-              <h5>Author: {setup.name}</h5>
+              <h5>Author: {setup.username}</h5>
+              <small>
+                Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}
+              </small>
+              <br />
+              {this.props.isAuthorized && (
+                <button
+                  className={`btn btn-${
+                    this.state.setup.data.likedbyyou ? "primary" : "secondary"
+                  }`}
+                  onClick={() => this.likeSetup()}
+                >
+                  {this.state.setup.data.likedbyyou ? "Unlike" : "Like"}:{" "}
+                  <i className="fa fa-star"></i>{" "}
+                  <span className="badge badge-light">
+                    {this.state.setup.data.liked}
+                  </span>
+                </button>
+              )}
+              {this.props.isAuthorized &&
+                this.props.userId === this.state.setup.data.user_id && (
+                  <div>
+                    <br />
+                    <Link
+                      className={`btn btn-primary`}
+                      to={`/setups/${this.props.match.params.id}/edit`}
+                    >
+                      Edit
+                    </Link>
+                  </div>
+                )}
             </div>
             <div className="col-8">
               <img
-                src="https://vignette.wikia.nocookie.net/warframe/images/c/cf/Chroma.jpg/revision/latest?cb=20151013193410"
+                src={this.state.setup.data.screenshot}
                 alt="Thumbnail"
                 className="setup-image"
               />
