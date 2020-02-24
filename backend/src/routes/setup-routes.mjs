@@ -38,7 +38,7 @@ dotenv.config();
 
 const redirectSigninUrl =
   process.env.MODE === "server"
-    ? "http://frozentear7.github.io/fashionframe/signin"
+    ? "https://frozentear7.github.io/fashionframe/signin"
     : "http://localhost:3000/fashionframe/signin";
 
 const router = express.Router();

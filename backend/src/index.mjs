@@ -15,7 +15,7 @@ dotenv.config();
 
 const serverUrl =
   process.env.MODE === "server"
-    ? "http://frozentear7.github.io"
+    ? "https://frozentear7.github.io"
     : "http://localhost:3000";
 
 const app = express();
