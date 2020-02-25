@@ -1,0 +1,38 @@
+.my-scrollbar {
+  width: 0.5em;
+  opacity: 0.5;
+}
+
+.my-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.my-scrollbar-thumb {
+  background-color: $scheme-others;
+  outline: 1px solid $scheme-primary;
+  border-radius: 15px;
+}
+
+body::-webkit-scrollbar {
+  @extend .my-scrollbar;
+}
+
+body::-webkit-scrollbar-track {
+  @extend .my-scrollbar-track;
+}
+
+body::-webkit-scrollbar-thumb {
+  @extend .my-scrollbar-thumb;
+}
+
+.modal::-webkit-scrollbar {
+  @extend .my-scrollbar;
+}
+
+.modal::-webkit-scrollbar-track {
+  @extend .my-scrollbar-track;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  @extend .my-scrollbar-thumb;
+}

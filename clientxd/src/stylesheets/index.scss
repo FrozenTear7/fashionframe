@@ -1,0 +1,138 @@
+// Variable definitions
+
+$scheme-primary: #222831;
+$scheme-secondary: #393e46;
+$scheme-others: #eeeeee;
+$scheme-text: #00adb5;
+$collapse-button-font-size: 30px;
+$collapse-button-border-radius: 20px;
+
+$theme-colors: (
+  "primary": $scheme-text,
+  "secondary": $scheme-others
+);
+
+@import "~bootstrap/scss/bootstrap";
+@import "./navbar.scss";
+@import "./scrollbar.scss";
+
+/* roboto-regular - latin */
+@font-face {
+  font-family: "Roboto";
+  font-style: normal;
+  font-weight: 400;
+  src: local("Roboto"), local("Roboto-Regular"),
+    url("../fonts/roboto-v20-latin-regular.woff2") format("woff2"),
+    /* Chrome 26+, Opera 23+, Firefox 39+ */
+      url("../fonts/roboto-v20-latin-regular.woff") format("woff"); /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+body {
+  font-family: Roboto;
+  background-color: $scheme-primary !important;
+  color: $scheme-text !important;
+}
+
+.main-body {
+  padding: 5%;
+}
+
+.center {
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.center-margin {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.center-half {
+  @extend .center-margin;
+  max-width: 50%;
+}
+
+.frame-fashion {
+  width: "100%";
+  height: "100%";
+  object-fit: "cover";
+  overflow: "hidden";
+}
+
+.card-body {
+  background-color: $scheme-secondary;
+}
+
+.collapse-button-dark {
+  border-top-left-radius: $collapse-button-border-radius;
+  border-top-right-radius: $collapse-button-border-radius;
+  border: 1px solid $scheme-text;
+  background-color: $scheme-secondary;
+  font-size: $collapse-button-font-size;
+}
+
+.card-body {
+  border-radius: 0px;
+}
+
+.divider {
+  background-color: $scheme-others;
+}
+
+.transparent-checkered {
+  background-image: linear-gradient(45deg, #808080 25%, transparent 25%),
+    linear-gradient(-45deg, #808080 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #808080 75%),
+    linear-gradient(-45deg, transparent 75%, #808080 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+}
+
+.search-thumbnail {
+  max-width: 450px;
+  max-height: 450px;
+  object-fit: cover;
+  border: 1px solid $scheme-others;
+}
+
+.setup-image {
+  max-width: 1080px;
+  max-height: 500px;
+  object-fit: cover;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border: 1px solid $scheme-others;
+}
+
+.list-group-item {
+  background-color: $scheme-secondary;
+}
+
+.search-list-item {
+  list-style-type: none;
+  float: left;
+  border: 2px solid $scheme-text;
+  border-color: $scheme-others;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 15px;
+}
+
+.color-button {
+  width: 50px;
+  height: 50px;
+  border: 1px solid $scheme-others;
+  border-radius: 5px;
+  border-color: "#FFFFFF";
+}
+
+.modal-content {
+  background-color: $scheme-primary;
+}
+
+.list-group-item {
+  border: 1px solid $scheme-others;
+}
