@@ -21,8 +21,7 @@ const serverUrl =
 const app = express();
 
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "app/public")));
-app.use(express.static(path.join(__dirname, "app/client/build")));
+app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cookieSession({
     keys: [process.env.COOKIE_KEY],
@@ -49,7 +48,7 @@ app.use("/api", warframeRoutes);
 app.use("/setups", setupRoutes);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 
 app.listen(process.env.PORT, () =>
