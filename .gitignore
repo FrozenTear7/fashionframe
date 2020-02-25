@@ -9,7 +9,7 @@
 !.vscode/extensions.json
 *.code-workspace
 
-backend/public/warframe_data/colors*
+public/warframe_data/colors*
 
 # Express
 
