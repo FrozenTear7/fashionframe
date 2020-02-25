@@ -9,9 +9,7 @@ The app is still in development and is being maintained.
 
 If you have any issues regarding the application create an [Issue](https://github.com/FrozenTear7/fashionframe/issues)
 
-Application's server is deployed on **Heroku** on a free plan, meaning there is monthly hour limit the server can be up, so if the app gets really popular and runs 24/7 I will look a better alternative.
-
-Application's frontend is deployed on **Github Pages** I currently haven't bought my own domain and since I don't plan putting ads on the app I will probably stay that way.
+Application is deployed on **Heroku** on a free plan, meaning there is monthly hour limit the server can be up, so if the app gets really popular and runs 24/7 I will look a better alternative.
 
 If you want to show your support please give the project a **Star** it means a lot.
 

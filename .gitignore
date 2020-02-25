@@ -9,7 +9,7 @@
 !.vscode/extensions.json
 *.code-workspace
 
-backend/public/warframe_data/colors*
+public/warframe_data/colors*
 
 # Express
 
@@ -54,7 +54,7 @@ benchmarks/graphs
 /coverage
 
 # production
-/build
+# /build
 
 # misc
 .DS_Store
@@ -70,7 +70,7 @@ yarn-error.log*
 .idea/
 .vscode/
 node_modules/
-build
+# build
 .DS_Store
 *.tgz
 my-app*
