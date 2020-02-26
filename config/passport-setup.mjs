@@ -4,7 +4,11 @@ import GoogleStrategy from "passport-google-oauth20";
 import TwitchStrategy from "passport-twitch-new";
 import FacebookStrategy from "passport-facebook";
 import pool from "./db-connect.mjs";
-import { getUserById, createUser } from "../model/usersModel.mjs";
+import {
+  getUserById,
+  getUserBySocialId,
+  createUserSocial
+} from "../model/usersModel.mjs";
 
 dotenv.config();
 
@@ -33,10 +37,13 @@ const findUserOrCreate = async profile => {
   let user = null;
 
   try {
-    user = await getUserById(client, [profile.id]);
+    user = await getUserBySocialId(client, [profile.provider + profile.id]);
 
     if (!user) {
-      user = await createUser(client, [profile.id, profile.displayName]);
+      user = await createUserSocial(client, [
+        profile.displayName,
+        profile.provider + profile.id
+      ]);
       user = { ...user, redirectSettings: true };
     }
   } catch (err) {
