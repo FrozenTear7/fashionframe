@@ -121,18 +121,46 @@ router.get(
   }
 );
 
-// Facebook
+// Steam
 
 router.get(
-  "/facebook",
-  passport.authenticate("facebook", {
-    scope: ["user_about_me"]
-  })
+  "/steam",
+  passport.authenticate("steam", { failureRedirect: redirectSigninUrl })
 );
 
 router.get(
-  "/facebook/redirect",
-  passport.authenticate("facebook", {
+  "/steam/redirect",
+  passport.authenticate("steam", {
+    failureRedirect: redirectSigninUrl
+  }),
+  (req, res) => {
+    if (req.user.redirectSettings) res.redirect(redirectSettingsUrl);
+    else res.redirect(redirectMainUrl);
+  }
+);
+
+// Twitter
+
+router.get("/twitter", passport.authenticate("twitter"));
+
+router.get(
+  "/twitter/redirect",
+  passport.authenticate("twitter", {
+    failureRedirect: redirectSigninUrl
+  }),
+  (req, res) => {
+    if (req.user.redirectSettings) res.redirect(redirectSettingsUrl);
+    else res.redirect(redirectMainUrl);
+  }
+);
+
+// Github
+
+router.get("/github", passport.authenticate("github"));
+
+router.get(
+  "/github/redirect",
+  passport.authenticate("github", {
     failureRedirect: redirectSigninUrl
   }),
   (req, res) => {

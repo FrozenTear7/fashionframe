@@ -35,28 +35,46 @@ class NotFound extends Component {
             <li className="social-media-list-item">
               <a
                 className="btn btn-primary btn-lg"
-                href={serverUrl + "/auth/google"}
+                href={localUrl + "/auth/google"}
                 role="button"
               >
-                <span> </span> <i className="fa fa-google-plus"></i>
+                <i className="fa fa-google-plus"></i>
               </a>
             </li>
             <li className="social-media-list-item">
               <a
                 className="btn btn-primary btn-lg"
-                href={serverUrl + "/auth/twitchtv"}
+                href={localUrl + "/auth/twitchtv"}
                 role="button"
               >
-                <span> </span> <i className="fa fa-twitch"></i>
+                <i className="fa fa-twitch"></i>
               </a>
             </li>
             <li className="social-media-list-item">
               <a
                 className="btn btn-primary btn-lg"
-                href={serverUrl + "/auth/facebook"}
+                href={localUrl + "/auth/steam"}
                 role="button"
               >
-                <span> </span> <i className="fa fa-facebook"></i>
+                <i className="fa fa-steam"></i>
+              </a>
+            </li>
+            <li className="social-media-list-item">
+              <a
+                className="btn btn-primary btn-lg"
+                href={localUrl + "/auth/twitter"}
+                role="button"
+              >
+                <i className="fa fa-twitter"></i>
+              </a>
+            </li>
+            <li className="social-media-list-item">
+              <a
+                className="btn btn-primary btn-lg"
+                href={localUrl + "/auth/github"}
+                role="button"
+              >
+                <i className="fa fa-github"></i>
               </a>
             </li>
           </ul>

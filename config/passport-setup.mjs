@@ -3,7 +3,9 @@ import passport from "passport";
 import LocalStrategy from "passport-local";
 import GoogleStrategy from "passport-google-oauth20";
 import TwitchStrategy from "passport-twitch-new";
-import FacebookStrategy from "passport-facebook";
+import SteamStrategy from "passport-steam";
+import TwitterStrategy from "passport-twitter";
+import GithubStrategy from "passport-github";
 import bcrypt from "bcrypt";
 import pool from "./db-connect.mjs";
 import {
@@ -15,6 +17,11 @@ import {
 } from "../model/usersModel.mjs";
 
 dotenv.config();
+
+const mainUrl =
+  process.env.MODE === "server"
+    ? "https://fashionframe.herokuapp.com"
+    : "http://localhost:3001";
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -155,17 +162,45 @@ passport.use(
 );
 
 passport.use(
-  new FacebookStrategy.Strategy(
+  new SteamStrategy(
     {
-      clientID: process.env.FACEBOOK_CLIENT_ID,
-      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-      callbackURL: "/auth/facebook/redirect",
-      scope: "user_read"
+      apiKey: process.env.STEAM_API_KEY,
+      realm: mainUrl,
+      returnURL: mainUrl + "/auth/steam/redirect"
+    },
+    async (identifier, profile, done) => {
+      const user = await findUserOrCreateSocial(profile);
+
+      done(null, user);
+    }
+  )
+);
+
+passport.use(
+  new TwitterStrategy(
+    {
+      consumerKey: process.env.TWITTER_API_KEY,
+      consumerSecret: process.env.TWITTER_SECRET_KEY,
+      callbackURL: mainUrl + "/auth/twitter/redirect"
+    },
+    async (token, tokenSecret, profile, done) => {
+      profile = { ...profile, displayName: profile.username };
+      const user = await findUserOrCreateSocial(profile);
+
+      done(null, user);
+    }
+  )
+);
+
+passport.use(
+  new GithubStrategy.Strategy(
+    {
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      callbackURL: mainUrl + "/auth/github/redirect"
     },
     async (accessToken, refreshToken, profile, done) => {
-      profile = { ...profile, displayName: profile.login };
-      console.log(profile);
-
+      profile = { ...profile, displayName: profile.username };
       const user = await findUserOrCreateSocial(profile);
 
       done(null, user);
