@@ -54,7 +54,7 @@ benchmarks/graphs
 /coverage
 
 # production
-# /build
+build/
 
 # misc
 .DS_Store
@@ -70,7 +70,6 @@ yarn-error.log*
 .idea/
 .vscode/
 node_modules/
-# build
 .DS_Store
 *.tgz
 my-app*
