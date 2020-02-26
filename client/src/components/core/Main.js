@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute.js";
-import SignIn from "./SignIn.js";
+import SignIn from "./signin/SignIn.js";
 import NotFound from "./NotFound.js";
 import Settings from "./Settings.js";
 import NewSetup from "../setups/NewSetup.js";

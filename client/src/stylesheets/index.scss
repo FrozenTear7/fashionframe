@@ -136,3 +136,15 @@ body {
 .list-group-item {
   border: 1px solid $scheme-others;
 }
+
+ul {
+  list-style-type: none;
+}
+
+.social-media-list-item {
+  margin: 5px;
+}
+
+.text-error {
+  color: #c42121;
+}

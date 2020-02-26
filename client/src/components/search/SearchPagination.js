@@ -64,6 +64,7 @@ class SearchPagination extends Component {
             this.props.currentFetchPage
           ).map(i => (
             <li
+              key={i}
               className={
                 i + 1 === this.props.currentFetchPage
                   ? "page-item active"

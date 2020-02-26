@@ -18,8 +18,6 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await getUserById(client, [id]);
 
-    console.log(user);
-
     done(null, user);
   } catch (err) {
     console.log(err);
@@ -29,6 +27,8 @@ passport.deserializeUser(async (id, done) => {
 });
 
 const findUserOrCreate = async profile => {
+  console.log(profile);
+
   const client = await pool.connect();
   let user = null;
 
@@ -37,6 +37,7 @@ const findUserOrCreate = async profile => {
 
     if (!user) {
       user = await createUser(client, [profile.id, profile.displayName]);
+      user = { ...user, redirectSettings: true };
     }
   } catch (err) {
     console.error(err);

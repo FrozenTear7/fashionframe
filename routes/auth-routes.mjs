@@ -12,16 +12,17 @@ const router = express.Router();
 const redirectMainUrl =
   process.env.MODE === "server"
     ? "https://fashionframe.herokuapp.com/fashionframe"
-    : "http://localhost:3001/fashionframe";
+    : "http://localhost:3000/fashionframe";
 const redirectSigninUrl =
   process.env.MODE === "server"
     ? "https://fashionframe.herokuapp.com/fashionframe/signin"
-    : "http://localhost:3001/fashionframe/signin";
+    : "http://localhost:3000/fashionframe/signin";
+const redirectSettingsUrl =
+  process.env.MODE === "server"
+    ? "https://fashionframe.herokuapp.com/fashionframe/settings"
+    : "http://localhost:3000/fashionframe/settings";
 
 router.get("/user", (req, res) => {
-  console.log("User: ");
-  console.log(req.user);
-
   if (req.user) {
     res.send(req.user);
   } else {
@@ -73,7 +74,9 @@ router.get(
     failureRedirect: redirectSigninUrl
   }),
   (req, res) => {
-    res.redirect(redirectMainUrl);
+    console.log(req.user);
+    if (req.user.redirectSettings) res.redirect(redirectSettingsUrl);
+    else res.redirect(redirectMainUrl);
   }
 );
 
@@ -92,7 +95,8 @@ router.get(
     failureRedirect: redirectSigninUrl
   }),
   (req, res) => {
-    res.redirect(redirectMainUrl);
+    if (req.user.redirectSettings) res.redirect(redirectSettingsUrl);
+    else res.redirect(redirectMainUrl);
   }
 );
 
@@ -111,7 +115,8 @@ router.get(
     failureRedirect: redirectSigninUrl
   }),
   (req, res) => {
-    res.redirect(redirectMainUrl);
+    if (req.user.redirectSettings) res.redirect(redirectSettingsUrl);
+    else res.redirect(redirectMainUrl);
   }
 );
 

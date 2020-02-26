@@ -163,7 +163,7 @@ class Navbar extends Component {
               )}
               {this.props.isAuthorized && (
                 <li className="nav-item">
-                  <a className="nav-link" href={"/auth/logout"}>
+                  <a className="nav-link" href={localUrl + "/auth/logout"}>
                     Sign out
                   </a>
                 </li>

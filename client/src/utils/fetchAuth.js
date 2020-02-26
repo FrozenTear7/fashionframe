@@ -7,9 +7,9 @@ export const fetchAuth = (path, options) => {
   // eslint-disable-next-line no-unused-vars
   const frontendDeployUrl = "https://fashionframe.herokuapp.com/fashionframe";
   // eslint-disable-next-line no-unused-vars
-  const frontendLocalUrl = "http://localhost:3001/fashionframe";
+  const frontendLocalUrl = "http://localhost:3000/fashionframe";
 
-  let requestURL = new URL(serverUrl + path);
+  let requestURL = new URL(localUrl + path);
 
   return fetch(requestURL, {
     ...options,
@@ -17,7 +17,7 @@ export const fetchAuth = (path, options) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": frontendDeployUrl,
+      "Access-Control-Allow-Origin": frontendLocalUrl,
       "Access-Control-Allow-Credentials": true
     }
   });

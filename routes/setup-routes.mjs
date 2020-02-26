@@ -39,7 +39,7 @@ dotenv.config();
 const redirectSigninUrl =
   process.env.MODE === "server"
     ? "https://fashionframe.herokuapp.com/fashionframe/signin"
-    : "http://localhost:3001/fashionframe/signin";
+    : "http://localhost:3000/fashionframe/signin";
 
 const router = express.Router();
 
