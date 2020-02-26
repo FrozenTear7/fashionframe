@@ -74,11 +74,11 @@ class SignInRegisterForm extends Component {
     return (
       <div className="center">
         <form onChange={this.formValueOnChange}>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Username</label>
+          <div className="form-group">
+            <label htmlFor="exampleInputEmail1">Username</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="username"
               placeholder="Username"
             />
@@ -86,11 +86,11 @@ class SignInRegisterForm extends Component {
               <small className="text-error">Username is required</small>
             )}
           </div>
-          <div class="form-group">
-            <label for="password">Password</label>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
             <input
               type="password"
-              class="form-control"
+              className="form-control"
               id="password"
               placeholder="Password"
             />
@@ -100,11 +100,11 @@ class SignInRegisterForm extends Component {
               </small>
             )}
           </div>
-          <div class="form-group">
-            <label for="password2">Confirm password</label>
+          <div className="form-group">
+            <label htmlFor="password2">Confirm password</label>
             <input
               type="password"
-              class="form-control"
+              className="form-control"
               id="password2"
               placeholder="Password"
             />
@@ -120,7 +120,7 @@ class SignInRegisterForm extends Component {
           )}
           <button
             type="button"
-            class="btn btn-primary"
+            className="btn btn-primary"
             onClick={this.formSubmitRegister}
           >
             Register

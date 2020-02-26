@@ -31,7 +31,7 @@ class NotFound extends Component {
           </button>
           <hr className="my-4" />
           <h4>Or sign in using</h4>
-          <ul class="list-group list-group-horizontal center">
+          <ul className="list-group list-group-horizontal center">
             <li className="social-media-list-item">
               <a
                 className="btn btn-primary btn-lg"

@@ -63,11 +63,11 @@ class SignInLoginForm extends Component {
     return (
       <div className="center">
         <form onChange={this.formValueOnChange}>
-          <div class="form-group">
-            <label for="exampleInputEmail1">Username</label>
+          <div className="form-group">
+            <label htmlFor="exampleInputEmail1">Username</label>
             <input
               type="text"
-              class="form-control"
+              className="form-control"
               id="username"
               placeholder="Username"
             />
@@ -75,11 +75,11 @@ class SignInLoginForm extends Component {
               <small className="text-error">Username is required</small>
             )}
           </div>
-          <div class="form-group">
-            <label for="password">Password</label>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
             <input
               type="password"
-              class="form-control"
+              className="form-control"
               id="password"
               placeholder="Password"
             />
@@ -96,7 +96,7 @@ class SignInLoginForm extends Component {
           )}
           <button
             type="button"
-            class="btn btn-primary"
+            className="btn btn-primary"
             onClick={this.formSubmitLogin}
           >
             Login
