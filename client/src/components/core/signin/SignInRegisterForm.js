@@ -76,7 +76,7 @@ class SignInRegisterForm extends Component {
     } = this.state;
 
     if (loginRedirect) {
-      window.location.href = "/fashionframe/";
+      window.location.replace("/fashionframe/");
     }
 
     return (
