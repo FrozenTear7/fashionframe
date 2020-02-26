@@ -45,11 +45,14 @@ class SignInRegisterForm extends Component {
           })
         });
 
-        if (!res.ok) {
+        if (res.ok) {
+          this.setState({
+            loginRedirect: true
+          });
+        } else {
           const resJson = await res.json();
 
           this.setState({
-            loginRedirect: true,
             error: resJson.message
           });
         }

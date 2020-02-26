@@ -37,7 +37,8 @@
   "scripts": {
     "start": "node --experimental-json-modules index.mjs",
     "start-local": "nodemon --experimental-json-modules index.mjs",
-    "precommit": "pretty-quick --staged"
+    "precommit": "pretty-quick --staged",
+    "build": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "type": "module"
 }
