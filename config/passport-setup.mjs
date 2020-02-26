@@ -35,8 +35,6 @@ passport.deserializeUser(async (id, done) => {
 });
 
 const findUserOrCreateSocial = async profile => {
-  console.log(profile);
-
   const client = await pool.connect();
   let user = null;
 
@@ -54,6 +52,7 @@ const findUserOrCreateSocial = async profile => {
     console.error(err);
   } finally {
     client.release();
+    console.log(user);
     return user;
   }
 };
@@ -66,11 +65,8 @@ const findUserLocal = async (username, password) => {
     const userData = await getUserByUsername(client, [username]);
 
     if (userData) {
-      bcrypt.compare(password, userData.password, (err, res) => {
-        if (res) {
-          user = { id: userData.id, username: userData.username };
-        }
-      });
+      const res = await bcrypt.compare(password, userData.password);
+      if (res) user = { id: userData.id, username: userData.username };
     }
   } catch (err) {
     console.error(err);
@@ -86,9 +82,8 @@ const createUserLocal = async (username, password, password2) => {
 
   try {
     if (password === password2) {
-      bcrypt.hash(password, 10, async (err, hash) => {
-        user = await createUser(client, [username, hash]);
-      });
+      const hash = await bcrypt.hash(password, 10);
+      user = await createUser(client, [username, hash]);
     }
   } catch (err) {
     console.error(err);
@@ -101,7 +96,6 @@ const createUserLocal = async (username, password, password2) => {
 passport.use(
   "local-login",
   new LocalStrategy.Strategy(async (username, password, done) => {
-    console.log(username, password);
     const user = await findUserLocal(username, password);
 
     done(null, user);

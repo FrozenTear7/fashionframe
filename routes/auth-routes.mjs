@@ -61,18 +61,11 @@ router.get("/logout", (req, res) => {
 
 // Local
 
-// router.post(
-//   "/local/register",
-//   passport.authenticate("local", { failureRedirect: redirectSigninUrl }),
-//   (req, res) => {
-//     res.redirect(redirectMainUrl);
-//   }
-// );
-
 router.post(
   "/local/login",
   passport.authenticate("local-login", { failureRedirect: redirectSigninUrl }),
   (req, res) => {
+    console.log(req.user);
     res.redirect(redirectMainUrl);
   }
 );
@@ -83,6 +76,7 @@ router.post(
     failureRedirect: redirectSigninUrl
   }),
   (req, res) => {
+    console.log(req.user);
     res.redirect(redirectMainUrl);
   }
 );
