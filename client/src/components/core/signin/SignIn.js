@@ -35,7 +35,7 @@ class NotFound extends Component {
             <li className="social-media-list-item">
               <a
                 className="btn btn-primary btn-lg"
-                href={localUrl + "/auth/google"}
+                href={serverUrl + "/auth/google"}
                 role="button"
               >
                 <span> </span> <i className="fa fa-google-plus"></i>
@@ -44,7 +44,7 @@ class NotFound extends Component {
             <li className="social-media-list-item">
               <a
                 className="btn btn-primary btn-lg"
-                href={localUrl + "/auth/twitchtv"}
+                href={serverUrl + "/auth/twitchtv"}
                 role="button"
               >
                 <span> </span> <i className="fa fa-twitch"></i>
@@ -53,7 +53,7 @@ class NotFound extends Component {
             <li className="social-media-list-item">
               <a
                 className="btn btn-primary btn-lg"
-                href={localUrl + "/auth/facebook"}
+                href={serverUrl + "/auth/facebook"}
                 role="button"
               >
                 <span> </span> <i className="fa fa-facebook"></i>
