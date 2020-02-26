@@ -57,13 +57,13 @@ class SignInLoginForm extends Component {
     const {
       username,
       password,
-      logoutRedirect,
+      loginRedirect,
       error,
       showValidationMessages
     } = this.state;
 
-    if (logoutRedirect) {
-      this.setState({ logoutRedirect: false });
+    if (loginRedirect) {
+      this.setState({ loginRedirect: false });
       return <Redirect push to="/fashionframe/" />;
     }
 

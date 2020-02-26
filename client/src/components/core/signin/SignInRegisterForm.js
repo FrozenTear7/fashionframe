@@ -14,7 +14,7 @@ class SignInRegisterForm extends Component {
       username: "",
       password: "",
       password2: "",
-      logoutRedirect: false,
+      loginRedirect: false,
       error: "",
       showValidationMessages: false
     };
@@ -49,7 +49,7 @@ class SignInRegisterForm extends Component {
           const resJson = await res.json();
 
           this.setState({
-            logoutRedirect: true,
+            loginRedirect: true,
             error: resJson.message
           });
         }
@@ -68,13 +68,13 @@ class SignInRegisterForm extends Component {
       username,
       password,
       password2,
-      logoutRedirect,
+      loginRedirect,
       error,
       showValidationMessages
     } = this.state;
 
-    if (logoutRedirect) {
-      this.setState({ logoutRedirect: false });
+    if (loginRedirect) {
+      this.setState({ loginRedirect: false });
       return <Redirect push to="/fashionframe/" />;
     }
 
