@@ -36,12 +36,12 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(
-  cors({
-    credentials: true,
-    origin: ["http://localhost:3000", "http://localhost:3001", null]
-  })
-);
+// app.use(
+//   cors({
+//     credentials: true,
+//     origin: ["http://localhost:3000", "http://localhost:3001", null]
+//   })
+// );
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

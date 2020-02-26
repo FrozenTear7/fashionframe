@@ -98,7 +98,8 @@ passport.use(
   new LocalStrategy.Strategy(async (username, password, done) => {
     const user = await findUserLocal(username, password);
 
-    done(null, user);
+    if (user) done(null, user);
+    else done(null, user, "Could not sign in");
   })
 );
 
@@ -115,7 +116,8 @@ passport.use(
         req.body.password2
       );
 
-      done(null, user);
+      if (user) done(null, user);
+      else done(null, user, "Could not register user");
     }
   )
 );

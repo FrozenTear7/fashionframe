@@ -65,8 +65,8 @@ router.post(
   "/local/login",
   passport.authenticate("local-login", { failureRedirect: redirectSigninUrl }),
   (req, res) => {
-    console.log(req.user);
-    res.redirect(redirectMainUrl);
+    if (req.authInfo.message) res.status(400).send(req.authInfo);
+    else res.redirect(redirectMainUrl);
   }
 );
 
@@ -76,8 +76,8 @@ router.post(
     failureRedirect: redirectSigninUrl
   }),
   (req, res) => {
-    console.log(req.user);
-    res.redirect(redirectMainUrl);
+    if (req.authInfo.message) res.status(400).send(req.authInfo);
+    else res.redirect(redirectMainUrl);
   }
 );
 
