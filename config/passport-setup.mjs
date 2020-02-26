@@ -1,12 +1,16 @@
 import dotenv from "dotenv";
 import passport from "passport";
+import LocalStrategy from "passport-local";
 import GoogleStrategy from "passport-google-oauth20";
 import TwitchStrategy from "passport-twitch-new";
 import FacebookStrategy from "passport-facebook";
+import bcrypt from "bcrypt";
 import pool from "./db-connect.mjs";
 import {
   getUserById,
+  getUserByUsername,
   getUserBySocialId,
+  createUser,
   createUserSocial
 } from "../model/usersModel.mjs";
 
@@ -30,7 +34,7 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-const findUserOrCreate = async profile => {
+const findUserOrCreateSocial = async profile => {
   console.log(profile);
 
   const client = await pool.connect();
@@ -54,6 +58,74 @@ const findUserOrCreate = async profile => {
   }
 };
 
+const findUserLocal = async (username, password) => {
+  const client = await pool.connect();
+  let user = null;
+
+  try {
+    const userData = await getUserByUsername(client, [username]);
+
+    if (userData) {
+      bcrypt.compare(password, userData.password, (err, res) => {
+        if (res) {
+          user = { id: userData.id, username: userData.username };
+        }
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.release();
+    return user;
+  }
+};
+
+const createUserLocal = async (username, password, password2) => {
+  const client = await pool.connect();
+  let user = null;
+
+  try {
+    if (password === password2) {
+      bcrypt.hash(password, 10, async (err, hash) => {
+        user = await createUser(client, [username, hash]);
+      });
+    }
+  } catch (err) {
+    console.error(err);
+  } finally {
+    client.release();
+    return user;
+  }
+};
+
+passport.use(
+  "local-login",
+  new LocalStrategy.Strategy(async (username, password, done) => {
+    console.log(username, password);
+    const user = await findUserLocal(username, password);
+
+    done(null, user);
+  })
+);
+
+passport.use(
+  "local-register",
+  new LocalStrategy.Strategy(
+    {
+      passReqToCallback: true
+    },
+    async (req, username, password, done) => {
+      const user = await createUserLocal(
+        username,
+        password,
+        req.body.password2
+      );
+
+      done(null, user);
+    }
+  )
+);
+
 passport.use(
   new GoogleStrategy(
     {
@@ -62,7 +134,7 @@ passport.use(
       callbackURL: "/auth/google/redirect"
     },
     async (accessToken, refreshToken, profile, done) => {
-      const user = await findUserOrCreate(profile);
+      const user = await findUserOrCreateSocial(profile);
 
       done(null, user);
     }
@@ -79,7 +151,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       profile = { ...profile, displayName: profile.login };
-      const user = await findUserOrCreate(profile);
+      const user = await findUserOrCreateSocial(profile);
 
       done(null, user);
     }
@@ -98,7 +170,7 @@ passport.use(
       profile = { ...profile, displayName: profile.login };
       console.log(profile);
 
-      const user = await findUserOrCreate(profile);
+      const user = await findUserOrCreateSocial(profile);
 
       done(null, user);
     }

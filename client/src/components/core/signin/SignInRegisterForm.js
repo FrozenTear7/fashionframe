@@ -4,6 +4,7 @@ import {
   isPasswordValid,
   arePasswordsMatching
 } from "../../../utils/validators.js";
+import { fetchAuth } from "../../../utils/fetchAuth";
 
 class SignInRegisterForm extends Component {
   constructor() {
@@ -18,14 +19,14 @@ class SignInRegisterForm extends Component {
     };
 
     this.formValueOnChange = this.formValueOnChange.bind(this);
-    this.formSubmitLogin = this.formSubmitLogin.bind(this);
+    this.formSubmitRegister = this.formSubmitRegister.bind(this);
   }
 
   formValueOnChange(e) {
     this.setState({ [e.target.id]: e.target.value });
   }
 
-  formSubmitLogin(e) {
+  async formSubmitRegister() {
     const { username, password, password2 } = this.state;
 
     if (
@@ -33,12 +34,31 @@ class SignInRegisterForm extends Component {
       isPasswordValid(password) &&
       arePasswordsMatching(password, password2)
     ) {
-      // Register
+      try {
+        const res = await fetchAuth(`/auth/local/register`, {
+          method: "POST",
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            password2: password2
+          })
+        });
+
+        if (!res.ok) {
+          const resJson = await res.json();
+
+          this.setState({
+            error: resJson.message
+          });
+        }
+      } catch (error) {
+        this.setState({
+          error: `Could not sign in`
+        });
+      }
     } else {
       this.setState({ showValidationMessages: true });
     }
-
-    e.preventDefault();
   }
 
   render() {
@@ -53,7 +73,7 @@ class SignInRegisterForm extends Component {
 
     return (
       <div className="center">
-        <form onSubmit={this.formSubmitLogin} onChange={this.formValueOnChange}>
+        <form onChange={this.formValueOnChange}>
           <div class="form-group">
             <label for="exampleInputEmail1">Username</label>
             <input
@@ -98,7 +118,11 @@ class SignInRegisterForm extends Component {
               {error}
             </div>
           )}
-          <button type="submit" class="btn btn-primary">
+          <button
+            type="button"
+            class="btn btn-primary"
+            onClick={this.formSubmitRegister}
+          >
             Register
           </button>
         </form>

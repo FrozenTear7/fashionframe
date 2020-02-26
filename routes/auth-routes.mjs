@@ -59,6 +59,34 @@ router.get("/logout", (req, res) => {
   res.redirect(redirectMainUrl);
 });
 
+// Local
+
+// router.post(
+//   "/local/register",
+//   passport.authenticate("local", { failureRedirect: redirectSigninUrl }),
+//   (req, res) => {
+//     res.redirect(redirectMainUrl);
+//   }
+// );
+
+router.post(
+  "/local/login",
+  passport.authenticate("local-login", { failureRedirect: redirectSigninUrl }),
+  (req, res) => {
+    res.redirect(redirectMainUrl);
+  }
+);
+
+router.post(
+  "/local/register",
+  passport.authenticate("local-register", {
+    failureRedirect: redirectSigninUrl
+  }),
+  (req, res) => {
+    res.redirect(redirectMainUrl);
+  }
+);
+
 // Google
 
 router.get(
@@ -74,7 +102,6 @@ router.get(
     failureRedirect: redirectSigninUrl
   }),
   (req, res) => {
-    console.log(req.user);
     if (req.user.redirectSettings) res.redirect(redirectSettingsUrl);
     else res.redirect(redirectMainUrl);
   }

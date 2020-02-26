@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { isUsernameValid, isPasswordValid } from "../../../utils/validators.js";
+import { fetchAuth } from "../../../utils/fetchAuth";
 
 class SignInLoginForm extends Component {
   constructor() {
@@ -20,16 +21,34 @@ class SignInLoginForm extends Component {
     this.setState({ [e.target.id]: e.target.value });
   }
 
-  formSubmitLogin(e) {
+  async formSubmitLogin() {
     const { username, password } = this.state;
 
     if (isUsernameValid(username) && isPasswordValid(password)) {
-      // Login
+      try {
+        const res = await fetchAuth(`/auth/local/login`, {
+          method: "POST",
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        });
+
+        if (!res.ok) {
+          const resJson = await res.json();
+
+          this.setState({
+            error: resJson.message
+          });
+        }
+      } catch (error) {
+        this.setState({
+          error: `Could not sign in`
+        });
+      }
     } else {
       this.setState({ showValidationMessages: true });
     }
-
-    e.preventDefault();
   }
 
   render() {
@@ -43,7 +62,7 @@ class SignInLoginForm extends Component {
 
     return (
       <div className="center">
-        <form onSubmit={this.formSubmitLogin} onChange={this.formValueOnChange}>
+        <form onChange={this.formValueOnChange}>
           <div class="form-group">
             <label for="exampleInputEmail1">Username</label>
             <input
@@ -75,7 +94,11 @@ class SignInLoginForm extends Component {
               {error}
             </div>
           )}
-          <button type="submit" class="btn btn-primary">
+          <button
+            type="button"
+            class="btn btn-primary"
+            onClick={this.formSubmitLogin}
+          >
             Login
           </button>
         </form>

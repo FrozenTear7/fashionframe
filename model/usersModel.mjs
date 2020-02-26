@@ -7,9 +7,27 @@ export const getUserById = async (client, args) => {
   return user.rows[0];
 };
 
+export const getUserByUsername = async (client, args) => {
+  const user = await client.query(
+    "SELECT id, username, password FROM users WHERE username = $1",
+    args
+  );
+
+  return user.rows[0];
+};
+
 export const getUserBySocialId = async (client, args) => {
   const user = await client.query(
     "SELECT id, username FROM users WHERE social_id = $1",
+    args
+  );
+
+  return user.rows[0];
+};
+
+export const createUser = async (client, args) => {
+  const user = await client.query(
+    "INSERT INTO users (username, password) VALUES ($1, $2) RETURNING id, username",
     args
   );
 
