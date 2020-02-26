@@ -394,12 +394,10 @@ class NewSetup extends Component {
 
   render() {
     if (this.state.createSetupRedirect) {
-      this.setState({ createSetupRedirect: false });
       return <Redirect push to={`/setups/${this.state.setupId}`} />;
     }
 
     if (this.state.deleteSetupRedirect) {
-      this.setState({ deleteSetupRedirect: false });
       return <Redirect push to={`/`} />;
     }
 

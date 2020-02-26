@@ -5,7 +5,6 @@ import {
   arePasswordsMatching
 } from "../../../utils/validators.js";
 import { fetchAuth } from "../../../utils/fetchAuth";
-import { Redirect } from "react-router-dom";
 
 class SignInRegisterForm extends Component {
   constructor() {
@@ -77,8 +76,7 @@ class SignInRegisterForm extends Component {
     } = this.state;
 
     if (loginRedirect) {
-      this.setState({ loginRedirect: false });
-      return <Redirect push to="/fashionframe/" />;
+      window.location.href = "/fashionframe/";
     }
 
     return (

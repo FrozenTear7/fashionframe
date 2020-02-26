@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { isUsernameValid, isPasswordValid } from "../../../utils/validators.js";
 import { fetchAuth } from "../../../utils/fetchAuth";
-import { Redirect } from "react-router-dom";
 
 class SignInLoginForm extends Component {
   constructor() {
@@ -66,8 +65,7 @@ class SignInLoginForm extends Component {
     } = this.state;
 
     if (loginRedirect) {
-      this.setState({ loginRedirect: false });
-      return <Redirect push to="/fashionframe/" />;
+      window.location.href = "/fashionframe/";
     }
 
     return (

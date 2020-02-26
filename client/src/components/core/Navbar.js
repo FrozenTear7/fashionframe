@@ -16,7 +16,6 @@ class Navbar extends Component {
 
   render() {
     if (this.state.logoutRedirect) {
-      this.setState({ logoutRedirect: false });
       return <Redirect push to="/fashionframe/" />;
     }
 
