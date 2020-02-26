@@ -5,6 +5,7 @@ import {
   arePasswordsMatching
 } from "../../../utils/validators.js";
 import { fetchAuth } from "../../../utils/fetchAuth";
+import { Redirect } from "react-router-dom";
 
 class SignInRegisterForm extends Component {
   constructor() {
@@ -13,7 +14,7 @@ class SignInRegisterForm extends Component {
       username: "",
       password: "",
       password2: "",
-      loading: false,
+      logoutRedirect: false,
       error: "",
       showValidationMessages: false
     };
@@ -48,6 +49,7 @@ class SignInRegisterForm extends Component {
           const resJson = await res.json();
 
           this.setState({
+            logoutRedirect: true,
             error: resJson.message
           });
         }
@@ -66,10 +68,15 @@ class SignInRegisterForm extends Component {
       username,
       password,
       password2,
-      loading,
+      logoutRedirect,
       error,
       showValidationMessages
     } = this.state;
+
+    if (logoutRedirect) {
+      this.setState({ logoutRedirect: false });
+      return <Redirect push to="/fashionframe/" />;
+    }
 
     return (
       <div className="center">

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { isUsernameValid, isPasswordValid } from "../../../utils/validators.js";
 import { fetchAuth } from "../../../utils/fetchAuth";
+import { Redirect } from "react-router-dom";
 
 class SignInLoginForm extends Component {
   constructor() {
@@ -8,7 +9,7 @@ class SignInLoginForm extends Component {
     this.state = {
       username: "",
       password: "",
-      loading: false,
+      loginRedirect: false,
       error: "",
       showValidationMessages: false
     };
@@ -38,6 +39,7 @@ class SignInLoginForm extends Component {
           const resJson = await res.json();
 
           this.setState({
+            loginRedirect: true,
             error: resJson.message
           });
         }
@@ -55,10 +57,15 @@ class SignInLoginForm extends Component {
     const {
       username,
       password,
-      loading,
+      logoutRedirect,
       error,
       showValidationMessages
     } = this.state;
+
+    if (logoutRedirect) {
+      this.setState({ logoutRedirect: false });
+      return <Redirect push to="/fashionframe/" />;
+    }
 
     return (
       <div className="center">
