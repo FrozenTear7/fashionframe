@@ -20,7 +20,7 @@ class SetupTopPanel extends Component {
               to={`/fashionframe/profile/${setup.user_id}`}
               className="btn btn-primary"
             >
-              Check user's profile
+              Check user's other setups
             </Link>
             <br />
             <small>

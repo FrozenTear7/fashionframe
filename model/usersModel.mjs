@@ -49,7 +49,7 @@ export const updateUserUsername = async (client, args) => {
 
 export const getUserProfileInfoById = async (client, args) => {
   const userInfo = await client.query(
-    "SELECT u.username, (SELECT COUNT(*) FROM setups_users WHERE user_id = $1) AS likes FROM users u WHERE u.id = $1",
+    "SELECT u.username, (SELECT COUNT(*) FROM setups_users su JOIN setups s ON su.setup_id = s.id WHERE s.user_id = $1) AS likes FROM users u WHERE u.id = $1",
     args
   );
 

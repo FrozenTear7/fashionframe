@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { fetchAuth } from "../../utils/fetchAuth";
+import Loading from "../utils/Loading";
 
 class Profile extends Component {
   constructor() {
@@ -57,17 +58,21 @@ class Profile extends Component {
     const { userInfo } = this.state;
     const { username, likes } = userInfo.data;
 
-    return (
-      <div>
-        <h1>{username}'s profile</h1>
-        <br />
-        <h4>
-          Total likes: {likes}
-          <i className="fa fa-star"></i>
-        </h4>
-        <hr className="divider" />
-      </div>
-    );
+    if (userInfo.loading) {
+      return <Loading />;
+    } else {
+      return (
+        <div>
+          <h1>{username}'s profile</h1>
+          <br />
+          <h4>
+            Total likes: {likes}
+            <i className="fa fa-star"></i>
+          </h4>
+          <hr className="divider" />
+        </div>
+      );
+    }
   }
 }
 
