@@ -18,67 +18,65 @@ class NotFound extends Component {
   render() {
     return (
       <div className="center-half">
-        <div className="jumbotron">
-          <h1 className="display-4">Sign in</h1>
-          <br />
-          {this.state.loginMode ? <SignInLoginForm /> : <SignInRegisterForm />}
-          <br />
-          <button
-            className="btn-sm btn-primary"
-            onClick={() => this.setState({ loginMode: !this.state.loginMode })}
-          >
-            <small>{this.state.loginMode ? "Register" : "Login"}</small>
-          </button>
-          <hr className="my-4" />
-          <h4>Or sign in using</h4>
-          <ul className="list-group list-group-horizontal center">
-            <li className="social-media-list-item">
-              <a
-                className="btn btn-primary btn-lg"
-                href={localUrl + "/auth/google"}
-                role="button"
-              >
-                <i className="fa fa-google-plus"></i>
-              </a>
-            </li>
-            <li className="social-media-list-item">
-              <a
-                className="btn btn-primary btn-lg"
-                href={localUrl + "/auth/twitchtv"}
-                role="button"
-              >
-                <i className="fa fa-twitch"></i>
-              </a>
-            </li>
-            <li className="social-media-list-item">
-              <a
-                className="btn btn-primary btn-lg"
-                href={localUrl + "/auth/steam"}
-                role="button"
-              >
-                <i className="fa fa-steam"></i>
-              </a>
-            </li>
-            <li className="social-media-list-item">
-              <a
-                className="btn btn-primary btn-lg"
-                href={localUrl + "/auth/twitter"}
-                role="button"
-              >
-                <i className="fa fa-twitter"></i>
-              </a>
-            </li>
-            <li className="social-media-list-item">
-              <a
-                className="btn btn-primary btn-lg"
-                href={localUrl + "/auth/github"}
-                role="button"
-              >
-                <i className="fa fa-github"></i>
-              </a>
-            </li>
-          </ul>
-        </div>
+        <h1 className="display-4">Sign in</h1>
+        <br />
+        {this.state.loginMode ? <SignInLoginForm /> : <SignInRegisterForm />}
+        <br />
+        <button
+          className="btn-sm btn-primary"
+          onClick={() => this.setState({ loginMode: !this.state.loginMode })}
+        >
+          <small>{this.state.loginMode ? "Register" : "Login"}</small>
+        </button>
+        <hr className="my-4" />
+        <h4>Or sign in using</h4>
+        <ul className="list-group list-group-horizontal center">
+          <li className="social-media-list-item">
+            <a
+              className="btn btn-primary btn-lg"
+              href={localUrl + "/auth/google"}
+              role="button"
+            >
+              <i className="fa fa-google-plus"></i>
+            </a>
+          </li>
+          <li className="social-media-list-item">
+            <a
+              className="btn btn-primary btn-lg"
+              href={localUrl + "/auth/twitchtv"}
+              role="button"
+            >
+              <i className="fa fa-twitch"></i>
+            </a>
+          </li>
+          <li className="social-media-list-item">
+            <a
+              className="btn btn-primary btn-lg"
+              href={localUrl + "/auth/steam"}
+              role="button"
+            >
+              <i className="fa fa-steam"></i>
+            </a>
+          </li>
+          <li className="social-media-list-item">
+            <a
+              className="btn btn-primary btn-lg"
+              href={localUrl + "/auth/twitter"}
+              role="button"
+            >
+              <i className="fa fa-twitter"></i>
+            </a>
+          </li>
+          <li className="social-media-list-item">
+            <a
+              className="btn btn-primary btn-lg"
+              href={localUrl + "/auth/github"}
+              role="button"
+            >
+              <i className="fa fa-github"></i>
+            </a>
+          </li>
+        </ul>
       </div>
     );
   }

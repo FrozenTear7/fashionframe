@@ -5,7 +5,7 @@ import SignIn from "./signin/SignIn.js";
 import NotFound from "./NotFound.js";
 import Settings from "./Settings.js";
 import NewSetup from "../setups/NewSetup.js";
-import SearchList from "../search/SearchList.js";
+import Search from "../search/Search.js";
 import Setup from "../setups/Setup.js";
 
 class Main extends Component {
@@ -13,7 +13,7 @@ class Main extends Component {
     return (
       <div className="container-fluid main-body">
         <Switch>
-          <Route exact path="/fashionframe/" component={SearchList} />
+          <Route exact path="/fashionframe/" component={Search} />
           <Route exact path="/fashionframe/signin" component={SignIn} />
           <PrivateRoute
             exact
