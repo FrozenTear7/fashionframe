@@ -15,10 +15,46 @@ export const getSetupList = async (client, args, frame, orderBy, order) => {
   return setupListInfo.rows;
 };
 
+export const getLikedSetupList = async (
+  client,
+  args,
+  frame,
+  orderBy,
+  order
+) => {
+  let setupsQueryString =
+    "SELECT u.username, s.id, s.name, s.screenshot, s.frame, s.created_at, (SELECT COUNT(*) FROM setups_users WHERE setup_id = s.id) AS liked FROM setups s\n" +
+    "JOIN users u ON u.id = s.user_id WHERE EXISTS(SELECT 1 FROM setups_users WHERE user_id = $3 AND setup_id = s.id)";
+
+  if (frame && frames.frames.includes(frame))
+    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+
+  setupsQueryString += ` ORDER BY ${orderBy} ${order} LIMIT $1 OFFSET $2`;
+
+  const setupListInfo = await client.query(setupsQueryString, args);
+
+  return setupListInfo.rows;
+};
+
+export const getUserSetupList = async (client, args, frame, orderBy, order) => {
+  let setupsQueryString =
+    "SELECT u.username, s.id, s.name, s.screenshot, s.frame, s.created_at, (SELECT COUNT(*) FROM setups_users WHERE setup_id = s.id) AS liked FROM setups s\n" +
+    "JOIN users u ON u.id = s.user_id WHERE s.user_id = $3";
+
+  if (frame && frames.frames.includes(frame))
+    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+
+  setupsQueryString += ` ORDER BY ${orderBy} ${order} LIMIT $1 OFFSET $2`;
+
+  const setupListInfo = await client.query(setupsQueryString, args);
+
+  return setupListInfo.rows;
+};
+
 export const getSetupBySetupId = async (client, args) => {
   const setup = await client.query(
     "SELECT u.username, s.*, (SELECT COUNT(*) FROM setups_users WHERE setup_id = $1) AS liked,\n" +
-      "EXISTS(SELECT 1 FROM setups_users WHERE setup_id = $1) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $1",
+      "EXISTS(SELECT 1 FROM setups_users WHERE setup_id = $1 AND user_id = $2) AS likedbyyou FROM setups s JOIN users u ON u.id = s.user_id WHERE s.id = $1",
     args
   );
 

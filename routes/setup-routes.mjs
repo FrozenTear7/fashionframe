@@ -82,7 +82,7 @@ router.get("/:id", async (req, res) => {
   const client = await pool.connect();
 
   try {
-    const setup = await getSetupBySetupId(client, [req.params.id]);
+    const setup = await getSetupBySetupId(client, [req.params.id, req.user_id]);
 
     const attachments = await getAttachmentsById(client, [setup.id]);
     const syandana = await getSyandanaById(client, [setup.id]);

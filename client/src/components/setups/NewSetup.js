@@ -394,11 +394,13 @@ class NewSetup extends Component {
 
   render() {
     if (this.state.createSetupRedirect) {
-      return <Redirect push to={`/setups/${this.state.setupId}`} />;
+      return (
+        <Redirect push to={`/fashionframe/setups/${this.state.setupId}`} />
+      );
     }
 
     if (this.state.deleteSetupRedirect) {
-      return <Redirect push to={`/`} />;
+      return <Redirect push to={`/fashionframe/`} />;
     }
 
     if (
