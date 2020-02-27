@@ -24,15 +24,18 @@ class ColorPicker extends Component {
   }
 
   render() {
+    const { colorName, colors, buttonColorOnClick, color } = this.props;
+    const { colorPicker } = this.state;
+
     return (
       <div>
         <ul className="list-inline">
           <li className="list-inline-item">
             <div style={{ width: "175px" }}>
-              {this.props.colorName}
+              {colorName}
               <Select
                 defaultValue={mapToOption("Classic")}
-                options={mapToOptions(Object.keys(this.props.colors))}
+                options={mapToOptions(Object.keys(colors))}
                 onChange={e => this.setState({ colorPicker: e.value })}
               />
             </div>
@@ -45,24 +48,20 @@ class ColorPicker extends Component {
               overlay={
                 <Popover id="popover-basic" title="Change color">
                   <GithubPicker
-                    onChangeComplete={this.props.buttonColorOnClick}
+                    onChangeComplete={buttonColorOnClick}
                     triangle="hide"
                     width="138px"
-                    colors={this.props.colors[this.state.colorPicker]}
+                    colors={colors[colorPicker]}
                   />
                 </Popover>
               }
             >
               <Button
                 className={
-                  !this.props.color
-                    ? "transparent-checkered color-button"
-                    : "color-button"
+                  !color ? "transparent-checkered color-button" : "color-button"
                 }
                 style={{
-                  backgroundColor: this.props.color
-                    ? this.props.color
-                    : "#d1d1d1"
+                  backgroundColor: color ? color : "#d1d1d1"
                 }}
               />
             </OverlayTrigger>

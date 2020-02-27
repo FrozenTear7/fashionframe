@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router";
-import { fetchAuth } from "../../utils/fetchAuth";
+import { fetchAuth } from "../../../utils/fetchAuth";
 import NewSetupPhysique from "./NewSetupPhysique";
 import NewSetupAttachments from "./NewSetupAttachments";
 import NewSetupColors from "./NewSetupColors";
 import NewSetupTopPanel from "./NewSetupTopPanel";
 import NewSetupDescription from "./NewSetupDescription";
 import NewSetupSyandana from "./NewSetupSyandana";
-import Loading from "../utils/Loading";
+import Loading from "../../utils/Loading";
 
 class NewSetup extends Component {
   constructor(props) {
@@ -364,8 +364,8 @@ class NewSetup extends Component {
     this.setState({
       setup: {
         ...this.state.setup,
-        syandanaOnChange: {
-          ...this.state.setup.syandanaOnChange,
+        syandana: {
+          ...this.state.setup.syandana,
           [elementName]: value
         }
       }

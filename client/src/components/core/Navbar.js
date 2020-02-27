@@ -35,6 +35,14 @@ class Navbar extends Component {
                   New setup
                 </Link>
               )}
+              {this.props.isAuthorized && (
+                <Link
+                  className="nav-item nav-link"
+                  to={`/fashionframe/profile/${this.props.userData.id}`}
+                >
+                  My profile
+                </Link>
+              )}
             </ul>
           </div>
           <div className="mx-auto order-0">
@@ -69,7 +77,6 @@ class Navbar extends Component {
               >
                 About
               </a>
-
               <div
                 className="modal fade"
                 id="aboutModal"

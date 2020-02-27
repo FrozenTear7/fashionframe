@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Select from "react-select";
-import { mapToOption, mapToOptions } from "../../utils/mapToOptions";
+import { mapToOption, mapToOptions } from "../../../utils/mapToOptions";
 
 class NewSetupTopPanel extends Component {
   render() {

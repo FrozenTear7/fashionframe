@@ -4,9 +4,10 @@ import PrivateRoute from "./PrivateRoute.js";
 import SignIn from "./signin/SignIn.js";
 import NotFound from "./NotFound.js";
 import Settings from "./Settings.js";
-import NewSetup from "../setups/NewSetup.js";
+import NewSetup from "../setups/newSetup/NewSetup.js";
 import Search from "../search/Search.js";
-import Setup from "../setups/Setup.js";
+import Setup from "../setups/setup/Setup.js";
+import Profile from "../profile/Profile.js";
 
 class Main extends Component {
   render() {
@@ -14,6 +15,7 @@ class Main extends Component {
       <div className="container-fluid main-body">
         <Switch>
           <Route exact path="/fashionframe/" component={Search} />
+          <Route exact path="/fashionframe/profile/:id" component={Profile} />
           <Route exact path="/fashionframe/signin" component={SignIn} />
           <PrivateRoute
             exact

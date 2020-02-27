@@ -1,6 +1,6 @@
 import React from "react";
 
-function ColorButton(color) {
+const ColorButton = color => {
   return (
     <div
       className={!color ? "color-button transparent-checkered" : "color-button"}
@@ -9,6 +9,6 @@ function ColorButton(color) {
       }}
     />
   );
-}
+};
 
 export default ColorButton;

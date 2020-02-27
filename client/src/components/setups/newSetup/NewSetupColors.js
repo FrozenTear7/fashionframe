@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import ColorPicker from "./ColorPicker";
+import ColorPicker from "../ColorPicker";
 
 const formatName = name => {
   return name.charAt(0).toUpperCase() + name.slice(1);

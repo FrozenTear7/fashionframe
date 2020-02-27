@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Select from "react-select";
-import { mapToOption, mapToOptionsWithNone } from "../../utils/mapToOptions";
+import { mapToOption, mapToOptionsWithNone } from "../../../utils/mapToOptions";
 
 class NewSetupAttachments extends Component {
   shouldComponentUpdate(nextProps, nextState) {
