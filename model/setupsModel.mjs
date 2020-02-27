@@ -61,11 +61,14 @@ export const getSetupBySetupId = async (client, args) => {
   return setup.rows[0];
 };
 
-export const getSetupsCount = async (client, args) => {
-  const setupsCount = await client.query(
-    "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE s.frame = $1",
-    args
-  );
+export const getSetupsCount = async (client, frame) => {
+  let setupsQueryString =
+    "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id";
+
+  if (frame && frames.frames.includes(frame))
+    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+
+  const setupsCount = await client.query(setupsQueryString);
 
   return setupsCount.rows[0].count;
 };

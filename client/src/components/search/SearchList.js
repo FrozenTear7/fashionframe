@@ -1,16 +1,17 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { Component } from "react";
 import Select from "react-select";
+import InfiniteScroll from "react-infinite-scroll-component";
 import { fetchAuth } from "../../utils/fetchAuth";
 import {
   mapToOption,
   mapToOptions,
   mapToOptionsWithNone
 } from "../../utils/mapToOptions";
-import SearchPagination from "./SearchPagination";
 import SearchListItem from "./SearchListItem";
+import Loading from "../utils/Loading";
 
-const fetchLimit = 9;
+const fetchLimit = 4;
 const setupFilters = ["Popular", "New", "Oldest"];
 
 class SearchList extends Component {
@@ -19,7 +20,7 @@ class SearchList extends Component {
     this.state = {
       filter: setupFilters[0],
       currentFetchPage: 0,
-      numberOfPages: 1,
+      setupsCount: 0,
       frame: "None",
       setups: {
         loading: true,
@@ -31,9 +32,12 @@ class SearchList extends Component {
     this.frameSelectOnChange = this.frameSelectOnChange.bind(this);
     this.filterSelectOnChange = this.filterSelectOnChange.bind(this);
     this.fetchSetups = this.fetchSetups.bind(this);
+    this.fetchMoreItems = this.fetchMoreItems.bind(this);
   }
 
   async fetchSetups(index) {
+    console.log(index);
+
     try {
       const res = await fetchAuth(
         `/setups?frame=${this.state.frame}&order=${
@@ -45,13 +49,13 @@ class SearchList extends Component {
       if (res.ok) {
         this.setState({
           currentFetchPage: index,
-          numberOfPages: Math.ceil(resJson.setupsCount / fetchLimit) || 1,
           setups: {
             ...this.state.setups,
             loading: false,
             error: "",
-            data: resJson.setups
-          }
+            data: [...this.state.setups.data, ...resJson.setups]
+          },
+          setupsCount: resJson.setupsCount
         });
       } else {
         this.setState({
@@ -81,28 +85,22 @@ class SearchList extends Component {
     await this.setState({ filter: e.value }, () => this.fetchSetups(1));
   }
 
+  async fetchMoreItems() {
+    await this.fetchSetups(this.state.currentFetchPage + 1);
+  }
+
   async componentDidMount() {
     await this.fetchSetups(1);
   }
 
   render() {
     const { frames } = this.props;
-    const {
-      setups,
-      frame,
-      numberOfPages,
-      currentFetchPage,
-      filter
-    } = this.state;
+    const { setups, frame, filter, setupsCount } = this.state;
+
+    console.log(this.state);
 
     return (
       <div className="center">
-        <SearchPagination
-          currentFetchPage={currentFetchPage}
-          numberOfPages={numberOfPages}
-          fetchSetups={this.fetchSetups}
-        />
-        <br />
         <div className="row">
           <div className="col-6">
             <div className="form-group">
@@ -127,11 +125,16 @@ class SearchList extends Component {
             </div>
           </div>
         </div>
-        <ul className="list-group">
+        <InfiniteScroll
+          dataLength={setups.data.length}
+          next={this.fetchMoreItems}
+          hasMore={setups.data.length < setupsCount}
+          loader={<Loading />}
+        >
           {setups.data.map((setup, i) => (
             <SearchListItem setup={setup} key={i} />
           ))}
-        </ul>
+        </InfiniteScroll>
       </div>
     );
   }

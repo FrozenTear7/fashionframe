@@ -65,7 +65,7 @@ router.get("/", async (req, res) => {
       order
     );
 
-    const setupsCount = await getSetupsCount(client, [req.query.frame]);
+    const setupsCount = await getSetupsCount(client, req.query.frame);
 
     res.send({ setups: setupList, setupsCount: setupsCount });
   } catch (err) {
