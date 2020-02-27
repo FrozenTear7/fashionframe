@@ -21,9 +21,13 @@ const Main = props => {
         <Route
           exact
           path="/fashionframe/profile/:id"
-          component={Profile}
-          isAuthorized={isAuthorized}
-          userData={userData}
+          render={props => (
+            <Profile
+              {...props}
+              isAuthorized={isAuthorized}
+              userData={userData}
+            />
+          )}
         />
         <Route exact path="/fashionframe/signin" component={SignIn} />
         <PrivateRoute

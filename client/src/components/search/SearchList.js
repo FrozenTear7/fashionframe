@@ -78,11 +78,31 @@ class SearchList extends Component {
   }
 
   async frameSelectOnChange(e) {
-    await this.setState({ frame: e.value }, () => this.fetchSetups(1));
+    await this.setState(
+      {
+        currentFetchPage: 0,
+        frame: e.value,
+        setups: {
+          ...this.state.setups,
+          data: []
+        }
+      },
+      () => this.fetchSetups(1)
+    );
   }
 
   async filterSelectOnChange(e) {
-    await this.setState({ filter: e.value }, () => this.fetchSetups(1));
+    await this.setState(
+      {
+        currentFetchPage: 0,
+        filter: e.value,
+        setups: {
+          ...this.state.setups,
+          data: []
+        }
+      },
+      () => this.fetchSetups(1)
+    );
   }
 
   async fetchMoreItems() {
