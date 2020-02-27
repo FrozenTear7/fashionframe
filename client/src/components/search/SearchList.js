@@ -117,8 +117,6 @@ class SearchList extends Component {
     const { frames } = this.props;
     const { setups, frame, filter, setupsCount } = this.state;
 
-    console.log(this.state);
-
     return (
       <div className="center">
         <div className="row">

@@ -111,7 +111,6 @@ class Profile extends Component {
             Total likes: {likes}
             <i className="fa fa-star"></i>
           </h4>
-          <hr className="divider" />
           <button
             className="btn btn-primary"
             onClick={() => this.setState({ showOwned: true })}
@@ -126,11 +125,11 @@ class Profile extends Component {
               {username}'s liked setups
             </button>
           )}
-
+          <hr className="divider" />
           {showOwned ? (
-            <SearchList frames={frames.data} />
+            <SearchList key="owned" frames={frames.data} />
           ) : (
-            <SearchList frames={frames.data} />
+            <SearchList key="liked" frames={frames.data} />
           )}
         </div>
       );
