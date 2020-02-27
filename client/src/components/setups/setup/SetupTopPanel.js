@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 class SetupTopPanel extends Component {
   render() {
-    const { setup, isAuthorized, userId, setupId } = this.props;
+    const { setup, isAuthorized, userId, setupId, likeSetup } = this.props;
 
     return (
       <div>
@@ -32,7 +32,7 @@ class SetupTopPanel extends Component {
                 className={`btn btn-${
                   setup.likedbyyou ? "primary" : "secondary"
                 }`}
-                onClick={() => this.likeSetup()}
+                onClick={likeSetup}
               >
                 {setup.likedbyyou ? "Unlike" : "Like"}:{" "}
                 <i className="fa fa-star"></i>{" "}

@@ -1,13 +1,69 @@
 import React, { Component } from "react";
+import { fetchAuth } from "../../utils/fetchAuth";
 
 class Profile extends Component {
+  constructor() {
+    super();
+    this.state = {
+      userInfo: {
+        loading: true,
+        data: [],
+        error: ""
+      }
+    };
+  }
+
+  async fetchUserInfo() {
+    try {
+      const res = await fetchAuth(`/profiles/${this.props.match.params.id}`);
+      const resJson = await res.json();
+
+      if (res.ok) {
+        this.setState({
+          userInfo: {
+            ...this.state.userInfo,
+            loading: false,
+            error: "",
+            data: resJson.userInfo
+          }
+        });
+      } else {
+        this.setState({
+          userInfo: {
+            ...this.state.userInfo,
+            loading: false,
+            error: resJson.message
+          }
+        });
+      }
+    } catch (error) {
+      this.setState({
+        userInfo: {
+          ...this.state.userInfo,
+          loading: false,
+          error: `Could not fetch user info`
+        }
+      });
+    }
+  }
+
+  async componentDidMount() {
+    await this.fetchUserInfo();
+  }
+
   render() {
+    console.log(this.state);
+
+    const { userInfo } = this.state;
+    const { username, likes } = userInfo.data;
+
     return (
       <div>
-        <h1>Author's profile</h1>
+        <h1>{username}'s profile</h1>
         <br />
         <h4>
-          Total likes: 55<i className="fa fa-star"></i>
+          Total likes: {likes}
+          <i className="fa fa-star"></i>
         </h4>
         <hr className="divider" />
       </div>

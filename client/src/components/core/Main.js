@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute.js";
 import SignIn from "./signin/SignIn.js";
@@ -8,52 +8,60 @@ import NewSetup from "../setups/newSetup/NewSetup.js";
 import Search from "../search/Search.js";
 import Setup from "../setups/setup/Setup.js";
 import Profile from "../profile/Profile.js";
+import MainPanel from "./MainPanel.js";
 
-class Main extends Component {
-  render() {
-    return (
-      <div className="container-fluid main-body">
-        <Switch>
-          <Route exact path="/fashionframe/" component={Search} />
-          <Route exact path="/fashionframe/profile/:id" component={Profile} />
-          <Route exact path="/fashionframe/signin" component={SignIn} />
-          <PrivateRoute
-            exact
-            path="/fashionframe/settings"
-            component={Settings}
-            isAuthorized={this.props.isAuthorized}
-            userData={this.props.userData}
-          />
-          <PrivateRoute
-            exact
-            path="/fashionframe/setups/new"
-            component={NewSetup}
-            isAuthorized={this.props.isAuthorized}
-            mode="new"
-          />
-          <PrivateRoute
-            exact
-            path="/fashionframe/setups/:id/edit"
-            component={NewSetup}
-            isAuthorized={this.props.isAuthorized}
-            mode="edit"
-          />
-          <Route
-            exact
-            path="/fashionframe/setups/:id"
-            render={props => (
-              <Setup
-                {...props}
-                isAuthorized={this.props.isAuthorized}
-                userId={this.props.userData.id}
-              />
-            )}
-          />
-          <Route component={NotFound} />
-        </Switch>
-      </div>
-    );
-  }
-}
+const Main = props => {
+  const { isAuthorized, userData } = props;
+
+  return (
+    <div className="container-fluid main-body">
+      <Switch>
+        <Route exact path="/" component={MainPanel} />
+        <Route exact path="/fashionframe/" component={Search} />
+        <Route
+          exact
+          path="/fashionframe/profile/:id"
+          component={Profile}
+          isAuthorized={isAuthorized}
+          userData={userData}
+        />
+        <Route exact path="/fashionframe/signin" component={SignIn} />
+        <PrivateRoute
+          exact
+          path="/fashionframe/settings"
+          component={Settings}
+          isAuthorized={isAuthorized}
+          userData={userData}
+        />
+        <PrivateRoute
+          exact
+          path="/fashionframe/setups/new"
+          component={NewSetup}
+          isAuthorized={isAuthorized}
+          mode="new"
+        />
+        <PrivateRoute
+          exact
+          path="/fashionframe/setups/:id/edit"
+          component={NewSetup}
+          isAuthorized={isAuthorized}
+          mode="edit"
+        />
+        <Route
+          exact
+          path="/fashionframe/setups/:id"
+          render={props => (
+            <Setup
+              {...props}
+              isAuthorized={isAuthorized}
+              userId={userData.id}
+            />
+          )}
+        />
+        <Route component={NotFound} />
+      </Switch>
+    </div>
+  );
+};
 
 export default Main;

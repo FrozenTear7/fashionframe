@@ -117,7 +117,7 @@ class Settings extends Component {
               type="button"
               onClick={this.handleUserDataSubmit}
             >
-              Submit
+              Update
             </button>
           </form>
         </div>

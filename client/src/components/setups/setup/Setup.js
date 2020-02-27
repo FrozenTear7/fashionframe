@@ -22,6 +22,8 @@ class Setup extends Component {
         error: ""
       }
     };
+
+    this.likeSetup = this.likeSetup.bind(this);
   }
 
   async fetchSetupData() {
@@ -145,6 +147,7 @@ class Setup extends Component {
 
   render() {
     const { setup, colorPickers } = this.state;
+    const { match, isAuthorized, userId } = this.props;
 
     if (setup.loading || colorPickers.loading) {
       return <Loading />;
@@ -160,9 +163,10 @@ class Setup extends Component {
           )}
           <SetupTopPanel
             setup={setup.data}
-            isAuthorized={this.props.isAuthorized}
-            userId={this.props.userId}
-            setupId={this.props.match.params.id}
+            isAuthorized={isAuthorized}
+            userId={userId}
+            setupId={match.params.id}
+            likeSetup={this.likeSetup}
           />
           <hr className="divider" />
           <SetupPhysique setup={setup.data} colorPickers={colorPickers.data} />

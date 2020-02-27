@@ -46,3 +46,12 @@ export const createUserSocial = async (client, args) => {
 export const updateUserUsername = async (client, args) => {
   await client.query("UPDATE users SET username = $1 WHERE id = $2", args);
 };
+
+export const getUserProfileInfoById = async (client, args) => {
+  const userInfo = await client.query(
+    "SELECT u.username, (SELECT COUNT(*) FROM setups_users WHERE user_id = $1) AS likes FROM users u WHERE u.id = $1",
+    args
+  );
+
+  return userInfo.rows[0];
+};
