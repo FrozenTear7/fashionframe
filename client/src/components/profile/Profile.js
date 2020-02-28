@@ -21,24 +21,24 @@ class Profile extends Component {
     };
   }
 
-  async fetchFrames() {
+  async fetchResources(url, resourceName) {
     try {
-      const res = await fetchAuth(`/api/frames`);
+      const res = await fetchAuth(url);
       const resJson = await res.json();
 
       if (res.ok) {
         this.setState({
-          frames: {
-            ...this.state.frames,
+          [resourceName]: {
+            ...this.state[resourceName],
             loading: false,
             error: "",
-            data: resJson.frames
+            data: resJson[resourceName]
           }
         });
       } else {
         this.setState({
-          frames: {
-            ...this.state.frames,
+          [resourceName]: {
+            ...this.state[resourceName],
             loading: false,
             error: resJson.message
           }
@@ -46,52 +46,21 @@ class Profile extends Component {
       }
     } catch (error) {
       this.setState({
-        frames: {
-          ...this.state.frames,
+        [resourceName]: {
+          ...this.state[resourceName],
           loading: false,
-          error: `Could not fetch frames`
-        }
-      });
-    }
-  }
-
-  async fetchUserInfo() {
-    try {
-      const res = await fetchAuth(`/profiles/${this.props.match.params.id}`);
-      const resJson = await res.json();
-
-      if (res.ok) {
-        this.setState({
-          userInfo: {
-            ...this.state.userInfo,
-            loading: false,
-            error: "",
-            data: resJson.userInfo
-          }
-        });
-      } else {
-        this.setState({
-          userInfo: {
-            ...this.state.userInfo,
-            loading: false,
-            error: resJson.message
-          }
-        });
-      }
-    } catch (error) {
-      this.setState({
-        userInfo: {
-          ...this.state.userInfo,
-          loading: false,
-          error: `Could not fetch user info`
+          error: `Could not fetch ${resourceName}`
         }
       });
     }
   }
 
   async componentDidMount() {
-    await this.fetchUserInfo();
-    await this.fetchFrames();
+    await this.fetchResources(
+      `/profiles/${this.props.match.params.id}`,
+      "userInfo"
+    );
+    await this.fetchResources(`/api/frames`, "frames");
   }
 
   render() {
@@ -100,7 +69,7 @@ class Profile extends Component {
 
     const { isAuthorized, userData, match } = this.props;
 
-    if (userInfo.loading) {
+    if (userInfo.loading || frames.loading) {
       return <Loading />;
     } else {
       return (

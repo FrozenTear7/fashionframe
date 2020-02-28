@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { isUsernameValid, isPasswordValid } from "../../../utils/validators.js";
-import { fetchAuth } from "../../../utils/fetchAuth";
+import { fetchAuthPostJson } from "../../../utils/fetchAuth";
 
 class SignInLoginForm extends Component {
   constructor() {
@@ -26,7 +26,7 @@ class SignInLoginForm extends Component {
 
     if (isUsernameValid(username) && isPasswordValid(password)) {
       try {
-        const res = await fetchAuth(`/auth/local/login`, {
+        const res = await fetchAuthPostJson(`/auth/local/login`, {
           method: "POST",
           body: JSON.stringify({
             username: username,

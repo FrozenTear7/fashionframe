@@ -29,8 +29,6 @@ class SearchList extends Component {
       }
     };
 
-    this.frameSelectOnChange = this.frameSelectOnChange.bind(this);
-    this.filterSelectOnChange = this.filterSelectOnChange.bind(this);
     this.fetchSetups = this.fetchSetups.bind(this);
     this.fetchMoreItems = this.fetchMoreItems.bind(this);
   }
@@ -80,25 +78,11 @@ class SearchList extends Component {
     }
   }
 
-  async frameSelectOnChange(e) {
+  async selectOnChangeFunction(e, resourceName) {
     await this.setState(
       {
         currentFetchPage: 0,
-        frame: e.value,
-        setups: {
-          ...this.state.setups,
-          data: []
-        }
-      },
-      () => this.fetchSetups(1)
-    );
-  }
-
-  async filterSelectOnChange(e) {
-    await this.setState(
-      {
-        currentFetchPage: 0,
-        filter: e.value,
+        [resourceName]: e.value,
         setups: {
           ...this.state.setups,
           data: []
@@ -117,8 +101,6 @@ class SearchList extends Component {
   }
 
   render() {
-    console.log(this.props);
-
     const { frames } = this.props;
     const { setups, frame, filter, setupsCount } = this.state;
 
@@ -132,7 +114,7 @@ class SearchList extends Component {
                 id="frameSelect"
                 value={mapToOption(frame)}
                 options={mapToOptionsWithNone(frames)}
-                onChange={this.frameSelectOnChange}
+                onChange={e => this.selectOnChangeFunction(e, "frame")}
               />
             </div>
           </div>
@@ -143,7 +125,7 @@ class SearchList extends Component {
                 id="filterSelect"
                 value={mapToOption(filter)}
                 options={mapToOptions(setupFilters)}
-                onChange={this.filterSelectOnChange}
+                onChange={e => this.selectOnChangeFunction(e, "filter")}
               />
             </div>
           </div>

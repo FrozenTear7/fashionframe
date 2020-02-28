@@ -30,20 +30,16 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.loadingUserData) {
+    const { loadingUserData, isAuthorized, userData } = this.state;
+
+    if (loadingUserData) {
       return <Loading />;
     } else {
       return (
         <div>
-          <Navbar
-            isAuthorized={this.state.isAuthorized}
-            userData={this.state.userData}
-          />
+          <Navbar isAuthorized={isAuthorized} userData={userData} />
           <br />
-          <Main
-            isAuthorized={this.state.isAuthorized}
-            userData={this.state.userData}
-          />
+          <Main isAuthorized={isAuthorized} userData={userData} />
         </div>
       );
     }

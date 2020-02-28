@@ -54,12 +54,14 @@ class Search extends Component {
   }
 
   render() {
-    if (this.state.frames.loading) {
+    const { frames } = this.state;
+
+    if (frames.loading) {
       return <Loading />;
     } else {
       return (
         <div>
-          <SearchList frames={this.state.frames.data} />
+          <SearchList frames={frames.data} />
         </div>
       );
     }

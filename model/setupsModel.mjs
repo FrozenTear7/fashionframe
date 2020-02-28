@@ -24,12 +24,12 @@ export const getLikedSetupList = async (
 ) => {
   let setupsQueryString =
     "SELECT u.username, s.id, s.name, s.screenshot, s.frame, s.created_at, (SELECT COUNT(*) FROM setups_users WHERE setup_id = s.id) AS liked FROM setups s\n" +
-    "JOIN users u ON u.id = s.user_id WHERE EXISTS(SELECT 1 FROM setups_users WHERE user_id = $3 AND setup_id = s.id)";
+    "JOIN users u ON u.id = s.user_id WHERE";
 
   if (frame && frames.frames.includes(frame))
-    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+    setupsQueryString += ` s.frame = '${frame}' AND`;
 
-  setupsQueryString += ` ORDER BY ${orderBy} ${order} LIMIT $1 OFFSET $2`;
+  setupsQueryString += ` EXISTS(SELECT 1 FROM setups_users WHERE user_id = $3 AND setup_id = s.id) ORDER BY ${orderBy} ${order} LIMIT $1 OFFSET $2`;
 
   const setupListInfo = await client.query(setupsQueryString, args);
 
@@ -39,12 +39,12 @@ export const getLikedSetupList = async (
 export const getUserSetupList = async (client, args, frame, orderBy, order) => {
   let setupsQueryString =
     "SELECT u.username, s.id, s.name, s.screenshot, s.frame, s.created_at, (SELECT COUNT(*) FROM setups_users WHERE setup_id = s.id) AS liked FROM setups s\n" +
-    "JOIN users u ON u.id = s.user_id WHERE s.user_id = $3";
+    "JOIN users u ON u.id = s.user_id WHERE";
 
   if (frame && frames.frames.includes(frame))
-    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+    setupsQueryString += ` s.frame = '${frame}' AND`;
 
-  setupsQueryString += ` ORDER BY ${orderBy} ${order} LIMIT $1 OFFSET $2`;
+  setupsQueryString += ` s.user_id = $3 ORDER BY ${orderBy} ${order} LIMIT $1 OFFSET $2`;
 
   const setupListInfo = await client.query(setupsQueryString, args);
 
@@ -75,10 +75,12 @@ export const getSetupsCount = async (client, frame) => {
 
 export const getLikedSetupsCount = async (client, args, frame) => {
   let setupsQueryString =
-    "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE EXISTS(SELECT 1 FROM setups_users WHERE user_id = $1 AND setup_id = s.id)";
+    "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE ";
 
   if (frame && frames.frames.includes(frame))
-    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+    setupsQueryString += ` s.frame = '${frame}' AND `;
+
+  setupsQueryString += ` EXISTS(SELECT 1 FROM setups_users WHERE user_id = $1 AND setup_id = s.id)`;
 
   const setupsCount = await client.query(setupsQueryString, args);
 
@@ -87,10 +89,12 @@ export const getLikedSetupsCount = async (client, args, frame) => {
 
 export const getUserSetupsCount = async (client, args, frame) => {
   let setupsQueryString =
-    "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE s.user_id = $1";
+    "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE";
 
   if (frame && frames.frames.includes(frame))
-    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+    setupsQueryString += ` s.frame = '${frame}' AND`;
+
+  setupsQueryString += `  s.user_id = $1`;
 
   const setupsCount = await client.query(setupsQueryString, args);
 

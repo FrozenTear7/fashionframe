@@ -4,7 +4,7 @@ import {
   isPasswordValid,
   arePasswordsMatching
 } from "../../../utils/validators.js";
-import { fetchAuth } from "../../../utils/fetchAuth";
+import { fetchAuthPostJson } from "../../../utils/fetchAuth";
 
 class SignInRegisterForm extends Component {
   constructor() {
@@ -35,7 +35,7 @@ class SignInRegisterForm extends Component {
       arePasswordsMatching(password, password2)
     ) {
       try {
-        const res = await fetchAuth(`/auth/local/register`, {
+        const res = await fetchAuthPostJson(`/auth/local/register`, {
           method: "POST",
           body: JSON.stringify({
             username: username,

@@ -16,17 +16,19 @@ class NotFound extends Component {
   }
 
   render() {
+    const { loginMode } = this.state;
+
     return (
       <div className="center-half">
         <h1 className="display-4">Sign in</h1>
         <br />
-        {this.state.loginMode ? <SignInLoginForm /> : <SignInRegisterForm />}
+        {loginMode ? <SignInLoginForm /> : <SignInRegisterForm />}
         <br />
         <button
           className="btn-sm btn-primary"
-          onClick={() => this.setState({ loginMode: !this.state.loginMode })}
+          onClick={() => this.setState({ loginMode: !loginMode })}
         >
-          <small>{this.state.loginMode ? "Register" : "Login"}</small>
+          <small>{loginMode ? "Register" : "Login"}</small>
         </button>
         <hr className="my-4" />
         <h4>Or sign in using</h4>

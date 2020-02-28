@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import { fetchAuth } from "../../../utils/fetchAuth";
+import { fetchAuth, fetchAuthPostJson } from "../../../utils/fetchAuth";
 import Loading from "../../utils/Loading.js";
 import SetupPhysique from "./SetupPhysique";
 import SetupAttachments from "./SetupAttachments";
@@ -62,7 +62,7 @@ class Setup extends Component {
 
   async likeSetup() {
     try {
-      const res = await fetchAuth(
+      const res = await fetchAuthPostJson(
         `/setups/like/${this.props.match.params.id}`,
         {
           method: "POST",
