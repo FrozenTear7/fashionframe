@@ -7,8 +7,12 @@ import formidable from "formidable";
 import pool from "../config/db-connect.mjs";
 import {
   getSetupList,
+  getLikedSetupList,
+  getUserSetupList,
   getSetupBySetupId,
   getSetupsCount,
+  getLikedSetupsCount,
+  getUserSetupsCount,
   updateSetup
 } from "../model/setupsModel.mjs";
 import {
@@ -63,17 +67,56 @@ router.get("/", async (req, res) => {
     if (req.query.order !== "Oldest") order = "DESC";
     else order = "ASC";
 
-    const setupList = await getSetupList(
-      client,
-      [req.query.limit, req.query.offset],
-      req.query.frame,
-      orderBy,
-      order
-    );
+    if (req.query.mode === "liked") {
+      const setupList = await getLikedSetupList(
+        client,
+        [req.query.limit, req.query.offset, req.query.profile_id],
+        req.query.frame,
+        orderBy,
+        order
+      );
 
-    const setupsCount = await getSetupsCount(client, req.query.frame);
+      const setupsCount = await getLikedSetupsCount(
+        client,
+        [req.query.profile_id],
+        req.query.frame
+      );
 
-    res.send({ setups: setupList, setupsCount: setupsCount });
+      res.send({ setups: setupList, setupsCount: setupsCount });
+    } else if (req.query.mode === "user") {
+      if (req.user.id !== req.query.profile_id)
+        res.status(403).send({
+          message: "User's liked setups forbidden"
+        });
+
+      const setupList = await getUserSetupList(
+        client,
+        [req.query.limit, req.query.offset, req.query.profile_id],
+        req.query.frame,
+        orderBy,
+        order
+      );
+
+      const setupsCount = await getUserSetupsCount(
+        client,
+        [req.query.profile_id],
+        req.query.frame
+      );
+
+      res.send({ setups: setupList, setupsCount: setupsCount });
+    } else {
+      const setupList = await getSetupList(
+        client,
+        [req.query.limit, req.query.offset],
+        req.query.frame,
+        orderBy,
+        order
+      );
+
+      const setupsCount = await getSetupsCount(client, req.query.frame);
+
+      res.send({ setups: setupList, setupsCount: setupsCount });
+    }
   } catch (err) {
     console.log(err);
     res.status(400).send({

@@ -16,7 +16,7 @@ class NewSetupDescription extends Component {
 
         <br />
         <div class="form-group">
-          <label for="screenshotInput">Screenshot</label>
+          <label htmlFor="screenshotInput">Screenshot</label>
           <input
             id="screenshotInput"
             type="file"

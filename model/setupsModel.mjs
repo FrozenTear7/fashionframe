@@ -73,6 +73,30 @@ export const getSetupsCount = async (client, frame) => {
   return setupsCount.rows[0].count;
 };
 
+export const getLikedSetupsCount = async (client, args, frame) => {
+  let setupsQueryString =
+    "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE EXISTS(SELECT 1 FROM setups_users WHERE user_id = $1 AND setup_id = s.id)";
+
+  if (frame && frames.frames.includes(frame))
+    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+
+  const setupsCount = await client.query(setupsQueryString, args);
+
+  return setupsCount.rows[0].count;
+};
+
+export const getUserSetupsCount = async (client, args, frame) => {
+  let setupsQueryString =
+    "SELECT COUNT(s.id) FROM setups s JOIN users u ON u.id = s.user_id WHERE s.user_id = $1";
+
+  if (frame && frames.frames.includes(frame))
+    setupsQueryString += ` WHERE s.frame = '${frame}'`;
+
+  const setupsCount = await client.query(setupsQueryString, args);
+
+  return setupsCount.rows[0].count;
+};
+
 export const getSetupAuthor = async (client, args) => {
   const author = await client.query(
     "SELECT user_id FROM setups WHERE id = $1",

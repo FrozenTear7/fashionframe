@@ -15,8 +15,8 @@ const fetchLimit = 4;
 const setupFilters = ["Popular", "New", "Oldest"];
 
 class SearchList extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       filter: setupFilters[0],
       currentFetchPage: 0,
@@ -36,13 +36,16 @@ class SearchList extends Component {
   }
 
   async fetchSetups(index) {
-    console.log(index);
+    let queryMode = "";
+
+    if (this.props.mode)
+      queryMode += `&mode=${this.props.mode}&profile_id=${this.props.profileId}`;
 
     try {
       const res = await fetchAuth(
         `/setups?frame=${this.state.frame}&order=${
           this.state.filter
-        }&limit=${fetchLimit}&offset=${(index - 1) * fetchLimit}`
+        }&limit=${fetchLimit}&offset=${(index - 1) * fetchLimit}${queryMode}`
       );
       const resJson = await res.json();
 
@@ -114,6 +117,8 @@ class SearchList extends Component {
   }
 
   render() {
+    console.log(this.props);
+
     const { frames } = this.props;
     const { setups, frame, filter, setupsCount } = this.state;
 

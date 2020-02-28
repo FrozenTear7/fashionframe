@@ -1,5 +1,4 @@
 import express from "express";
-import connectEnsureLogin from "connect-ensure-login";
 import pool from "../config/db-connect.mjs";
 import { getUserProfileInfoById } from "../model/usersModel.mjs";
 

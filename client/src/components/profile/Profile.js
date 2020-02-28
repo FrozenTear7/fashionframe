@@ -127,9 +127,19 @@ class Profile extends Component {
           )}
           <hr className="divider" />
           {showOwned ? (
-            <SearchList key="owned" frames={frames.data} />
+            <SearchList
+              key="user"
+              mode="user"
+              profileId={match.params.id}
+              frames={frames.data}
+            />
           ) : (
-            <SearchList key="liked" frames={frames.data} />
+            <SearchList
+              key="liked"
+              mode="liked"
+              profileId={match.params.id}
+              frames={frames.data}
+            />
           )}
         </div>
       );

@@ -15,8 +15,8 @@ export const fetchAuth = (path, options) => {
     ...options,
     credentials: "include",
     headers: {
-      // Accept: "application/json",
-      // "Content-Type": "application/json",
+      Accept: "application/json",
+      "Content-Type": "application/json",
       "Access-Control-Allow-Origin": frontendLocalUrl,
       "Access-Control-Allow-Credentials": true
     }
