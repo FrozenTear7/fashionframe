@@ -15,14 +15,14 @@ class NewSetupDescription extends Component {
         </div>
 
         <br />
-        <div className="form-group">
-          <label htmlFor="screenshotInput">Screenshot</label>
+        <div class="form-group">
+          <label for="screenshotInput">Screenshot</label>
           <input
             id="screenshotInput"
-            type="text"
-            className="form-control"
-            value={this.props.screenshot}
-            onChange={this.props.handleScreenshotChange}
+            type="file"
+            class="form-control-file"
+            accept=".jpg,.png"
+            ref={this.props.screenshotFileRef}
           />
         </div>
       </div>

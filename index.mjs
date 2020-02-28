@@ -5,6 +5,7 @@ import passport from "passport";
 import cookieSession from "cookie-session";
 import cors from "cors";
 import bodyParser from "body-parser";
+import cloudinary from "cloudinary";
 import authRoutes from "./routes/auth-routes.mjs";
 import warframeRoutes from "./routes/warframe-routes.mjs";
 import setupRoutes from "./routes/setup-routes.mjs";
@@ -13,6 +14,12 @@ import passportSetup from "./config/passport-setup.mjs";
 import pool from "./config/db-connect.mjs";
 
 dotenv.config();
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
 
 const serverUrl =
   process.env.MODE === "server"

@@ -23,7 +23,6 @@ class NewSetup extends Component {
         name: "",
         frame: "Ash",
         description: "",
-        screenshot: "",
         skin: "Ash Skin",
         helmet: "Ash Helmet",
         attachments: {
@@ -122,19 +121,10 @@ class NewSetup extends Component {
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-    this.handleScreenshotChange = this.handleScreenshotChange.bind(this);
     this.postNewSetup = this.postNewSetup.bind(this);
     this.deleteSetup = this.deleteSetup.bind(this);
-  }
 
-  getErrorFormMessages() {
-    let outputErrorMessage = "";
-
-    if (!this.state.setup.name) outputErrorMessage += ", provide setup name";
-    if (!this.state.setup.screenshot)
-      outputErrorMessage += ", provide setup screenshot URL";
-
-    return outputErrorMessage;
+    this.screenshotFileRef = React.createRef();
   }
 
   getErrorMessages() {
@@ -162,8 +152,6 @@ class NewSetup extends Component {
         0,
         outputErrorMessage.length - 2
       );
-
-    if (outputErrorMessage) outputErrorMessage += this.getErrorFormMessages();
 
     if (outputErrorMessage) {
       return (
@@ -236,16 +224,17 @@ class NewSetup extends Component {
 
   async postNewSetup() {
     try {
+      const formData = new FormData();
+      formData.append("file", this.screenshotFileRef.current.files[0]);
+      formData.append("setup", JSON.stringify(this.state.setup));
+
       const res = await fetchAuth(
         `/setups${
           this.props.mode === "edit" ? `/${this.props.match.params.id}` : ""
         }`,
         {
           method: this.props.mode === "edit" ? "PUT" : "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({ setup: this.state.setup })
+          body: formData
         }
       );
       const resJson = await res.json();
@@ -326,15 +315,6 @@ class NewSetup extends Component {
       setup: {
         ...this.state.setup,
         description: event.target.value
-      }
-    });
-  }
-
-  handleScreenshotChange(event) {
-    this.setState({
-      setup: {
-        ...this.state.setup,
-        screenshot: event.target.value
       }
     });
   }
@@ -535,8 +515,8 @@ class NewSetup extends Component {
               <NewSetupDescription
                 description={this.state.setup.description}
                 handleDescriptionChange={this.handleDescriptionChange}
-                screenshot={this.state.setup.screenshot}
                 handleScreenshotChange={this.handleScreenshotChange}
+                screenshotFileRef={this.screenshotFileRef}
               />
             </div>
           </div>
