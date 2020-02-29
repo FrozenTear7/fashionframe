@@ -23,17 +23,17 @@ const SetupAttachments = props => {
                 <div className="col-6">
                   Chest <h3>{attachments.chest || "None"}</h3>
                   <br />
-                  Left Arm <h3>{attachments.leftArm || "None"}</h3>
+                  Left Arm <h3>{attachments.left_arm || "None"}</h3>
                   <br />
-                  Left Leg <h3>{attachments.leftLeg || "None"}</h3>
+                  Left Leg <h3>{attachments.left_leg || "None"}</h3>
                   <br />
                 </div>
                 <div className="col-6">
                   Ephemera <h3>{attachments.ephemera || "None"}</h3>
                   <br />
-                  Right Arm <h3>{attachments.rightArm || "None"}</h3>
+                  Right Arm <h3>{attachments.right_arm || "None"}</h3>
                   <br />
-                  Left Leg <h3>{attachments.rightArm || "None"}</h3>
+                  Left Leg <h3>{attachments.right_leg || "None"}</h3>
                   <br />
                 </div>
               </div>

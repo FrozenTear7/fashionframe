@@ -41,6 +41,7 @@ import { createSyandana, updateSyandana } from "../model/syandanasModel.mjs";
 import { deleteSetupBySetupAndUserId } from "../model/setupsModel.mjs";
 import { getSetupAuthor } from "../model/setupsModel.mjs";
 import { uploadPhoto } from "../utils/imageUpload.mjs";
+import { imageResize } from "../utils/imageResize.mjs";
 
 dotenv.config();
 
@@ -203,20 +204,22 @@ router.post(
   async (req, res) => {
     let setup = {};
     let filePath = "";
+    let filePath2 = "";
 
     try {
       new formidable.IncomingForm()
         .parse(req)
-        .on("fileBegin", function(name, file) {
+        .on("fileBegin", async (name, file) => {
           const path = __dirname + "/uploads/" + file.name;
 
           file.path = path;
           filePath = path;
+          filePath2 = __dirname + "/uploads/2" + file.name;
         })
-        .on("file", function(name, file) {
+        .on("file", (name, file) => {
           console.log("Uploaded " + file.name);
         })
-        .on("field", function(name, field) {
+        .on("field", (name, field) => {
           setup = JSON.parse(field);
         })
         .on("aborted", () => {
@@ -231,8 +234,10 @@ router.post(
           const client = await pool.connect();
 
           try {
-            const screenshotURL = await uploadPhoto(filePath);
+            await imageResize(filePath, filePath2);
+            const screenshotURL = await uploadPhoto(filePath2);
             fs.unlinkSync(filePath);
+            fs.unlinkSync(filePath2);
 
             setup = { ...setup, screenshot: screenshotURL };
 

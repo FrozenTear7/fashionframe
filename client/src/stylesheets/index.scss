@@ -4,6 +4,7 @@ $scheme-primary: #222831;
 $scheme-secondary: #393e46;
 $scheme-others: #eeeeee;
 $scheme-text: #00adb5;
+
 $collapse-button-font-size: 30px;
 $collapse-button-border-radius: 20px;
 
@@ -31,6 +32,11 @@ body {
   font-family: Roboto;
   background-color: $scheme-primary !important;
   color: $scheme-text !important;
+}
+
+li {
+  list-style-type: none;
+  overflow-x: hidden;
 }
 
 .main-body {
@@ -65,12 +71,16 @@ body {
   background-color: $scheme-secondary;
 }
 
+.border-normal {
+  border: 1px solid $scheme-text;
+}
+
 .collapse-button-dark {
   border-top-left-radius: $collapse-button-border-radius;
   border-top-right-radius: $collapse-button-border-radius;
-  border: 1px solid $scheme-text;
   background-color: $scheme-secondary;
   font-size: $collapse-button-font-size;
+  @extend .border-normal;
 }
 
 .card-body {
@@ -91,40 +101,33 @@ body {
 }
 
 .search-thumbnail {
-  max-width: 450px;
-  max-height: 450px;
-  object-fit: cover;
-  border: 1px solid $scheme-others;
-}
-
-.setup-image {
-  max-width: 1080px;
-  max-height: 500px;
+  max-width: 100%;
+  height: auto;
   object-fit: cover;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  border: 1px solid $scheme-others;
+  @extend .border-normal;
 }
 
 .list-group-item {
   background-color: $scheme-secondary;
 }
 
-.search-list-item {
-  list-style-type: none;
-  float: left;
-  border: 2px solid $scheme-text;
-  border-color: $scheme-others;
-  padding: 15px;
-  margin: 10px;
-  border-radius: 15px;
-}
+// .search-list-item {
+//   list-style-type: none;
+//   float: left;
+//   @extend .border-normal;
+//   border-color: $scheme-others;
+//   padding: 15px;
+//   margin: 10px;
+//   border-radius: 15px;
+// }
 
 .color-button {
   width: 50px;
   height: 50px;
-  border: 1px solid $scheme-others;
+  @extend .border-normal;
   border-radius: 5px;
   border-color: "#FFFFFF";
 }
@@ -137,14 +140,15 @@ body {
   border: 1px solid $scheme-others;
 }
 
-ul {
-  list-style-type: none;
-}
-
 .social-media-list-item {
   margin: 5px;
 }
 
 .text-error {
   color: #c42121;
+}
+
+.search-list-item {
+  margin-bottom: 10px;
+  padding: 10px;
 }

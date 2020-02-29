@@ -55,7 +55,11 @@ const NewSetupTopPanel = props => {
                 <button
                   type="button"
                   className="btn btn-danger"
-                  onClick={deleteSetupOnClick}
+                  onClick={() => {
+                    if (window.confirm("Are you sure?")) {
+                      deleteSetupOnClick();
+                    }
+                  }}
                 >
                   Delete setup
                 </button>

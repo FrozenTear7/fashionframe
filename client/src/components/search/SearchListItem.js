@@ -7,7 +7,7 @@ const SearchListItem = props => {
   return (
     <div>
       <Link to={`/fashionframe/setups/${setup.id}`}>
-        <li className="list-group-item" style={{ marginBottom: "10px" }}>
+        <li className="border-normal search-list-item">
           <div className="row">
             <div className="col-6">
               <h3>{setup.name}</h3>

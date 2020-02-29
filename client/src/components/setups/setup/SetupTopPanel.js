@@ -41,7 +41,7 @@ const SetupTopPanel = props => {
               <br />
               <Link
                 className={`btn btn-primary`}
-                to={`/setups/${setupId}/edit`}
+                to={`/fashionframe/setups/${setupId}/edit`}
               >
                 Edit
               </Link>
@@ -49,7 +49,11 @@ const SetupTopPanel = props => {
           )}
         </div>
         <div className="col-8">
-          <img src={setup.screenshot} alt="Thumbnail" className="setup-image" />
+          <img
+            src={setup.screenshot}
+            alt="Thumbnail"
+            className="search-thumbnail"
+          />
         </div>
       </div>
     </div>

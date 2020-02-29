@@ -285,7 +285,7 @@ class NewSetup extends Component {
         }
       } catch (error) {
         this.setState({
-          setupError: "Could delete setup"
+          setupError: "Could not delete setup"
         });
       }
     } else if (this.props.mode === "new") {
@@ -365,9 +365,12 @@ class NewSetup extends Component {
     this.setState({
       setup: {
         ...this.state.setup,
-        colorScheme: {
-          ...this.state.setup.colorScheme,
-          [`${colorName}`]: color.hex
+        attachments: {
+          ...this.state.setup.attachments,
+          colorScheme: {
+            ...this.state.setup.colorScheme,
+            [`${colorName}`]: color.hex
+          }
         }
       }
     });
@@ -377,9 +380,12 @@ class NewSetup extends Component {
     this.setState({
       setup: {
         ...this.state.setup,
-        colorScheme: {
-          ...this.state.setup.colorScheme,
-          [`${colorName}`]: color.hex
+        syandana: {
+          ...this.state.setup.syandana,
+          colorScheme: {
+            ...this.state.setup.colorScheme,
+            [`${colorName}`]: color.hex
+          }
         }
       }
     });
@@ -406,8 +412,6 @@ class NewSetup extends Component {
   }
 
   render() {
-    console.log(this.state.setup);
-
     const {
       createSetupRedirect,
       setupId,

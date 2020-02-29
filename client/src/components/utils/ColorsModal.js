@@ -69,7 +69,7 @@ const ColorsModal = props => {
                   );
 
                   return (
-                    <li className="list-group-item" key={colorPicker}>
+                    <li className="border-normal" key={colorPicker}>
                       {colorPicker}: Column {columnRow.column}, Row{" "}
                       {columnRow.row}
                       {closestColor.distance > colorDistanceThreshold && (
