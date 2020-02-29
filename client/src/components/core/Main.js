@@ -38,6 +38,7 @@ const Main = props => {
           userData={userData}
         />
         <PrivateRoute
+          key="new"
           exact
           path="/fashionframe/setups/new"
           component={NewSetup}
@@ -45,6 +46,7 @@ const Main = props => {
           mode="new"
         />
         <PrivateRoute
+          key="edit"
           exact
           path="/fashionframe/setups/:id/edit"
           component={NewSetup}

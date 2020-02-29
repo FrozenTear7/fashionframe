@@ -32,53 +32,43 @@ class NotFound extends Component {
         </button>
         <hr className="my-4" />
         <h4>Or sign in using</h4>
-        <ul className="list-group list-group-horizontal center">
-          <li className="social-media-list-item">
-            <a
-              className="btn btn-primary btn-lg"
-              href={localUrl + "/auth/google"}
-              role="button"
-            >
-              <i className="fa fa-google-plus"></i>
-            </a>
-          </li>
-          <li className="social-media-list-item">
-            <a
-              className="btn btn-primary btn-lg"
-              href={localUrl + "/auth/twitchtv"}
-              role="button"
-            >
-              <i className="fa fa-twitch"></i>
-            </a>
-          </li>
-          <li className="social-media-list-item">
-            <a
-              className="btn btn-primary btn-lg"
-              href={localUrl + "/auth/steam"}
-              role="button"
-            >
-              <i className="fa fa-steam"></i>
-            </a>
-          </li>
-          <li className="social-media-list-item">
-            <a
-              className="btn btn-primary btn-lg"
-              href={localUrl + "/auth/twitter"}
-              role="button"
-            >
-              <i className="fa fa-twitter"></i>
-            </a>
-          </li>
-          <li className="social-media-list-item">
-            <a
-              className="btn btn-primary btn-lg"
-              href={localUrl + "/auth/github"}
-              role="button"
-            >
-              <i className="fa fa-github"></i>
-            </a>
-          </li>
-        </ul>
+        <div className="d-flex flex-wrap center">
+          <a
+            className="social-media-list-item btn btn-primary btn-lg"
+            href={localUrl + "/auth/google"}
+            role="button"
+          >
+            <i className="fa fa-google"></i>
+          </a>
+          <a
+            className="social-media-list-item btn btn-primary btn-lg"
+            href={localUrl + "/auth/twitchtv"}
+            role="button"
+          >
+            <i className="fa fa-twitch"></i>
+          </a>
+          <a
+            className="social-media-list-item btn btn-primary btn-lg"
+            href={localUrl + "/auth/steam"}
+            role="button"
+          >
+            <i className="fa fa-steam"></i>
+          </a>
+          <a
+            className="social-media-list-item btn btn-primary btn-lg"
+            href={localUrl + "/auth/twitter"}
+            role="button"
+          >
+            <i className="fa fa-twitter"></i>
+          </a>
+          <a
+            className="social-media-list-item btn btn-primary btn-lg"
+            href={localUrl + "/auth/github"}
+            role="button"
+          >
+            <i className="fa fa-github"></i>
+          </a>
+        </div>
       </div>
     );
   }

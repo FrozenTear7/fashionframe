@@ -7,14 +7,12 @@ const getColorButton = (color, colorPickers, modalName) => {
   return (
     <div>
       {ColorButton(color)}
-      <br />
-      {color && (
-        <ColorsModal
-          color={color}
-          colorPickers={colorPickers}
-          modalName={modalName}
-        />
-      )}
+      <ColorsModal
+        color={color}
+        colorPickers={colorPickers}
+        modalName={modalName}
+        disabled={color}
+      />
     </div>
   );
 };
@@ -26,8 +24,8 @@ const colorNamesToButtons = (
   colorNames
 ) => {
   return colorNames.map((colorName, i) => (
-    <div className="col-3" key={i}>
-      <div className="form-group">
+    <div key={i}>
+      <div className="form-group center" style={{ marginInline: "25px" }}>
         <label htmlFor={colorName}>{formatColorName(colorName)}</label>
         <div id={colorName}>
           {getColorButton(
@@ -46,7 +44,7 @@ const ColorsBlock = props => {
 
   return (
     <div>
-      <div className="row">
+      <div className="d-flex justify-content-between flex-wrap center">
         {colorNamesToButtons(
           colorScheme,
           colorPickers,
@@ -55,7 +53,7 @@ const ColorsBlock = props => {
         )}
       </div>
       <br />
-      <div className="row">
+      <div className="d-flex justify-content-between flex-wrap center">
         {colorNamesToButtons(
           colorScheme,
           colorPickers,

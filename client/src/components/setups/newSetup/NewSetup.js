@@ -368,7 +368,7 @@ class NewSetup extends Component {
         attachments: {
           ...this.state.setup.attachments,
           colorScheme: {
-            ...this.state.setup.colorScheme,
+            ...this.state.attachments.colorScheme,
             [`${colorName}`]: color.hex
           }
         }
@@ -383,7 +383,7 @@ class NewSetup extends Component {
         syandana: {
           ...this.state.setup.syandana,
           colorScheme: {
-            ...this.state.setup.colorScheme,
+            ...this.state.syandana.colorScheme,
             [`${colorName}`]: color.hex
           }
         }

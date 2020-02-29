@@ -108,6 +108,7 @@ li {
   margin-left: auto;
   margin-right: auto;
   @extend .border-normal;
+  @extend .rounded-lg;
 }
 
 .list-group-item {
@@ -130,6 +131,7 @@ li {
   @extend .border-normal;
   border-radius: 5px;
   border-color: "#FFFFFF";
+  display: inline-block;
 }
 
 .modal-content {
@@ -149,6 +151,9 @@ li {
 }
 
 .search-list-item {
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  @extend .rounded-lg;
+  @extend .shadow;
+  @extend .border;
 }

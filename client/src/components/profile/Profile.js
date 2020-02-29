@@ -75,23 +75,23 @@ class Profile extends Component {
       return (
         <div>
           <h1>{username}'s profile</h1>
-          <br />
           <h4>
             Total likes: {likes}
             <i className="fa fa-star"></i>
           </h4>
           <button
-            className="btn btn-primary"
+            className={`btn btn-${showOwned ? "primary" : "secondary"}`}
             onClick={() => this.setState({ showOwned: true })}
           >
-            {username}'s setups
+            Created setups
           </button>
+          {"  "}
           {isAuthorized && userData.id === match.params.id && (
             <button
-              className="btn btn-primary"
+              className={`btn btn-${showOwned ? "secondary" : "primary"}`}
               onClick={() => this.setState({ showOwned: false })}
             >
-              {username}'s liked setups
+              Liked setups
             </button>
           )}
           <hr className="divider" />

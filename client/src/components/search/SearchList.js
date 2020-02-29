@@ -105,8 +105,8 @@ class SearchList extends Component {
     const { setups, frame, filter, setupsCount } = this.state;
 
     return (
-      <div className="center">
-        <div className="row">
+      <div>
+        <div className="row center">
           <div className="col-6">
             <div className="form-group">
               <label htmlFor="frameSelect">Filter by frame</label>

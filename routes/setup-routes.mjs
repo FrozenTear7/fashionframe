@@ -69,6 +69,12 @@ router.get("/", async (req, res) => {
     else order = "ASC";
 
     if (req.query.mode === "liked") {
+      if (req.user.id !== req.query.profile_id) {
+        return res.status(403).send({
+          message: "User's liked setups forbidden"
+        });
+      }
+
       const setupList = await getLikedSetupList(
         client,
         [req.query.limit, req.query.offset, req.query.profile_id],
@@ -85,11 +91,6 @@ router.get("/", async (req, res) => {
 
       res.send({ setups: setupList, setupsCount: setupsCount });
     } else if (req.query.mode === "user") {
-      if (req.user.id !== req.query.profile_id)
-        res.status(403).send({
-          message: "User's liked setups forbidden"
-        });
-
       const setupList = await getUserSetupList(
         client,
         [req.query.limit, req.query.offset, req.query.profile_id],

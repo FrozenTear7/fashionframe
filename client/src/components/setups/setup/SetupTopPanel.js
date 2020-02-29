@@ -5,28 +5,27 @@ const SetupTopPanel = props => {
   const { setup, isAuthorized, userId, setupId, likeSetup } = props;
 
   return (
-    <div>
-      <h1 className="center">{setup.name}</h1>
-      <br />
-      <div className="row">
-        <div className="col-4">
-          <h3>Frame: {setup.frame}</h3>
-          <br />
-          <h5>Description: {setup.description}</h5>
-          <br />
-          <h5>Author: {setup.username}</h5>
-          <Link
-            to={`/fashionframe/profile/${setup.user_id}`}
-            className="btn btn-primary"
-          >
-            Check user's other setups
-          </Link>
-          <br />
-          <small>Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}</small>
-          <br />
+    <div className="d-flex flex-wrap">
+      <div>
+        <h1>{setup.name}</h1>
+        <h3>Frame: {setup.frame}</h3>
+        <br />
+        {isAuthorized && userId === setup.user_id && (
+          <div>
+            <Link
+              className={`btn btn-primary`}
+              to={`/fashionframe/setups/${setupId}/edit`}
+            >
+              Edit
+            </Link>
+          </div>
+        )}
+        <h5>
+          Author: {setup.username}
+          {"  "}
           {isAuthorized && (
             <button
-              className={`btn btn-${
+              className={`btn-sm btn-${
                 setup.likedbyyou ? "primary" : "secondary"
               }`}
               onClick={likeSetup}
@@ -36,26 +35,22 @@ const SetupTopPanel = props => {
               <span className="badge badge-light">{setup.liked}</span>
             </button>
           )}
-          {isAuthorized && userId === setup.user_id && (
-            <div>
-              <br />
-              <Link
-                className={`btn btn-primary`}
-                to={`/fashionframe/setups/${setupId}/edit`}
-              >
-                Edit
-              </Link>
-            </div>
-          )}
-        </div>
-        <div className="col-8">
-          <img
-            src={setup.screenshot}
-            alt="Thumbnail"
-            className="search-thumbnail"
-          />
-        </div>
+          <br />
+          <Link
+            to={`/fashionframe/profile/${setup.user_id}`}
+            className="btn-sm btn-primary"
+          >
+            Go to profile
+          </Link>
+        </h5>
+        <small>Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}</small>
+        <h5>Description: {setup.description}</h5>
       </div>
+      <img
+        src={setup.screenshot}
+        alt="Thumbnail"
+        className="search-thumbnail"
+      />
     </div>
   );
 };

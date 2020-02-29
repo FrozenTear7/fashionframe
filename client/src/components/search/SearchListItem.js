@@ -7,12 +7,11 @@ const SearchListItem = props => {
   return (
     <div>
       <Link to={`/fashionframe/setups/${setup.id}`}>
-        <li className="border-normal search-list-item">
-          <div className="row">
-            <div className="col-6">
+        <li className="search-list-item">
+          <div className="d-flex flex-wrap">
+            <div>
               <h3>{setup.name}</h3>
               <h4>Frame: {setup.frame}</h4>
-              <hr className="divider" />
               <span className="badge badge-primary">
                 <i className="fa fa-star"></i>
                 {setup.liked}
@@ -22,13 +21,11 @@ const SearchListItem = props => {
                 Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}
               </small>
             </div>
-            <div className="col-6">
-              <img
-                src={setup.screenshot}
-                alt="Thumbnail"
-                className="search-thumbnail"
-              />
-            </div>
+            <img
+              src={setup.screenshot}
+              alt="Thumbnail"
+              className="search-thumbnail"
+            />
           </div>
         </li>
       </Link>
