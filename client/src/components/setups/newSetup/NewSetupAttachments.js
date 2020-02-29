@@ -12,6 +12,21 @@ class NewSetupAttachments extends Component {
   }
 
   render() {
+    const {
+      setup,
+      chestAttachments,
+      chestOnChange,
+      armAttachments,
+      leftArmOnChange,
+      rightArmOnChange,
+      legAttachments,
+      leftLegOnChange,
+      rightLegOnChange,
+      ephemeras,
+      ephemeraOnChange,
+      colorPickerComponent
+    } = this.props;
+
     return (
       <div>
         <div
@@ -32,10 +47,10 @@ class NewSetupAttachments extends Component {
                   <Select
                     id="chestSelect"
                     defaultValue={mapToOption(
-                      this.props.setup.attachments.chest || "None"
+                      setup.attachments.chest || "None"
                     )}
-                    options={mapToOptionsWithNone(this.props.chestAttachments)}
-                    onChange={e => this.props.chestOnChange(e.value)}
+                    options={mapToOptionsWithNone(chestAttachments)}
+                    onChange={e => chestOnChange(e.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -43,10 +58,10 @@ class NewSetupAttachments extends Component {
                   <Select
                     id="leftArmSelect"
                     defaultValue={mapToOption(
-                      this.props.setup.attachments.leftArm || "None"
+                      setup.attachments.leftArm || "None"
                     )}
-                    options={mapToOptionsWithNone(this.props.armAttachments)}
-                    onChange={e => this.props.leftArmOnChange(e.value)}
+                    options={mapToOptionsWithNone(armAttachments)}
+                    onChange={e => leftArmOnChange(e.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -54,10 +69,10 @@ class NewSetupAttachments extends Component {
                   <Select
                     id="leftArmSelect"
                     defaultValue={mapToOption(
-                      this.props.setup.attachments.leftLeg || "None"
+                      setup.attachments.leftLeg || "None"
                     )}
-                    options={mapToOptionsWithNone(this.props.legAttachments)}
-                    onChange={e => this.props.leftLegOnChange(e.value)}
+                    options={mapToOptionsWithNone(legAttachments)}
+                    onChange={e => leftLegOnChange(e.value)}
                   />
                 </div>
               </div>
@@ -67,10 +82,10 @@ class NewSetupAttachments extends Component {
                   <Select
                     id="ephemeraSelect"
                     defaultValue={mapToOption(
-                      this.props.setup.attachments.ephemera || "None"
+                      setup.attachments.ephemera || "None"
                     )}
-                    options={mapToOptionsWithNone(this.props.ephemeras)}
-                    onChange={e => this.props.ephemeraOnChange(e.value)}
+                    options={mapToOptionsWithNone(ephemeras)}
+                    onChange={e => ephemeraOnChange(e.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -78,10 +93,10 @@ class NewSetupAttachments extends Component {
                   <Select
                     id="rightArmSelect"
                     defaultValue={mapToOption(
-                      this.props.setup.attachments.rightArm || "None"
+                      setup.attachments.rightArm || "None"
                     )}
-                    options={mapToOptionsWithNone(this.props.armAttachments)}
-                    onChange={e => this.props.rightArmOnChange(e.value)}
+                    options={mapToOptionsWithNone(armAttachments)}
+                    onChange={e => rightArmOnChange(e.value)}
                   />
                 </div>
                 <div className="form-group">
@@ -89,16 +104,16 @@ class NewSetupAttachments extends Component {
                   <Select
                     id="rightLegSelect"
                     defaultValue={mapToOption(
-                      this.props.setup.attachments.rightLeg || "None"
+                      setup.attachments.rightLeg || "None"
                     )}
-                    options={mapToOptionsWithNone(this.props.legAttachments)}
-                    onChange={e => this.props.leftLegOnChange(e.value)}
+                    options={mapToOptionsWithNone(legAttachments)}
+                    onChange={e => rightLegOnChange(e.value)}
                   />
                 </div>
               </div>
             </div>
             <br />
-            {this.props.colorPickerComponent}
+            {colorPickerComponent}
           </div>
         </div>
       </div>

@@ -17,7 +17,16 @@ class NewSetupPhysique extends Component {
   }
 
   render() {
-    const frameMatchRegex = new RegExp(`.*${this.props.setup.frame} .*`);
+    const {
+      setup,
+      helmets,
+      helmetOnChange,
+      skins,
+      skinOnChange,
+      colorPickerComponent
+    } = this.props;
+
+    const frameMatchRegex = new RegExp(`.*${setup.frame} .*`);
 
     return (
       <div>
@@ -39,12 +48,12 @@ class NewSetupPhysique extends Component {
                   <Select
                     id="helmetSelect"
                     value={mapToOption(
-                      frameMatchRegex.test(this.props.setup.helmet)
-                        ? this.props.setup.helmet
-                        : this.props.setup.frame + " Helmet"
+                      frameMatchRegex.test(setup.helmet)
+                        ? setup.helmet
+                        : setup.frame + " Helmet"
                     )}
-                    options={mapToOptions(this.props.helmets)}
-                    onChange={e => this.props.helmetOnChange(e.value)}
+                    options={mapToOptions(helmets)}
+                    onChange={e => helmetOnChange(e.value)}
                   />
                 </div>
               </div>
@@ -54,18 +63,18 @@ class NewSetupPhysique extends Component {
                   <Select
                     id="skinSelect"
                     value={mapToOption(
-                      frameMatchRegex.test(this.props.setup.skin)
-                        ? this.props.setup.skin
-                        : this.props.setup.frame + " Skin"
+                      frameMatchRegex.test(setup.skin)
+                        ? setup.skin
+                        : setup.frame + " Skin"
                     )}
-                    options={mapToOptions(this.props.skins)}
-                    onChange={e => this.props.skinOnChange(e.value)}
+                    options={mapToOptions(skins)}
+                    onChange={e => skinOnChange(e.value)}
                   />
                 </div>
               </div>
             </div>
             <br />
-            {this.props.colorPickerComponent}
+            {colorPickerComponent}
           </div>
         </div>
       </div>

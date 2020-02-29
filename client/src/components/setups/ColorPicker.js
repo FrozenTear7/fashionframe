@@ -29,44 +29,37 @@ class ColorPicker extends Component {
 
     return (
       <div>
-        <ul className="list-inline">
-          <li className="list-inline-item">
-            <div style={{ width: "175px" }}>
-              {colorName}
-              <Select
-                defaultValue={mapToOption("Classic")}
-                options={mapToOptions(Object.keys(colors))}
-                onChange={e => this.setState({ colorPicker: e.value })}
+        <div style={{ width: "175px" }}>{colorName}</div>
+        <OverlayTrigger
+          trigger="click"
+          placement="right"
+          rootClose={true}
+          overlay={
+            <Popover id="popover-basic" title="Change color">
+              <GithubPicker
+                onChangeComplete={buttonColorOnClick}
+                triangle="hide"
+                width="138px"
+                colors={colors[colorPicker]}
               />
-            </div>
-          </li>
-          <li className="list-inline-item">
-            <OverlayTrigger
-              trigger="click"
-              placement="right"
-              rootClose={true}
-              overlay={
-                <Popover id="popover-basic" title="Change color">
-                  <GithubPicker
-                    onChangeComplete={buttonColorOnClick}
-                    triangle="hide"
-                    width="138px"
-                    colors={colors[colorPicker]}
-                  />
-                </Popover>
-              }
-            >
-              <Button
-                className={
-                  !color ? "transparent-checkered color-button" : "color-button"
-                }
-                style={{
-                  backgroundColor: color ? color : "#d1d1d1"
-                }}
-              />
-            </OverlayTrigger>
-          </li>
-        </ul>
+            </Popover>
+          }
+        >
+          <Button
+            className={
+              !color ? "transparent-checkered color-button" : "color-button"
+            }
+            style={{
+              backgroundColor: color ? color : "#d1d1d1"
+            }}
+          />
+        </OverlayTrigger>
+        <br />
+        <Select
+          defaultValue={mapToOption("Classic")}
+          options={mapToOptions(Object.keys(colors))}
+          onChange={e => this.setState({ colorPicker: e.value })}
+        />
       </div>
     );
   }

@@ -16,6 +16,13 @@ class NewSetupPhysique extends Component {
   }
 
   render() {
+    const {
+      setup,
+      syandanas,
+      syandanaOnChange,
+      colorPickerComponent
+    } = this.props;
+
     return (
       <div>
         <div
@@ -32,14 +39,12 @@ class NewSetupPhysique extends Component {
             <label htmlFor="syandanaSelect">Syandana</label>
             <Select
               id="syandanaSelect"
-              defaultValue={mapToOption(
-                this.props.setup.attachments.syandana || "None"
-              )}
-              options={mapToOptions(this.props.syandanas)}
-              onChange={e => this.props.syandanaOnChange(e.value)}
+              defaultValue={mapToOption(setup.attachments.syandana || "None")}
+              options={mapToOptions(syandanas)}
+              onChange={e => syandanaOnChange(e.value)}
             />
             <br />
-            {this.props.colorPickerComponent}
+            {colorPickerComponent}
           </div>
         </div>
       </div>

@@ -119,8 +119,14 @@ class NewSetup extends Component {
       }
     };
 
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleSetupChange = this.handleSetupChange.bind(this);
+    this.attachmentsElementOnChange = this.attachmentsElementOnChange.bind(
+      this
+    );
+    this.setupElementOnChange = this.setupElementOnChange.bind(this);
+    this.setupColorOnChange = this.setupColorOnChange.bind(this);
+    this.attachmentsColorOnChange = this.attachmentsColorOnChange.bind(this);
+    this.syandanaColorOnChange = this.syandanaColorOnChange.bind(this);
     this.postNewSetup = this.postNewSetup.bind(this);
     this.deleteSetup = this.deleteSetup.bind(this);
 
@@ -301,20 +307,11 @@ class NewSetup extends Component {
     if (this.props.mode === "edit") await this.fetchSetupData();
   }
 
-  handleNameChange(event) {
+  handleSetupChange(e, fieldName) {
     this.setState({
       setup: {
         ...this.state.setup,
-        name: event.target.value
-      }
-    });
-  }
-
-  handleDescriptionChange(event) {
-    this.setState({
-      setup: {
-        ...this.state.setup,
-        description: event.target.value
+        [fieldName]: e.target.value
       }
     });
   }
@@ -352,6 +349,42 @@ class NewSetup extends Component {
     });
   }
 
+  setupColorOnChange(colorName, color) {
+    this.setState({
+      setup: {
+        ...this.state.setup,
+        colorScheme: {
+          ...this.state.setup.colorScheme,
+          [`${colorName}`]: color.hex
+        }
+      }
+    });
+  }
+
+  attachmentsColorOnChange(colorName, color) {
+    this.setState({
+      setup: {
+        ...this.state.setup,
+        colorScheme: {
+          ...this.state.setup.colorScheme,
+          [`${colorName}`]: color.hex
+        }
+      }
+    });
+  }
+
+  syandanaColorOnChange(colorName, color) {
+    this.setState({
+      setup: {
+        ...this.state.setup,
+        colorScheme: {
+          ...this.state.setup.colorScheme,
+          [`${colorName}`]: color.hex
+        }
+      }
+    });
+  }
+
   getColorPickersComponent(getColorOnClickFunction, setupColors) {
     return (
       <NewSetupColors
@@ -373,36 +406,53 @@ class NewSetup extends Component {
   }
 
   render() {
-    if (this.state.createSetupRedirect) {
-      return (
-        <Redirect push to={`/fashionframe/setups/${this.state.setupId}`} />
-      );
+    console.log(this.state.setup);
+
+    const {
+      createSetupRedirect,
+      setupId,
+      deleteSetupRedirect,
+      frames,
+      ephemeras,
+      skins,
+      helmets,
+      colorPickers,
+      chestAttachments,
+      armAttachments,
+      legAttachments,
+      syandanas,
+      setupLoading,
+      setup
+    } = this.state;
+
+    if (createSetupRedirect) {
+      return <Redirect push to={`/fashionframe/setups/${setupId}`} />;
     }
 
-    if (this.state.deleteSetupRedirect) {
+    if (deleteSetupRedirect) {
       return <Redirect push to={`/fashionframe/`} />;
     }
 
     if (
-      this.state.frames.loading ||
-      this.state.ephemeras.loading ||
-      this.state.skins.loading ||
-      this.state.helmets.loading ||
-      this.state.colorPickers.loading ||
-      this.state.chestAttachments.loading ||
-      this.state.armAttachments.loading ||
-      this.state.legAttachments.loading ||
-      this.state.syandanas.loading ||
-      this.state.setupLoading
+      frames.loading ||
+      ephemeras.loading ||
+      skins.loading ||
+      helmets.loading ||
+      colorPickers.loading ||
+      chestAttachments.loading ||
+      armAttachments.loading ||
+      legAttachments.loading ||
+      syandanas.loading ||
+      setupLoading
     ) {
       return <Loading />;
     } else {
       return (
         <div>
           <NewSetupTopPanel
-            setup={this.state.setup}
-            frames={this.state.frames.data}
-            handleNameChange={this.handleNameChange}
+            setup={setup}
+            frames={frames.data}
+            handleNameChange={e => this.handleSetupChange(e, "name")}
             frameOnChange={frame => this.setupElementOnChange("frame", frame)}
             saveSetupOnClick={this.postNewSetup}
             deleteSetupOnClick={this.deleteSetup}
@@ -413,40 +463,29 @@ class NewSetup extends Component {
           <div className="row">
             <div className="col-8">
               <NewSetupPhysique
-                setup={this.state.setup}
-                helmets={this.state.helmets.data.filter(helmet =>
-                  helmet.match(`.*${this.state.setup.frame} .*`)
+                setup={setup}
+                helmets={helmets.data.filter(helmet =>
+                  helmet.match(`.*${setup.frame} .*`)
                 )}
                 helmetOnChange={helmet =>
                   this.setupElementOnChange("helmet", helmet)
                 }
-                skins={this.state.skins.data.filter(skin =>
-                  skin.match(`.*${this.state.setup.frame} .*`)
+                skins={skins.data.filter(skin =>
+                  skin.match(`.*${setup.frame} .*`)
                 )}
                 skinOnChange={skin => this.setupElementOnChange("skin", skin)}
                 colorPickerComponent={this.getColorPickersComponent(
-                  colorName => {
-                    return color =>
-                      this.setState({
-                        setup: {
-                          ...this.state.setup,
-                          colorScheme: {
-                            ...this.state.setup.colorScheme,
-                            [`${colorName}`]: color.hex
-                          }
-                        }
-                      });
-                  },
-                  this.state.setup.colorScheme
+                  this.setupColorOnChange,
+                  setup.colorScheme
                 )}
               />
               <br />
               <NewSetupAttachments
-                setup={this.state.setup}
-                chestAttachments={this.state.chestAttachments.data}
-                ephemeras={this.state.ephemeras.data}
-                armAttachments={this.state.armAttachments.data}
-                legAttachments={this.state.legAttachments.data}
+                setup={setup}
+                chestAttachments={chestAttachments.data}
+                ephemeras={ephemeras.data}
+                armAttachments={armAttachments.data}
+                legAttachments={legAttachments.data}
                 chestOnChange={chest =>
                   this.attachmentsElementOnChange("chest", chest)
                 }
@@ -466,55 +505,29 @@ class NewSetup extends Component {
                   this.attachmentsElementOnChange("rightLeg", rightLeg)
                 }
                 colorPickerComponent={this.getColorPickersComponent(
-                  colorName => {
-                    return color =>
-                      this.setState({
-                        setup: {
-                          ...this.state.setup,
-                          attachments: {
-                            ...this.state.setup.attachments,
-                            colorScheme: {
-                              ...this.state.setup.attachments.colorScheme,
-                              [`${colorName}`]: color.hex
-                            }
-                          }
-                        }
-                      });
-                  },
-                  this.state.setup.attachments.colorScheme
+                  this.attachmentsColorOnChange,
+                  setup.attachments.colorScheme
                 )}
               />
               <br />
               <NewSetupSyandana
-                setup={this.state.setup}
-                syandanas={this.state.syandanas.data}
+                setup={setup}
+                syandanas={syandanas.data}
                 syandanaOnChange={syandana =>
-                  this.syandanaOnChange("syandana", syandana)
+                  this.syandanaOnChange("name", syandana)
                 }
                 colorPickerComponent={this.getColorPickersComponent(
-                  colorName => {
-                    return color =>
-                      this.setState({
-                        setup: {
-                          ...this.state.setup,
-                          syandana: {
-                            ...this.state.setup.syandana,
-                            colorScheme: {
-                              ...this.state.setup.syandana.colorScheme,
-                              [`${colorName}`]: color.hex
-                            }
-                          }
-                        }
-                      });
-                  },
-                  this.state.setup.syandana.colorScheme
+                  this.syandanaColorOnChange,
+                  setup.syandana.colorScheme
                 )}
               />
             </div>
             <div className="col-4">
               <NewSetupDescription
-                description={this.state.setup.description}
-                handleDescriptionChange={this.handleDescriptionChange}
+                description={setup.description}
+                handleDescriptionChange={e =>
+                  this.handleSetupChange(e, "description")
+                }
                 handleScreenshotChange={this.handleScreenshotChange}
                 screenshotFileRef={this.screenshotFileRef}
               />

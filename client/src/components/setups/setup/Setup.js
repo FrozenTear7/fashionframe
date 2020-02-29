@@ -26,24 +26,24 @@ class Setup extends Component {
     this.likeSetup = this.likeSetup.bind(this);
   }
 
-  async fetchSetupData() {
+  async fetchResources(url, resourceName) {
     try {
-      const res = await fetchAuth(`/setups/${this.props.match.params.id}`);
+      const res = await fetchAuth(url);
       const resJson = await res.json();
 
       if (res.ok) {
         this.setState({
-          setup: {
-            ...this.state.setup,
+          [resourceName]: {
+            ...this.state[resourceName],
             loading: false,
             error: "",
-            data: resJson.setup
+            data: resJson[resourceName]
           }
         });
       } else {
         this.setState({
-          setup: {
-            ...this.state.setup,
+          [resourceName]: {
+            ...this.state[resourceName],
             loading: false,
             error: resJson.message
           }
@@ -51,10 +51,10 @@ class Setup extends Component {
       }
     } catch (error) {
       this.setState({
-        setup: {
-          ...this.state.setup,
+        [resourceName]: {
+          ...this.state[resourceName],
           loading: false,
-          error: `Could not fetch setup data`
+          error: `Could not fetch ${resourceName}`
         }
       });
     }
@@ -106,43 +106,9 @@ class Setup extends Component {
     }
   }
 
-  async fetchColorPickers() {
-    try {
-      const res = await fetchAuth(`/api/colorPickers`);
-      const resJson = await res.json();
-
-      if (res.ok) {
-        this.setState({
-          colorPickers: {
-            ...this.state.colorPickers,
-            loading: false,
-            error: "",
-            data: resJson.colorPickers
-          }
-        });
-      } else {
-        this.setState({
-          colorPickers: {
-            ...this.state.colorPickers,
-            loading: false,
-            error: resJson.message
-          }
-        });
-      }
-    } catch (error) {
-      this.setState({
-        colorPickers: {
-          ...this.state.colorPickers,
-          loading: false,
-          error: `Could not fetch colors data`
-        }
-      });
-    }
-  }
-
   async componentDidMount() {
-    await this.fetchSetupData();
-    await this.fetchColorPickers();
+    await this.fetchResources(`/api/colorPickers`, "colorPickers");
+    await this.fetchResources(`/setups/${this.props.match.params.id}`, "setup");
   }
 
   render() {
