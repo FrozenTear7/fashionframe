@@ -6,6 +6,7 @@ import SignInRegisterForm from "./SignInRegisterForm.js";
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
+const myUrl = serverUrl;
 
 class NotFound extends Component {
   constructor() {
@@ -35,35 +36,35 @@ class NotFound extends Component {
         <div className="d-flex flex-wrap center">
           <a
             className="social-media-list-item btn btn-primary btn-lg"
-            href={localUrl + "/auth/google"}
+            href={myUrl + "/auth/google"}
             role="button"
           >
             <i className="fa fa-google"></i>
           </a>
           <a
             className="social-media-list-item btn btn-primary btn-lg"
-            href={localUrl + "/auth/twitchtv"}
+            href={myUrl + "/auth/twitchtv"}
             role="button"
           >
             <i className="fa fa-twitch"></i>
           </a>
           <a
             className="social-media-list-item btn btn-primary btn-lg"
-            href={localUrl + "/auth/steam"}
+            href={myUrl + "/auth/steam"}
             role="button"
           >
             <i className="fa fa-steam"></i>
           </a>
           <a
             className="social-media-list-item btn btn-primary btn-lg"
-            href={localUrl + "/auth/twitter"}
+            href={myUrl + "/auth/twitter"}
             role="button"
           >
             <i className="fa fa-twitter"></i>
           </a>
           <a
             className="social-media-list-item btn btn-primary btn-lg"
-            href={localUrl + "/auth/github"}
+            href={myUrl + "/auth/github"}
             role="button"
           >
             <i className="fa fa-github"></i>

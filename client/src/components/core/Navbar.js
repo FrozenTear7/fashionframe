@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
+const myUrl = serverUrl;
 
 class Navbar extends Component {
   constructor() {
@@ -171,7 +172,7 @@ class Navbar extends Component {
               )}
               {isAuthorized && (
                 <li className="nav-item">
-                  <a className="nav-link" href={localUrl + "/auth/logout"}>
+                  <a className="nav-link" href={myUrl + "/auth/logout"}>
                     Sign out
                   </a>
                 </li>

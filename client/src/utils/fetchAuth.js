@@ -2,6 +2,7 @@
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
+const myUrl = serverUrl;
 
 // eslint-disable-next-line no-unused-vars
 const frontendDeployUrl = "https://fashionframe.herokuapp.com/fashionframe";
@@ -9,7 +10,7 @@ const frontendDeployUrl = "https://fashionframe.herokuapp.com/fashionframe";
 const frontendLocalUrl = "http://localhost:3000/fashionframe";
 
 export const fetchAuth = (path, options) => {
-  let requestURL = new URL(localUrl + path);
+  let requestURL = new URL(myUrl + path);
 
   return fetch(requestURL, {
     ...options,
@@ -18,7 +19,7 @@ export const fetchAuth = (path, options) => {
 };
 
 export const fetchAuthPostJson = (path, options) => {
-  let requestURL = new URL(localUrl + path);
+  let requestURL = new URL(myUrl + path);
 
   return fetch(requestURL, {
     ...options,
