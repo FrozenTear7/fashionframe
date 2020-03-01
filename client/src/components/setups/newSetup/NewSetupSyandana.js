@@ -35,16 +35,17 @@ class NewSetupPhysique extends Component {
           SYANDANA
         </div>
         <div className="collapse" id="collapseSyandana">
-          <div className="card card-body">
-            <label htmlFor="syandanaSelect">Syandana</label>
-            <Select
-              id="syandanaSelect"
-              defaultValue={mapToOption(setup.attachments.syandana || "None")}
-              options={mapToOptions(syandanas)}
-              onChange={e => syandanaOnChange(e.value)}
-            />
-            <br />
-            {colorPickerComponent}
+          <div className="card card-body d-flex flex-wrap">
+            <div className="p-2 flex-fill select-dropdown">
+              <label htmlFor="syandanaSelect">Syandana</label>
+              <Select
+                id="syandanaSelect"
+                defaultValue={mapToOption(setup.attachments.syandana || "None")}
+                options={mapToOptions(syandanas)}
+                onChange={e => syandanaOnChange(e.value)}
+              />
+            </div>
+            <div className="p-2 flex-fill">{colorPickerComponent}</div>
           </div>
         </div>
       </div>

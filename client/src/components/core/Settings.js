@@ -100,7 +100,7 @@ class Settings extends Component {
               maxWidth: "50%"
             }}
           >
-            <div className="form-group">
+            <div>
               <label htmlFor="username">Change username</label>
               <input
                 className="form-control"

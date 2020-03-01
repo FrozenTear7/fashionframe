@@ -71,7 +71,7 @@ class SignInLoginForm extends Component {
     return (
       <div className="center">
         <form onChange={this.formValueOnChange}>
-          <div className="form-group">
+          <div>
             <label htmlFor="exampleInputEmail1">Username</label>
             <input
               type="text"
@@ -83,7 +83,8 @@ class SignInLoginForm extends Component {
               <small className="text-error">Username is required</small>
             )}
           </div>
-          <div className="form-group">
+          <br />
+          <div>
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -102,6 +103,7 @@ class SignInLoginForm extends Component {
               {error}
             </div>
           )}
+          <br />
           <button
             type="button"
             className="btn btn-primary"

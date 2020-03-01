@@ -12,9 +12,9 @@ const NewSetupColors = props => {
 
   return (
     <div>
-      <div className="row">
+      <div className="d-flex flex-wrap center">
         {colorNames.slice(0, 4).map((colorName, i) => (
-          <div className="col-3" key={i}>
+          <div className="p-2 center" key={i}>
             <ColorPicker
               key={colorName}
               colorName={formatColorName(colorName)}
@@ -25,10 +25,9 @@ const NewSetupColors = props => {
           </div>
         ))}
       </div>
-      <br />
-      <div className="row">
+      <div className="d-flex flex-wrap center">
         {colorNames.slice(4, 8).map((colorName, i) => (
-          <div className="col-3" key={i}>
+          <div className="p-2 center" key={i}>
             <ColorPicker
               key={colorName}
               colorName={formatColorName(colorName)}

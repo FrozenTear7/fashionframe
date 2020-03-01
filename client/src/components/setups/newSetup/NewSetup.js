@@ -8,11 +8,13 @@ import NewSetupTopPanel from "./NewSetupTopPanel";
 import NewSetupDescription from "./NewSetupDescription";
 import NewSetupSyandana from "./NewSetupSyandana";
 import Loading from "../../utils/Loading";
+import { isSetupNameValid } from "../../../utils/validators.js";
 
 class NewSetup extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showValidationMessages: false,
       createSetupRedirect: false,
       deleteSetupRedirect: false,
       setupId: "",
@@ -23,6 +25,7 @@ class NewSetup extends Component {
         name: "",
         frame: "Ash",
         description: "",
+        screenshot: "",
         skin: "Ash Skin",
         helmet: "Ash Helmet",
         attachments: {
@@ -229,39 +232,49 @@ class NewSetup extends Component {
   }
 
   async postNewSetup() {
-    try {
-      const formData = new FormData();
-      formData.append("file", this.screenshotFileRef.current.files[0]);
-      formData.append("setup", JSON.stringify(this.state.setup));
+    if (
+      isSetupNameValid(this.state.setup.name) &&
+      (this.state.setup.screenshot || this.screenshotFileRef.current.files[0])
+    ) {
+      try {
+        const formData = new FormData();
 
-      const res = await fetchAuth(
-        `/setups${
-          this.props.mode === "edit" ? `/${this.props.match.params.id}` : ""
-        }`,
-        {
-          method: this.props.mode === "edit" ? "PUT" : "POST",
-          body: formData
+        if (this.screenshotFileRef.current.files[0])
+          formData.append("file", this.screenshotFileRef.current.files[0]);
+
+        formData.append("setup", JSON.stringify(this.state.setup));
+
+        const res = await fetchAuth(
+          `/setups${
+            this.props.mode === "edit" ? `/${this.props.match.params.id}` : ""
+          }`,
+          {
+            method: this.props.mode === "edit" ? "PUT" : "POST",
+            body: formData
+          }
+        );
+        const resJson = await res.json();
+
+        if (res.ok) {
+          this.setState({
+            createSetupRedirect: true,
+            setupId: resJson.setupId
+          });
+        } else {
+          this.setState({
+            setupError: resJson.message
+          });
         }
-      );
-      const resJson = await res.json();
-
-      if (res.ok) {
+      } catch (error) {
         this.setState({
-          createSetupRedirect: true,
-          setupId: resJson.setupId
-        });
-      } else {
-        this.setState({
-          setupError: resJson.message
+          setupError:
+            this.props.mode === "edit"
+              ? "Could not update setup"
+              : "Could not create setup"
         });
       }
-    } catch (error) {
-      this.setState({
-        setupError:
-          this.props.mode === "edit"
-            ? "Could not update setup"
-            : "Could not create setup"
-      });
+    } else {
+      this.setState({ showValidationMessages: true });
     }
   }
 
@@ -368,7 +381,7 @@ class NewSetup extends Component {
         attachments: {
           ...this.state.setup.attachments,
           colorScheme: {
-            ...this.state.attachments.colorScheme,
+            ...this.state.setup.attachments.colorScheme,
             [`${colorName}`]: color.hex
           }
         }
@@ -383,7 +396,7 @@ class NewSetup extends Component {
         syandana: {
           ...this.state.setup.syandana,
           colorScheme: {
-            ...this.state.syandana.colorScheme,
+            ...this.state.setup.syandana.colorScheme,
             [`${colorName}`]: color.hex
           }
         }
@@ -413,6 +426,7 @@ class NewSetup extends Component {
 
   render() {
     const {
+      showValidationMessages,
       createSetupRedirect,
       setupId,
       deleteSetupRedirect,
@@ -460,11 +474,87 @@ class NewSetup extends Component {
             frameOnChange={frame => this.setupElementOnChange("frame", frame)}
             saveSetupOnClick={this.postNewSetup}
             deleteSetupOnClick={this.deleteSetup}
+            showValidationMessages={showValidationMessages}
           />
           {this.getErrorMessages()}
           <hr className="divider" />
           <br />
-          <div className="row">
+          <div className="d-flex flex-wrap">
+            <div className="p-2 flex-fill">
+              <NewSetupDescription
+                description={setup.description}
+                screenshot={setup.screenshot}
+                handleDescriptionChange={e =>
+                  this.handleSetupChange(e, "description")
+                }
+                handleScreenshotChange={this.handleScreenshotChange}
+                screenshotFileRef={this.screenshotFileRef}
+                showValidationMessages={showValidationMessages}
+              />
+            </div>
+            <div className="p-2 flex-fill">
+              <NewSetupPhysique
+                setup={setup}
+                helmets={helmets.data.filter(helmet =>
+                  helmet.match(`.*${setup.frame} .*`)
+                )}
+                helmetOnChange={helmet =>
+                  this.setupElementOnChange("helmet", helmet)
+                }
+                skins={skins.data.filter(skin =>
+                  skin.match(`.*${setup.frame} .*`)
+                )}
+                skinOnChange={skin => this.setupElementOnChange("skin", skin)}
+                colorPickerComponent={this.getColorPickersComponent(
+                  this.setupColorOnChange,
+                  setup.colorScheme
+                )}
+              />
+              <br />
+              <NewSetupAttachments
+                setup={setup}
+                chestAttachments={chestAttachments.data}
+                ephemeras={ephemeras.data}
+                armAttachments={armAttachments.data}
+                legAttachments={legAttachments.data}
+                chestOnChange={chest =>
+                  this.attachmentsElementOnChange("chest", chest)
+                }
+                ephemeraOnChange={ephemera =>
+                  this.attachmentsElementOnChange("ephemera", ephemera)
+                }
+                leftArmOnChange={leftArm =>
+                  this.attachmentsElementOnChange("leftArm", leftArm)
+                }
+                rightArmOnChange={rightArm =>
+                  this.attachmentsElementOnChange("rightArm", rightArm)
+                }
+                leftLegOnChange={leftLeg =>
+                  this.attachmentsElementOnChange("leftLeg", leftLeg)
+                }
+                rightLegOnChange={rightLeg =>
+                  this.attachmentsElementOnChange("rightLeg", rightLeg)
+                }
+                colorPickerComponent={this.getColorPickersComponent(
+                  this.attachmentsColorOnChange,
+                  setup.attachments.colorScheme
+                )}
+              />
+              <br />
+              <NewSetupSyandana
+                setup={setup}
+                syandanas={syandanas.data}
+                syandanaOnChange={syandana =>
+                  this.syandanaOnChange("name", syandana)
+                }
+                colorPickerComponent={this.getColorPickersComponent(
+                  this.syandanaColorOnChange,
+                  setup.syandana.colorScheme
+                )}
+              />
+            </div>
+          </div>
+          {/* <div className="row">
             <div className="col-8">
               <NewSetupPhysique
                 setup={setup}
@@ -536,7 +626,7 @@ class NewSetup extends Component {
                 screenshotFileRef={this.screenshotFileRef}
               />
             </div>
-          </div>
+          </div> */}
         </div>
       );
     }

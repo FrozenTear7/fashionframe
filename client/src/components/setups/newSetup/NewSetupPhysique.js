@@ -40,42 +40,40 @@ class NewSetupPhysique extends Component {
           PHYSIQUE
         </div>
         <div className="collapse show" id="collapsePhysique">
-          <div className="card card-body">
-            <div className="row">
-              <div className="col-6">
-                <div className="form-group">
-                  <label htmlFor="helmetSelect">Helmet</label>
-                  <Select
-                    id="helmetSelect"
-                    value={mapToOption(
-                      frameMatchRegex.test(setup.helmet)
-                        ? setup.helmet
-                        : setup.frame + " Helmet"
-                    )}
-                    options={mapToOptions(helmets)}
-                    onChange={e => helmetOnChange(e.value)}
-                  />
-                </div>
-              </div>
-              <div className="col-6">
-                <div className="form-group">
-                  <label htmlFor="skinSelect">Skin</label>
-                  <Select
-                    id="skinSelect"
-                    value={mapToOption(
-                      frameMatchRegex.test(setup.skin)
-                        ? setup.skin
-                        : setup.frame + " Skin"
-                    )}
-                    options={mapToOptions(skins)}
-                    onChange={e => skinOnChange(e.value)}
-                  />
-                </div>
-              </div>
+          <div className="card card-body d-flex flex-wrap">
+            <div className="p-2 flex-fill select-dropdown">
+              <label htmlFor="helmetSelect">Helmet</label>
+              <Select
+                id="helmetSelect"
+                value={mapToOption(
+                  frameMatchRegex.test(setup.helmet)
+                    ? setup.helmet
+                    : setup.frame + " Helmet"
+                )}
+                options={mapToOptions(helmets)}
+                onChange={e => helmetOnChange(e.value)}
+              />
             </div>
-            <br />
+            <div className="p-2 flex-fill select-dropdown">
+              <label htmlFor="skinSelect">Skin</label>
+              <Select
+                id="skinSelect"
+                value={mapToOption(
+                  frameMatchRegex.test(setup.skin)
+                    ? setup.skin
+                    : setup.frame + " Skin"
+                )}
+                options={mapToOptions(skins)}
+                onChange={e => skinOnChange(e.value)}
+              />
+            </div>
             {colorPickerComponent}
           </div>
+          {/* <ColorsBlock
+                  colorScheme={setup.colorScheme}
+                  colorPickers={colorPickers}
+                  modalName={"physique"}
+                /> */}
         </div>
       </div>
     );

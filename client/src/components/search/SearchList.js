@@ -108,7 +108,7 @@ class SearchList extends Component {
       <div>
         <div className="row center">
           <div className="col-6">
-            <div className="form-group">
+            <div>
               <label htmlFor="frameSelect">Filter by frame</label>
               <Select
                 id="frameSelect"
@@ -119,7 +119,7 @@ class SearchList extends Component {
             </div>
           </div>
           <div className="col-6">
-            <div className="form-group">
+            <div>
               <label htmlFor="filterSelect">Sort by</label>
               <Select
                 id="filterSelect"
@@ -130,6 +130,7 @@ class SearchList extends Component {
             </div>
           </div>
         </div>
+        <br />
         <InfiniteScroll
           dataLength={setups.data.length}
           next={this.fetchMoreItems}

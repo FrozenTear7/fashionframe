@@ -82,7 +82,7 @@ class SignInRegisterForm extends Component {
     return (
       <div className="center">
         <form onChange={this.formValueOnChange}>
-          <div className="form-group">
+          <div>
             <label htmlFor="exampleInputEmail1">Username</label>
             <input
               type="text"
@@ -94,7 +94,8 @@ class SignInRegisterForm extends Component {
               <small className="text-error">Username is required</small>
             )}
           </div>
-          <div className="form-group">
+          <br />
+          <div>
             <label htmlFor="password">Password</label>
             <input
               type="password"
@@ -102,13 +103,18 @@ class SignInRegisterForm extends Component {
               id="password"
               placeholder="Password"
             />
-            {showValidationMessages && !isPasswordValid(password) && (
-              <small className="text-error">
-                Password is required - at least 6 characters
-              </small>
-            )}
+            <small
+              className={`${
+                showValidationMessages && !isPasswordValid(password, password2)
+                  ? "text-error"
+                  : "text-info"
+              }`}
+            >
+              Password needs to be at least 6 characters long
+            </small>
           </div>
-          <div className="form-group">
+          <br />
+          <div>
             <label htmlFor="password2">Confirm password</label>
             <input
               type="password"
@@ -126,6 +132,7 @@ class SignInRegisterForm extends Component {
               {error}
             </div>
           )}
+          <br />
           <button
             type="button"
             className="btn btn-primary"

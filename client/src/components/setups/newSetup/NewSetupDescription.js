@@ -1,11 +1,17 @@
 import React from "react";
 
 const NewSetupDescription = props => {
-  const { description, handleDescriptionChange, screenshotFileRef } = props;
+  const {
+    description,
+    screenshot,
+    handleDescriptionChange,
+    screenshotFileRef,
+    showValidationMessages
+  } = props;
 
   return (
     <div>
-      <div className="form-group">
+      <div>
         <label htmlFor="descriptionTextarea">Description</label>
         <textarea
           id="descriptionTextarea"
@@ -14,10 +20,21 @@ const NewSetupDescription = props => {
           onChange={handleDescriptionChange}
         />
       </div>
-
       <br />
-      <div className="form-group">
+      <div>
         <label htmlFor="screenshotInput">Screenshot</label>
+        {screenshot && (
+          <div>
+            <img
+              src={screenshot}
+              alt="Thumbnail"
+              className="search-thumbnail"
+            />
+            <br />
+            <h5>Upload new photo:</h5>
+            <br />
+          </div>
+        )}
         <input
           id="screenshotInput"
           type="file"
@@ -25,6 +42,9 @@ const NewSetupDescription = props => {
           accept=".jpg,.png"
           ref={screenshotFileRef}
         />
+        {showValidationMessages && !screenshotFileRef.current.files[0] && (
+          <small className="text-error">Setup image is required</small>
+        )}
       </div>
     </div>
   );

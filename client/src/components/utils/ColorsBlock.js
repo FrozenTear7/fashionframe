@@ -25,7 +25,7 @@ const colorNamesToButtons = (
 ) => {
   return colorNames.map((colorName, i) => (
     <div key={i}>
-      <div className="form-group center" style={{ marginInline: "25px" }}>
+      <div className="p-2 center">
         <label htmlFor={colorName}>{formatColorName(colorName)}</label>
         <div id={colorName}>
           {getColorButton(

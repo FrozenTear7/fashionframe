@@ -56,6 +56,7 @@ class ColorPicker extends Component {
         </OverlayTrigger>
         <br />
         <Select
+          className="p-2"
           defaultValue={mapToOption("Classic")}
           options={mapToOptions(Object.keys(colors))}
           onChange={e => this.setState({ colorPicker: e.value })}

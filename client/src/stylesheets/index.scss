@@ -147,7 +147,11 @@ li {
 }
 
 .text-error {
-  color: #c42121;
+  color: #c42121 !important;
+}
+
+.text-info {
+  color: $scheme-others !important;
 }
 
 .search-list-item {
@@ -156,4 +160,8 @@ li {
   @extend .rounded-lg;
   @extend .shadow;
   @extend .border;
+}
+
+.select-dropdown {
+  min-width: 8rem;
 }

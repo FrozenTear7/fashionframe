@@ -338,88 +338,137 @@ router.put(
   async (req, res) => {
     const client = await pool.connect();
 
+    const author = await getSetupAuthor(client, [req.params.id]);
+
+    if (author.user_id !== req.user.id) {
+      client.release();
+      res.status(403).send({
+        message: "Setup editing not allowed"
+      });
+    }
+
+    let setup = {};
+    let filePath = "";
+    let filePath2 = "";
+
     try {
-      const author = await getSetupAuthor(client, [req.params.id]);
+      new formidable.IncomingForm()
+        .parse(req)
+        .on("fileBegin", async (name, file) => {
+          if (file) {
+            const path = __dirname + "/uploads/" + file.name;
 
-      if (author.user_id !== req.user.id)
-        res.status(403).send({
-          message: "Setup editing not allowed"
+            file.path = path;
+            filePath = path;
+            filePath2 = __dirname + "/uploads/2" + file.name;
+          }
+        })
+        .on("file", (name, file) => {
+          if (file) {
+            console.log("Uploaded " + file.name);
+          }
+        })
+        .on("field", (name, field) => {
+          setup = JSON.parse(field);
+        })
+        .on("aborted", () => {
+          console.error("Request aborted by the user");
+          throw err;
+        })
+        .on("error", err => {
+          console.error("Error while uploading", err);
+          throw err;
+        })
+        .on("end", async () => {
+          try {
+            if (filePath && filePath2) {
+              await imageResize(filePath, filePath2);
+              const screenshotURL = await uploadPhoto(filePath2);
+              fs.unlinkSync(filePath);
+              fs.unlinkSync(filePath2);
+              setup = { ...setup, screenshot: screenshotURL };
+            }
+
+            await client.query("BEGIN");
+
+            const setupColorScheme = setup.colorScheme;
+            const attachments = setup.attachments;
+            const attachmentsColorScheme = attachments.colorScheme;
+            const syandana = setup.syandana;
+            const syandanaColorScheme = syandana.colorScheme;
+
+            const newUpdateSetup = await updateSetup(client, [
+              setup.name,
+              setup.frame,
+              setup.description,
+              setup.screenshot,
+              setup.helmet,
+              setup.skin,
+              req.params.id
+            ]);
+
+            const newUpdateAttachments = await updateAttachments(client, [
+              attachments.chest,
+              attachments.leftArm,
+              attachments.rightArm,
+              attachments.leftLeg,
+              attachments.rightLeg,
+              attachments.ephemera,
+              newUpdateSetup.id
+            ]);
+
+            const newUpdateSyandana = await updateSyandana(client, [
+              syandana.name,
+              newUpdateSetup.id
+            ]);
+
+            await updateSetupColorScheme(client, [
+              setupColorScheme.primary,
+              setupColorScheme.secondary,
+              setupColorScheme.tertiary,
+              setupColorScheme.accents,
+              setupColorScheme.emmissive1,
+              setupColorScheme.emmissive2,
+              setupColorScheme.energy1,
+              setupColorScheme.energy2,
+              newUpdateSetup.id
+            ]);
+
+            await updateAttachmentsColorScheme(client, [
+              attachmentsColorScheme.primary,
+              attachmentsColorScheme.secondary,
+              attachmentsColorScheme.tertiary,
+              attachmentsColorScheme.accents,
+              attachmentsColorScheme.emmissive1,
+              attachmentsColorScheme.emmissive2,
+              attachmentsColorScheme.energy1,
+              attachmentsColorScheme.energy2,
+              newUpdateAttachments.id
+            ]);
+
+            await updateSyandanaColorScheme(client, [
+              syandanaColorScheme.primary,
+              syandanaColorScheme.secondary,
+              syandanaColorScheme.tertiary,
+              syandanaColorScheme.accents,
+              syandanaColorScheme.emmissive1,
+              syandanaColorScheme.emmissive2,
+              syandanaColorScheme.energy1,
+              syandanaColorScheme.energy2,
+              newUpdateSyandana.id
+            ]);
+
+            await client.query("COMMIT");
+            res.send({ setupId: newUpdateSetup.id });
+          } catch (err) {
+            await client.query("ROLLBACK");
+            console.log(err);
+            res.status(400).send({
+              message: "Could not create setup"
+            });
+          }
         });
-
-      await client.query("BEGIN");
-
-      const setup = req.body.setup;
-      const setupColorScheme = setup.colorScheme;
-      const attachments = setup.attachments;
-      const attachmentsColorScheme = attachments.colorScheme;
-      const syandana = setup.syandana;
-      const syandanaColorScheme = syandana.colorScheme;
-
-      const newUpdateSetup = await updateSetup(client, [
-        setup.name,
-        setup.frame,
-        setup.description,
-        setup.screenshot,
-        setup.helmet,
-        setup.skin,
-        req.params.id
-      ]);
-
-      const newUpdateAttachments = await updateAttachments(client, [
-        attachments.chest,
-        attachments.leftArm,
-        attachments.rightArm,
-        attachments.leftLeg,
-        attachments.rightLeg,
-        attachments.ephemera,
-        newUpdateSetup.id
-      ]);
-
-      const newUpdateSyandana = await updateSyandana(client, [
-        syandana.name,
-        newUpdateSetup.id
-      ]);
-
-      await updateSetupColorScheme(client, [
-        setupColorScheme.primary,
-        setupColorScheme.secondary,
-        setupColorScheme.tertiary,
-        setupColorScheme.accents,
-        setupColorScheme.emmissive1,
-        setupColorScheme.emmissive2,
-        setupColorScheme.energy1,
-        setupColorScheme.energy2,
-        newUpdateSetup.id
-      ]);
-
-      await updateAttachmentsColorScheme(client, [
-        attachmentsColorScheme.primary,
-        attachmentsColorScheme.secondary,
-        attachmentsColorScheme.tertiary,
-        attachmentsColorScheme.accents,
-        attachmentsColorScheme.emmissive1,
-        attachmentsColorScheme.emmissive2,
-        attachmentsColorScheme.energy1,
-        attachmentsColorScheme.energy2,
-        newUpdateAttachments.id
-      ]);
-
-      await updateSyandanaColorScheme(client, [
-        syandanaColorScheme.primary,
-        syandanaColorScheme.secondary,
-        syandanaColorScheme.tertiary,
-        syandanaColorScheme.accents,
-        syandanaColorScheme.emmissive1,
-        syandanaColorScheme.emmissive2,
-        syandanaColorScheme.energy1,
-        syandanaColorScheme.energy2,
-        newUpdateSyandana.id
-      ]);
-
-      await client.query("COMMIT");
-      res.send({ setupId: newUpdateSetup.id });
     } catch (err) {
-      await client.query("ROLLBACK");
       console.log(err);
       res.status(400).send({
         message: "Could not create setup"
