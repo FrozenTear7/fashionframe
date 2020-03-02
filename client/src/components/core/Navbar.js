@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
-const myUrl = localUrl;
+const myUrl = serverUrl;
 
 class Navbar extends Component {
   constructor() {

@@ -106,8 +106,8 @@ class SearchList extends Component {
 
     return (
       <div>
-        <div class="d-flex flex-wrap center justify-content-center">
-          <div class="px-5 py-2">
+        <div className="d-flex flex-wrap center justify-content-center">
+          <div className="px-5 py-2">
             <div>
               <label htmlFor="frameSelect">Filter by frame</label>
               <Select
@@ -119,7 +119,7 @@ class SearchList extends Component {
               />
             </div>
           </div>
-          <div class="px-5 py-2">
+          <div className="px-5 py-2">
             <div>
               <label htmlFor="filterSelect">Sort by</label>
               <Select
