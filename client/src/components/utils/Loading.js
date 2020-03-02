@@ -1,6 +1,6 @@
 import React from "react";
 
-function Loading() {
+const Loading = () => {
   return (
     <div className="d-flex justify-content-center">
       <div className="spinner-grow text-dark" role="status">
@@ -8,6 +8,6 @@ function Loading() {
       </div>
     </div>
   );
-}
+};
 
 export default Loading;

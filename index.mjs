@@ -5,13 +5,21 @@ import passport from "passport";
 import cookieSession from "cookie-session";
 import cors from "cors";
 import bodyParser from "body-parser";
+import cloudinary from "cloudinary";
 import authRoutes from "./routes/auth-routes.mjs";
 import warframeRoutes from "./routes/warframe-routes.mjs";
 import setupRoutes from "./routes/setup-routes.mjs";
+import profileRoutes from "./routes/profile-routes.mjs";
 import passportSetup from "./config/passport-setup.mjs";
 import pool from "./config/db-connect.mjs";
 
 dotenv.config();
+
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_NAME,
+  api_key: process.env.CLOUDINARY_KEY,
+  api_secret: process.env.CLOUDINARY_SECRET
+});
 
 const serverUrl =
   process.env.MODE === "server"
@@ -36,17 +44,19 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-// app.use(
-//   cors({
-//     credentials: true
-//   })
-// );
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000", "http://localhost:3001", null]
+  })
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use("/auth", authRoutes);
 app.use("/api", warframeRoutes);
 app.use("/setups", setupRoutes);
+app.use("/profiles", profileRoutes);
 
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));

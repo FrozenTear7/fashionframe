@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { fetchAuth } from "../../utils/fetchAuth";
+import { fetchAuth, fetchAuthPostJson } from "../../utils/fetchAuth";
 import Loading from "../utils/Loading";
 
 class Settings extends Component {
@@ -60,7 +60,7 @@ class Settings extends Component {
 
   async handleUserDataSubmit(event) {
     try {
-      const res = await fetchAuth("/auth/user", {
+      const res = await fetchAuthPostJson("/auth/user", {
         method: "PUT",
         body: JSON.stringify({ userData: this.state.userData.data })
       });
@@ -80,14 +80,16 @@ class Settings extends Component {
       this.setState({
         userData: {
           ...this.state.userData,
-          error: "Server error"
+          error: "Could not update user data"
         }
       });
     }
   }
 
   render() {
-    if (this.state.userData.loading) {
+    const { userData } = this.state;
+
+    if (userData.loading) {
       return <Loading />;
     } else {
       return (
@@ -98,18 +100,18 @@ class Settings extends Component {
               maxWidth: "50%"
             }}
           >
-            <div className="form-group">
+            <div>
               <label htmlFor="username">Change username</label>
               <input
                 className="form-control"
                 id="username"
-                value={this.state.userData.data.username}
+                value={userData.data.username}
                 onChange={this.handleUsernameChange}
               />
             </div>
-            {this.state.userData.error && (
+            {userData.error && (
               <div className="alert alert-danger" role="alert">
-                {this.state.userData.error}
+                {userData.error}
               </div>
             )}
             <button
@@ -117,7 +119,7 @@ class Settings extends Component {
               type="button"
               onClick={this.handleUserDataSubmit}
             >
-              Submit
+              Update
             </button>
           </form>
         </div>

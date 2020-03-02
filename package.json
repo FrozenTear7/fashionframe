@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "dependencies": {
+    "bcrypt": "^4.0.0",
     "body-parser": "^1.19.0",
+    "cloudinary": "^1.19.0",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "cookie-session": "^1.4.0",
@@ -12,12 +14,17 @@
     "dotenv": "^8.2.0",
     "express": "~4.17.1",
     "express-session": "^1.17.0",
+    "formidable": "^1.2.2",
     "passport": "^0.4.1",
-    "passport-facebook": "^3.0.0",
+    "passport-github": "^1.1.0",
     "passport-google-oauth20": "^2.0.0",
+    "passport-local": "^1.0.0",
+    "passport-steam": "^1.0.12",
     "passport-twitch": "^1.0.3",
     "passport-twitch-new": "0.0.1",
-    "pg": "^7.18.1"
+    "passport-twitter": "^1.0.4",
+    "pg": "^7.18.1",
+    "sharp": "^0.24.1"
   },
   "devDependencies": {
     "eslint-config-prettier": "^6.10.0",
@@ -35,7 +42,8 @@
   "scripts": {
     "start": "node --experimental-json-modules index.mjs",
     "start-local": "nodemon --experimental-json-modules index.mjs",
-    "precommit": "pretty-quick --staged"
+    "precommit": "pretty-quick --staged",
+    "build": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "type": "module"
 }

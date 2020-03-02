@@ -13,3 +13,9 @@
 .navbar-brand {
   color: $scheme-others !important;
 }
+
+.navbar-toggler {
+  position: absolute;
+  left: 0;
+  margin-left: 5%;
+}

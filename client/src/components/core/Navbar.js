@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
+const myUrl = serverUrl;
 
 class Navbar extends Component {
   constructor() {
@@ -15,8 +16,10 @@ class Navbar extends Component {
   }
 
   render() {
-    if (this.state.logoutRedirect) {
-      this.setState({ logoutRedirect: false });
+    const { logoutRedirect } = this.state;
+    const { isAuthorized, userData } = this.props;
+
+    if (logoutRedirect) {
       return <Redirect push to="/fashionframe/" />;
     }
 
@@ -28,12 +31,20 @@ class Navbar extends Component {
               <Link className="nav-item nav-link" to={"/fashionframe/"}>
                 Home
               </Link>
-              {this.props.isAuthorized && (
+              {isAuthorized && (
                 <Link
                   className="nav-item nav-link"
                   to={"/fashionframe/setups/new"}
                 >
                   New setup
+                </Link>
+              )}
+              {this.props.isAuthorized && (
+                <Link
+                  className="nav-item nav-link"
+                  to={`/fashionframe/profile/${userData.id}`}
+                >
+                  My profile
                 </Link>
               )}
             </ul>
@@ -44,7 +55,6 @@ class Navbar extends Component {
               type="button"
               data-toggle="collapse"
               data-target=".dual-collapse2"
-              style={{ position: "absolute", left: 0, marginLeft: "5%" }}
             >
               <span className="navbar-toggler-icon"></span>
             </button>
@@ -54,7 +64,7 @@ class Navbar extends Component {
           </div>
           <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
             <ul className="navbar-nav ml-auto">
-              {this.props.isAuthorized && (
+              {isAuthorized && (
                 <Link
                   className="nav-item nav-link"
                   to={"/fashionframe/settings"}
@@ -70,7 +80,6 @@ class Navbar extends Component {
               >
                 About
               </a>
-
               <div
                 className="modal fade"
                 id="aboutModal"
@@ -156,14 +165,14 @@ class Navbar extends Component {
                   Sign in
                 </Link>
               )}
-              {this.props.isAuthorized && (
+              {isAuthorized && (
                 <li className="nav-item nav-link disabled">
-                  User: {this.props.userData.username}
+                  User: {userData.username}
                 </li>
               )}
-              {this.props.isAuthorized && (
+              {isAuthorized && (
                 <li className="nav-item">
-                  <a className="nav-link" href={"/auth/logout"}>
+                  <a className="nav-link" href={myUrl + "/auth/logout"}>
                     Sign out
                   </a>
                 </li>

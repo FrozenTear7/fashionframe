@@ -1,10 +1,11 @@
-import React, { Component } from "react";
+import React from "react";
 import nearestColor from "nearest-color";
 import { mapColors } from "../../utils/mapColors.js";
 import ColorButton from "./ColorButton.js";
 
 const columnCount = 5;
 const rowCount = 18;
+const colorDistanceThreshold = 20;
 
 const getColumnRow = (color, colors) => {
   const index = colors.findIndex(e => e === color);
@@ -15,33 +16,35 @@ const getColumnRow = (color, colors) => {
   };
 };
 
-class ColorsModal extends Component {
-  render() {
-    return (
-      <div>
-        <button
-          type="button"
-          className="btn btn-primary"
-          data-toggle="modal"
-          data-target={`#${this.props.modalName}`}
-        >
-          Check colors
-        </button>
+const ColorsModal = props => {
+  const { modalName, color, colorPickers } = props;
 
+  return (
+    <div>
+      <button
+        type="button"
+        className={`btn btn-primary${!color ? " disabled" : ""}`}
+        data-toggle="modal"
+        data-target={`#${modalName}`}
+      >
+        Check colors
+      </button>
+
+      {color && (
         <div
           className="modal fade"
-          id={`${this.props.modalName}`}
+          id={`${modalName}`}
           tabIndex="-1"
           role="dialog"
-          aria-labelledby={`${this.props.modalName}Label`}
+          aria-labelledby={`${modalName}Label`}
           aria-hidden="true"
         >
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id={`${this.props.modalName}Label`}>
-                  Color choices for {this.props.color}
-                  {ColorButton(this.props.color)}
+                <h5 className="modal-title" id={`${modalName}Label`}>
+                  Color choices for {color}
+                  {ColorButton(color)}
                 </h5>
                 <button
                   type="button"
@@ -54,25 +57,23 @@ class ColorsModal extends Component {
               </div>
               <div className="modal-body">
                 <ul className="list-group">
-                  {Object.keys(this.props.colorPickers).map(colorPicker => {
+                  {Object.keys(colorPickers).map(colorPicker => {
                     const nearestColorPickersValue = nearestColor.from(
-                      mapColors(this.props.colorPickers[colorPicker])
+                      mapColors(colorPickers[colorPicker])
                     );
 
-                    const closestColor = nearestColorPickersValue(
-                      this.props.color
-                    );
+                    const closestColor = nearestColorPickersValue(color);
 
                     const columnRow = getColumnRow(
                       closestColor.value,
-                      this.props.colorPickers[colorPicker]
+                      colorPickers[colorPicker]
                     );
 
                     return (
-                      <li className="list-group-item" key={colorPicker}>
+                      <li className="border-normal" key={colorPicker}>
                         {colorPicker}: Column {columnRow.column}, Row{" "}
                         {columnRow.row}
-                        {closestColor.distance > 20 && (
+                        {closestColor.distance > colorDistanceThreshold && (
                           <span style={{ color: "#ff0000" }}>
                             {" "}
                             - No close choice
@@ -97,9 +98,9 @@ class ColorsModal extends Component {
             </div>
           </div>
         </div>
-      </div>
-    );
-  }
-}
+      )}
+    </div>
+  );
+};
 
 export default ColorsModal;
