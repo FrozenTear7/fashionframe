@@ -6,6 +6,11 @@ const MainPanel = () => {
     <div className="center">
       <h1>Welcome to Fashionframe</h1>
       <br />
+      <img
+        src={process.env.PUBLIC_URL + "/logo.png"}
+        alt="Logo"
+        className="border rounded-lg"
+      ></img>
       <br />
       <br />
       <br />
@@ -17,7 +22,7 @@ const MainPanel = () => {
       <br />
       <a
         href={
-          "https://github.com/FrozenTear7/fashionframe/blob/master/README.md"
+          "https://github.com/FrozenTear7/fashionframe/blob/master/README.md#server-endpoints"
         }
         className="btn-sm btn-primary"
       >

@@ -107,23 +107,13 @@ li {
   display: block;
   margin-left: auto;
   margin-right: auto;
-  @extend .border-normal;
+  // @extend .border-normal;
   @extend .rounded-lg;
 }
 
 .list-group-item {
   background-color: $scheme-secondary;
 }
-
-// .search-list-item {
-//   list-style-type: none;
-//   float: left;
-//   @extend .border-normal;
-//   border-color: $scheme-others;
-//   padding: 15px;
-//   margin: 10px;
-//   border-radius: 15px;
-// }
 
 .color-button {
   width: 50px;
@@ -155,13 +145,18 @@ li {
 }
 
 .search-list-item {
+  background-color: $scheme-secondary;
   margin-bottom: 0.5rem;
   padding: 1rem;
   @extend .rounded-lg;
   @extend .shadow;
-  @extend .border;
+  // @extend .border;
 }
 
 .select-dropdown {
   min-width: 8rem;
+}
+
+.select-dropdown-filter {
+  min-width: 15rem;
 }

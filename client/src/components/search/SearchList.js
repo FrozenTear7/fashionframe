@@ -106,23 +106,25 @@ class SearchList extends Component {
 
     return (
       <div>
-        <div className="row center">
-          <div className="col-6">
+        <div class="d-flex flex-wrap center justify-content-center">
+          <div class="px-5 py-2">
             <div>
               <label htmlFor="frameSelect">Filter by frame</label>
               <Select
                 id="frameSelect"
+                className="select-dropdown-filter"
                 value={mapToOption(frame)}
                 options={mapToOptionsWithNone(frames)}
                 onChange={e => this.selectOnChangeFunction(e, "frame")}
               />
             </div>
           </div>
-          <div className="col-6">
+          <div class="px-5 py-2">
             <div>
               <label htmlFor="filterSelect">Sort by</label>
               <Select
                 id="filterSelect"
+                className="select-dropdown-filter"
                 value={mapToOption(filter)}
                 options={mapToOptions(setupFilters)}
                 onChange={e => this.selectOnChangeFunction(e, "filter")}

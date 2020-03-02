@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
-const myUrl = serverUrl;
+const myUrl = localUrl;
 
 class Navbar extends Component {
   constructor() {
@@ -49,7 +49,7 @@ class Navbar extends Component {
               )}
             </ul>
           </div>
-          <div className="mx-auto order-0">
+          <div className="mx-auto order-0 center">
             <button
               className="navbar-toggler"
               type="button"
@@ -58,8 +58,16 @@ class Navbar extends Component {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <Link className="navbar-brand mx-auto" to={"/fashionframe/"}>
-              Fashionframe
+            <Link
+              className="navbar-brand mx-auto"
+              to={"/fashionframe/"}
+              style={{ display: "inline" }}
+            >
+              <img
+                src={process.env.PUBLIC_URL + "/logoTransparent.png"}
+                alt="Logo"
+                className="navbar-logo"
+              ></img>
             </Link>
           </div>
           <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
