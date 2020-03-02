@@ -6,7 +6,7 @@ import SignInRegisterForm from "./SignInRegisterForm.js";
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
-const myUrl = serverUrl;
+const myUrl = localUrl;
 
 class NotFound extends Component {
   constructor() {

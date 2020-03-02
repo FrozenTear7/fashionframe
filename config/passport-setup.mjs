@@ -24,6 +24,7 @@ const mainUrl =
     : "http://localhost:3001";
 
 passport.serializeUser((user, done) => {
+  console.log(user);
   done(null, user.id);
 });
 
@@ -33,6 +34,7 @@ passport.deserializeUser(async (id, done) => {
   try {
     const user = await getUserById(client, [id]);
 
+    console.log(user);
     done(null, user);
   } catch (err) {
     console.log(err);
