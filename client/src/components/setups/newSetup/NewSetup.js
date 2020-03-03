@@ -480,7 +480,7 @@ class NewSetup extends Component {
           <hr className="divider" />
           <br />
           <div className="d-flex flex-wrap">
-            <div className="p-2 flex-fill">
+            <div className="px-4 py-2">
               <NewSetupDescription
                 description={setup.description}
                 screenshot={setup.screenshot}
@@ -492,7 +492,7 @@ class NewSetup extends Component {
                 showValidationMessages={showValidationMessages}
               />
             </div>
-            <div className="p-2 flex-fill">
+            <div className="px-4 py-2 flex-grow-1">
               <NewSetupPhysique
                 setup={setup}
                 helmets={helmets.data.filter(helmet =>
@@ -554,79 +554,6 @@ class NewSetup extends Component {
               />
             </div>
           </div>
-          {/* <div className="row">
-            <div className="col-8">
-              <NewSetupPhysique
-                setup={setup}
-                helmets={helmets.data.filter(helmet =>
-                  helmet.match(`.*${setup.frame} .*`)
-                )}
-                helmetOnChange={helmet =>
-                  this.setupElementOnChange("helmet", helmet)
-                }
-                skins={skins.data.filter(skin =>
-                  skin.match(`.*${setup.frame} .*`)
-                )}
-                skinOnChange={skin => this.setupElementOnChange("skin", skin)}
-                colorPickerComponent={this.getColorPickersComponent(
-                  this.setupColorOnChange,
-                  setup.colorScheme
-                )}
-              />
-              <br />
-              <NewSetupAttachments
-                setup={setup}
-                chestAttachments={chestAttachments.data}
-                ephemeras={ephemeras.data}
-                armAttachments={armAttachments.data}
-                legAttachments={legAttachments.data}
-                chestOnChange={chest =>
-                  this.attachmentsElementOnChange("chest", chest)
-                }
-                ephemeraOnChange={ephemera =>
-                  this.attachmentsElementOnChange("ephemera", ephemera)
-                }
-                leftArmOnChange={leftArm =>
-                  this.attachmentsElementOnChange("leftArm", leftArm)
-                }
-                rightArmOnChange={rightArm =>
-                  this.attachmentsElementOnChange("rightArm", rightArm)
-                }
-                leftLegOnChange={leftLeg =>
-                  this.attachmentsElementOnChange("leftLeg", leftLeg)
-                }
-                rightLegOnChange={rightLeg =>
-                  this.attachmentsElementOnChange("rightLeg", rightLeg)
-                }
-                colorPickerComponent={this.getColorPickersComponent(
-                  this.attachmentsColorOnChange,
-                  setup.attachments.colorScheme
-                )}
-              />
-              <br />
-              <NewSetupSyandana
-                setup={setup}
-                syandanas={syandanas.data}
-                syandanaOnChange={syandana =>
-                  this.syandanaOnChange("name", syandana)
-                }
-                colorPickerComponent={this.getColorPickersComponent(
-                  this.syandanaColorOnChange,
-                  setup.syandana.colorScheme
-                )}
-              />
-            </div>
-            <div className="col-4">
-              <NewSetupDescription
-                description={setup.description}
-                handleDescriptionChange={e =>
-                  this.handleSetupChange(e, "description")
-                }
-                handleScreenshotChange={this.handleScreenshotChange}
-                screenshotFileRef={this.screenshotFileRef}
-              />
-            </div>
-          </div> */}
         </div>
       );
     }

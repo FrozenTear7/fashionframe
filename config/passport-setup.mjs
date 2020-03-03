@@ -6,7 +6,7 @@ import TwitchStrategy from "passport-twitch-new";
 import SteamStrategy from "passport-steam";
 import TwitterStrategy from "passport-twitter";
 import GithubStrategy from "passport-github";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import pool from "./db-connect.mjs";
 import {
   getUserById,

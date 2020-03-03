@@ -15,7 +15,7 @@ const NewSetupDescription = props => {
         <label htmlFor="descriptionTextarea">Description</label>
         <textarea
           id="descriptionTextarea"
-          className="form-control"
+          className="form-control description-textarea"
           value={description}
           onChange={handleDescriptionChange}
         />
