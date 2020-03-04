@@ -29,7 +29,6 @@ const serverUrl =
 const app = express();
 
 const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(
