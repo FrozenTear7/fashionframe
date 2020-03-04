@@ -12,8 +12,6 @@ const NewSetupColors = props => {
     copyMainColors
   } = props;
 
-  console.log(copyMainColors);
-
   return (
     <div>
       <div className="d-flex flex-wrap center">
