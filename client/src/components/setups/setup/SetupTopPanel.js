@@ -7,9 +7,10 @@ const SetupTopPanel = props => {
   return (
     <div className="d-flex flex-wrap">
       <div>
-        <h1>{setup.name}</h1>
-        <h3>Frame: {setup.frame}</h3>
-        <br />
+        <h2 style={{ wordBreak: "break-word" }}>{setup.name}</h2>
+        <h3>
+          Frame: <b> {setup.frame}</b>
+        </h3>
         {isAuthorized && userId === setup.user_id && (
           <div>
             <Link
@@ -20,8 +21,9 @@ const SetupTopPanel = props => {
             </Link>
           </div>
         )}
+        <br />
         <h5>
-          Author: {setup.username}
+          Author: <b>{setup.username}</b>
           {"  "}
           {isAuthorized && (
             <button
@@ -44,7 +46,11 @@ const SetupTopPanel = props => {
           </Link>
         </h5>
         <small>Created at: {setup.created_at.match(/\w+-\w+-\w+/)[0]}</small>
-        <h5>Description: {setup.description}</h5>
+        <br />
+        <br />
+        <h5 style={{ wordBreak: "break-word" }}>
+          Description:<small> {setup.description}</small>
+        </h5>
       </div>
       <img
         src={setup.screenshot}

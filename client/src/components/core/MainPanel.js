@@ -9,7 +9,7 @@ const MainPanel = () => {
       <img
         src={process.env.PUBLIC_URL + "/logo.png"}
         alt="Logo"
-        className="border rounded-lg"
+        className="rounded-lg"
       ></img>
       <br />
       <br />
@@ -26,7 +26,7 @@ const MainPanel = () => {
         }
         className="btn-sm btn-primary"
       >
-        Check to use the API
+        Check how to use the API
       </a>
     </div>
   );

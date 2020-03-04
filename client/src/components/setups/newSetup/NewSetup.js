@@ -8,7 +8,10 @@ import NewSetupTopPanel from "./NewSetupTopPanel";
 import NewSetupDescription from "./NewSetupDescription";
 import NewSetupSyandana from "./NewSetupSyandana";
 import Loading from "../../utils/Loading";
-import { isSetupNameValid } from "../../../utils/validators.js";
+import {
+  isSetupNameValid,
+  isSetupDescriptionValid
+} from "../../../utils/validators.js";
 
 class NewSetup extends Component {
   constructor(props) {
@@ -119,7 +122,8 @@ class NewSetup extends Component {
         loading: true,
         data: [],
         error: ""
-      }
+      },
+      postSetupLoading: false
     };
 
     this.handleSetupChange = this.handleSetupChange.bind(this);
@@ -132,6 +136,7 @@ class NewSetup extends Component {
     this.syandanaColorOnChange = this.syandanaColorOnChange.bind(this);
     this.postNewSetup = this.postNewSetup.bind(this);
     this.deleteSetup = this.deleteSetup.bind(this);
+    this.copyMainColors = this.copyMainColors.bind(this);
 
     this.screenshotFileRef = React.createRef();
   }
@@ -234,10 +239,13 @@ class NewSetup extends Component {
   async postNewSetup() {
     if (
       isSetupNameValid(this.state.setup.name) &&
+      isSetupDescriptionValid(this.state.setup.description) &&
       (this.state.setup.screenshot || this.screenshotFileRef.current.files[0])
     ) {
       try {
         const formData = new FormData();
+
+        this.setState({ postSetupLoading: true });
 
         if (this.screenshotFileRef.current.files[0])
           formData.append("file", this.screenshotFileRef.current.files[0]);
@@ -258,11 +266,13 @@ class NewSetup extends Component {
         if (res.ok) {
           this.setState({
             createSetupRedirect: true,
-            setupId: resJson.setupId
+            setupId: resJson.setupId,
+            postSetupLoading: false
           });
         } else {
           this.setState({
-            setupError: resJson.message
+            setupError: resJson.message,
+            postSetupLoading: false
           });
         }
       } catch (error) {
@@ -270,7 +280,8 @@ class NewSetup extends Component {
           setupError:
             this.props.mode === "edit"
               ? "Could not update setup"
-              : "Could not create setup"
+              : "Could not create setup",
+          postSetupLoading: false
         });
       }
     } else {
@@ -281,24 +292,29 @@ class NewSetup extends Component {
   async deleteSetup() {
     if (this.props.mode === "edit") {
       try {
+        this.setState({ postSetupLoading: true });
+
         const res = await fetchAuth(`/setups/${this.props.match.params.id}`, {
           method: "DELETE"
         });
 
         if (res.ok) {
           this.setState({
-            deleteSetupRedirect: true
+            deleteSetupRedirect: true,
+            postSetupLoading: false
           });
         } else {
           const resJson = await res.json();
 
           this.setState({
-            setupError: resJson.message
+            setupError: resJson.message,
+            postSetupLoading: false
           });
         }
       } catch (error) {
         this.setState({
-          setupError: "Could not delete setup"
+          setupError: "Could not delete setup",
+          postSetupLoading: false
         });
       }
     } else if (this.props.mode === "new") {
@@ -404,7 +420,7 @@ class NewSetup extends Component {
     });
   }
 
-  getColorPickersComponent(getColorOnClickFunction, setupColors) {
+  getColorPickersComponent(getColorOnClickFunction, setupColors, sectionName) {
     return (
       <NewSetupColors
         getColorOnClickFunction={getColorOnClickFunction}
@@ -420,8 +436,22 @@ class NewSetup extends Component {
           "energy2"
         ]}
         colorPickers={this.state.colorPickers.data}
+        sectionName={sectionName}
+        copyMainColors={() => this.copyMainColors(sectionName)}
       />
     );
+  }
+
+  copyMainColors(sectionName) {
+    this.setState({
+      setup: {
+        ...this.state.setup,
+        [sectionName]: {
+          ...this.state.setup[sectionName],
+          colorScheme: this.state.setup.colorScheme
+        }
+      }
+    });
   }
 
   render() {
@@ -440,7 +470,8 @@ class NewSetup extends Component {
       legAttachments,
       syandanas,
       setupLoading,
-      setup
+      setup,
+      postSetupLoading
     } = this.state;
 
     if (createSetupRedirect) {
@@ -475,6 +506,7 @@ class NewSetup extends Component {
             saveSetupOnClick={this.postNewSetup}
             deleteSetupOnClick={this.deleteSetup}
             showValidationMessages={showValidationMessages}
+            postSetupLoading={postSetupLoading}
           />
           {this.getErrorMessages()}
           <hr className="divider" />
@@ -507,7 +539,8 @@ class NewSetup extends Component {
                 skinOnChange={skin => this.setupElementOnChange("skin", skin)}
                 colorPickerComponent={this.getColorPickersComponent(
                   this.setupColorOnChange,
-                  setup.colorScheme
+                  setup.colorScheme,
+                  "setup"
                 )}
               />
               <br />
@@ -537,7 +570,8 @@ class NewSetup extends Component {
                 }
                 colorPickerComponent={this.getColorPickersComponent(
                   this.attachmentsColorOnChange,
-                  setup.attachments.colorScheme
+                  setup.attachments.colorScheme,
+                  "attachments"
                 )}
               />
               <br />
@@ -549,7 +583,8 @@ class NewSetup extends Component {
                 }
                 colorPickerComponent={this.getColorPickersComponent(
                   this.syandanaColorOnChange,
-                  setup.syandana.colorScheme
+                  setup.syandana.colorScheme,
+                  "syandana"
                 )}
               />
             </div>

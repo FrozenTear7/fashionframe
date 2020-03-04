@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const serverUrl = "https://fashionframe.herokuapp.com";
 // eslint-disable-next-line no-unused-vars
 const localUrl = "http://localhost:3001";
-const myUrl = localUrl;
+const myUrl = serverUrl;
 
 class Navbar extends Component {
   constructor() {
@@ -146,11 +146,8 @@ class Navbar extends Component {
                       <br />
                       <hr className="divider" />
                       The app is deployed to Heroku running on a free plan
-                      server, so there might be some maintenance time every
-                      month if there is too much traffic. <br />I will act
-                      accordingly depending on the popularity of this project.
-                      It's an open source project and I don't plan putting ads
-                      here.
+                      server. It's an open source project and I don't plan
+                      putting ads here.
                       <br />
                       <br />
                       <br />

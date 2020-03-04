@@ -45,9 +45,16 @@ router.put(
       res.sendStatus(200);
     } catch (err) {
       console.log(err);
-      res.status(400).send({
-        message: "Could not update user data"
-      });
+
+      if (err.code === "23505") {
+        res.status(400).send({
+          message: "Username already exists"
+        });
+      } else {
+        res.status(400).send({
+          message: "Could not update user data"
+        });
+      }
     } finally {
       client.release();
     }

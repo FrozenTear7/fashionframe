@@ -91,7 +91,9 @@ class SignInRegisterForm extends Component {
               placeholder="Username"
             />
             {showValidationMessages && !isUsernameValid(username) && (
-              <small className="text-error">Username is required</small>
+              <small className="text-error">
+                Username is required, max length: 50
+              </small>
             )}
           </div>
           <br />

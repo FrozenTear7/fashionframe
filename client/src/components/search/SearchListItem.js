@@ -8,9 +8,9 @@ const SearchListItem = props => {
     <div>
       <Link to={`/fashionframe/setups/${setup.id}`}>
         <li className="search-list-item">
-          <div className="d-flex flex-wrap justify-content-between">
+          <div className="d-flex flex-wrap flex-row justify-content-between">
             <div className="flex-grow-1">
-              <h3 className="text-wrap">{setup.name}</h3>
+              <h3 style={{ wordBreak: "break-word" }}>{setup.name}</h3>
               <h4>Frame: {setup.frame}</h4>
               <span className="badge badge-primary">
                 <i className="fa fa-star"></i>

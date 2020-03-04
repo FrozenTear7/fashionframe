@@ -24,7 +24,8 @@
     "passport-twitch-new": "0.0.1",
     "passport-twitter": "^1.0.4",
     "pg": "^7.18.1",
-    "sharp": "^0.24.1"
+    "sharp": "^0.24.1",
+    "shortid": "^2.2.15"
   },
   "devDependencies": {
     "eslint-config-prettier": "^6.10.0",
