@@ -58,6 +58,10 @@ app.use("/api", warframeRoutes);
 app.use("/setups", setupRoutes);
 app.use("/profiles", profileRoutes);
 
+app.get("/keepalive", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "wakemydyno.txt"));
+});
+
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
