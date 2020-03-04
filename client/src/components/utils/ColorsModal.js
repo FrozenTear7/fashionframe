@@ -42,8 +42,11 @@ const ColorsModal = props => {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id={`${modalName}Label`}>
-                  Color choices for {color}
+                <h5
+                  className="modal-title d-flex align-items-center"
+                  id={`${modalName}Label`}
+                >
+                  Color choices for:
                   {ColorButton(color)}
                 </h5>
                 <button

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { fetchAuth, fetchAuthPostJson } from "../../utils/fetchAuth";
 import Loading from "../utils/Loading";
+import { isUsernameValid } from "../../utils/validators.js";
 
 class Settings extends Component {
   constructor() {
@@ -12,7 +13,8 @@ class Settings extends Component {
           username: ""
         },
         error: ""
-      }
+      },
+      showValidationMessages: false
     };
 
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -59,35 +61,39 @@ class Settings extends Component {
   }
 
   async handleUserDataSubmit(event) {
-    try {
-      const res = await fetchAuthPostJson("/auth/user", {
-        method: "PUT",
-        body: JSON.stringify({ userData: this.state.userData.data })
-      });
+    if (isUsernameValid(this.state.userData.data.username)) {
+      try {
+        const res = await fetchAuthPostJson("/auth/user", {
+          method: "PUT",
+          body: JSON.stringify({ userData: this.state.userData.data })
+        });
 
-      if (res.ok) {
-        window.location.reload();
-      } else {
-        const resJson = await res.json();
+        if (res.ok) {
+          window.location.reload();
+        } else {
+          const resJson = await res.json();
+          this.setState({
+            userData: {
+              ...this.state.userData,
+              error: resJson.message
+            }
+          });
+        }
+      } catch (err) {
         this.setState({
           userData: {
             ...this.state.userData,
-            error: resJson.message
+            error: "Could not update user data"
           }
         });
       }
-    } catch (err) {
-      this.setState({
-        userData: {
-          ...this.state.userData,
-          error: "Could not update user data"
-        }
-      });
+    } else {
+      this.setState({ showValidationMessages: true });
     }
   }
 
   render() {
-    const { userData } = this.state;
+    const { userData, showValidationMessages } = this.state;
 
     if (userData.loading) {
       return <Loading />;
@@ -108,12 +114,19 @@ class Settings extends Component {
                 value={userData.data.username}
                 onChange={this.handleUsernameChange}
               />
+              {showValidationMessages &&
+                !isUsernameValid(userData.data.username) && (
+                  <small className="text-error">
+                    Username is required, max length: 50
+                  </small>
+                )}
             </div>
             {userData.error && (
               <div className="alert alert-danger" role="alert">
                 {userData.error}
               </div>
             )}
+            <br />
             <button
               className="btn btn-primary"
               type="button"

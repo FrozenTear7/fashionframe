@@ -13,26 +13,14 @@
   border-radius: 15px;
 }
 
-body::-webkit-scrollbar {
+*::-webkit-scrollbar {
   @extend .my-scrollbar;
 }
 
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   @extend .my-scrollbar-track;
 }
 
-body::-webkit-scrollbar-thumb {
-  @extend .my-scrollbar-thumb;
-}
-
-.modal::-webkit-scrollbar {
-  @extend .my-scrollbar;
-}
-
-.modal::-webkit-scrollbar-track {
-  @extend .my-scrollbar-track;
-}
-
-.modal::-webkit-scrollbar-thumb {
+*::-webkit-scrollbar-thumb {
   @extend .my-scrollbar-thumb;
 }

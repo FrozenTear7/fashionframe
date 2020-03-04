@@ -7,7 +7,9 @@ const NewSetupColors = props => {
     colorNames,
     getColorOnClickFunction,
     setupColors,
-    colorPickers
+    colorPickers,
+    sectionName,
+    copyMainColors
   } = props;
 
   return (
@@ -38,6 +40,19 @@ const NewSetupColors = props => {
           </div>
         ))}
       </div>
+      {sectionName !== "setup" && (
+        <div>
+          <br />
+          <div className="d-flex flex-wrap center">
+            <button
+              className="btn btn-primary center"
+              onClick={() => copyMainColors()}
+            >
+              Copy main colors
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

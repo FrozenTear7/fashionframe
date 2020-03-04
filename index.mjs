@@ -47,7 +47,7 @@ app.use(passport.session());
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:3000", "http://localhost:3001", null]
+    origin: ["http://localhost:3000", "http://localhost:3001"]
   })
 );
 app.use(bodyParser.urlencoded({ extended: false }));

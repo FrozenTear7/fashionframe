@@ -6,7 +6,8 @@ import TwitchStrategy from "passport-twitch-new";
 import SteamStrategy from "passport-steam";
 import TwitterStrategy from "passport-twitter";
 import GithubStrategy from "passport-github";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
+import shortid from "shortid";
 import pool from "./db-connect.mjs";
 import {
   getUserById,
@@ -49,8 +50,16 @@ const findUserOrCreateSocial = async profile => {
     user = await getUserBySocialId(client, [profile.provider + profile.id]);
 
     if (!user) {
+      let newUsername = profile.displayName.slice(0, 50);
+
+      const existsUsername = await getUserByUsername(client, [newUsername]);
+
+      if (existsUsername) {
+        newUsername = newUsername.slice(0, 40) + shortid.generate();
+      }
+
       user = await createUserSocial(client, [
-        profile.displayName,
+        newUsername,
         profile.provider + profile.id
       ]);
       user = { ...user, redirectSettings: true };
@@ -59,7 +68,6 @@ const findUserOrCreateSocial = async profile => {
     console.error(err);
   } finally {
     client.release();
-    console.log(user);
     return user;
   }
 };
@@ -90,7 +98,7 @@ const createUserLocal = async (username, password, password2) => {
   try {
     if (password === password2) {
       const hash = await bcrypt.hash(password, 10);
-      user = await createUser(client, [username, hash]);
+      user = await createUser(client, [username.slice(0, 50), hash]);
     }
   } catch (err) {
     console.error(err);

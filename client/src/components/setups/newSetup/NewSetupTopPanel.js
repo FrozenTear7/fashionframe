@@ -11,7 +11,8 @@ const NewSetupTopPanel = props => {
     frameOnChange,
     saveSetupOnClick,
     deleteSetupOnClick,
-    showValidationMessages
+    showValidationMessages,
+    postSetupLoading
   } = props;
 
   return (
@@ -26,7 +27,7 @@ const NewSetupTopPanel = props => {
           onChange={handleNameChange}
         />
         {showValidationMessages && !isSetupNameValid(setup.name) && (
-          <small className="text-error">Name is required</small>
+          <small className="text-error">Name is required, max length: 50</small>
         )}
       </div>
       <div className="p-2 flex-fill select-dropdown">
@@ -46,6 +47,7 @@ const NewSetupTopPanel = props => {
               type="button"
               className="btn btn-primary"
               onClick={saveSetupOnClick}
+              disabled={postSetupLoading}
             >
               Save setup
             </button>
@@ -59,6 +61,7 @@ const NewSetupTopPanel = props => {
                   deleteSetupOnClick();
                 }
               }}
+              disabled={postSetupLoading}
             >
               Delete setup
             </button>

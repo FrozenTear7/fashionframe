@@ -104,45 +104,55 @@ class SearchList extends Component {
     const { frames } = this.props;
     const { setups, frame, filter, setupsCount } = this.state;
 
-    return (
-      <div>
-        <div className="row center">
-          <div className="col-6">
-            <div>
-              <label htmlFor="frameSelect">Filter by frame</label>
-              <Select
-                id="frameSelect"
-                value={mapToOption(frame)}
-                options={mapToOptionsWithNone(frames)}
-                onChange={e => this.selectOnChangeFunction(e, "frame")}
-              />
+    if (setups.loading) {
+      return <Loading />;
+    } else {
+      return (
+        <div>
+          <div className="d-flex flex-wrap center justify-content-center">
+            <div className="px-5 py-2">
+              <div>
+                <label htmlFor="frameSelect">Filter by frame</label>
+                <Select
+                  id="frameSelect"
+                  className="select-dropdown-filter"
+                  value={mapToOption(frame)}
+                  options={mapToOptionsWithNone(frames)}
+                  onChange={e => this.selectOnChangeFunction(e, "frame")}
+                />
+              </div>
+            </div>
+            <div className="px-5 py-2">
+              <div>
+                <label htmlFor="filterSelect">Sort by</label>
+                <Select
+                  id="filterSelect"
+                  className="select-dropdown-filter"
+                  value={mapToOption(filter)}
+                  options={mapToOptions(setupFilters)}
+                  onChange={e => this.selectOnChangeFunction(e, "filter")}
+                />
+              </div>
             </div>
           </div>
-          <div className="col-6">
-            <div>
-              <label htmlFor="filterSelect">Sort by</label>
-              <Select
-                id="filterSelect"
-                value={mapToOption(filter)}
-                options={mapToOptions(setupFilters)}
-                onChange={e => this.selectOnChangeFunction(e, "filter")}
-              />
-            </div>
-          </div>
+          <br />
+          {setups.data.length > 0 ? (
+            <InfiniteScroll
+              dataLength={setups.data.length}
+              next={this.fetchMoreItems}
+              hasMore={setups.data.length < setupsCount}
+              loader={<Loading />}
+            >
+              {setups.data.map((setup, i) => (
+                <SearchListItem setup={setup} key={i} />
+              ))}
+            </InfiniteScroll>
+          ) : (
+            <h2 className="center">No builds to show</h2>
+          )}
         </div>
-        <br />
-        <InfiniteScroll
-          dataLength={setups.data.length}
-          next={this.fetchMoreItems}
-          hasMore={setups.data.length < setupsCount}
-          loader={<Loading />}
-        >
-          {setups.data.map((setup, i) => (
-            <SearchListItem setup={setup} key={i} />
-          ))}
-        </InfiniteScroll>
-      </div>
-    );
+      );
+    }
   }
 }
 

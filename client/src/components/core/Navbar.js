@@ -49,7 +49,7 @@ class Navbar extends Component {
               )}
             </ul>
           </div>
-          <div className="mx-auto order-0">
+          <div className="mx-auto order-0 center">
             <button
               className="navbar-toggler"
               type="button"
@@ -58,8 +58,16 @@ class Navbar extends Component {
             >
               <span className="navbar-toggler-icon"></span>
             </button>
-            <Link className="navbar-brand mx-auto" to={"/fashionframe/"}>
-              Fashionframe
+            <Link
+              className="navbar-brand mx-auto"
+              to={"/fashionframe/"}
+              style={{ display: "inline" }}
+            >
+              <img
+                src={process.env.PUBLIC_URL + "/logoTransparent.png"}
+                alt="Logo"
+                className="navbar-logo"
+              ></img>
             </Link>
           </div>
           <div className="navbar-collapse collapse w-100 order-3 dual-collapse2">
@@ -138,11 +146,8 @@ class Navbar extends Component {
                       <br />
                       <hr className="divider" />
                       The app is deployed to Heroku running on a free plan
-                      server, so there might be some maintenance time every
-                      month if there is too much traffic. <br />I will act
-                      accordingly depending on the popularity of this project.
-                      It's an open source project and I don't plan putting ads
-                      here.
+                      server. It's an open source project and I don't plan
+                      putting ads here.
                       <br />
                       <br />
                       <br />

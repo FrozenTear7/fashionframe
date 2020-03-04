@@ -1,4 +1,5 @@
 import React from "react";
+import { isSetupDescriptionValid } from "../../../utils/validators.js";
 
 const NewSetupDescription = props => {
   const {
@@ -15,26 +16,18 @@ const NewSetupDescription = props => {
         <label htmlFor="descriptionTextarea">Description</label>
         <textarea
           id="descriptionTextarea"
-          className="form-control"
+          className="form-control description-textarea"
           value={description}
           onChange={handleDescriptionChange}
         />
+        {showValidationMessages && !isSetupDescriptionValid(description) && (
+          <small className="text-error">Max length: 500</small>
+        )}
       </div>
       <br />
       <div>
-        <label htmlFor="screenshotInput">Screenshot</label>
-        {screenshot && (
-          <div>
-            <img
-              src={screenshot}
-              alt="Thumbnail"
-              className="search-thumbnail"
-            />
-            <br />
-            <h5>Upload new photo:</h5>
-            <br />
-          </div>
-        )}
+        <h5>Upload new photo:</h5>
+        <br />
         <input
           id="screenshotInput"
           type="file"
@@ -42,6 +35,17 @@ const NewSetupDescription = props => {
           accept=".jpg,.png"
           ref={screenshotFileRef}
         />
+        <br />
+        {screenshot && (
+          <div>
+            Current screenshot
+            <img
+              src={screenshot}
+              alt="Thumbnail"
+              className="search-thumbnail"
+            />
+          </div>
+        )}
         {showValidationMessages && !screenshotFileRef.current.files[0] && (
           <small className="text-error">Setup image is required</small>
         )}
