@@ -56,11 +56,8 @@ class Profile extends Component {
   }
 
   async componentDidMount() {
-    await this.fetchResources(
-      `/profiles/${this.props.match.params.id}`,
-      "userInfo"
-    );
-    await this.fetchResources(`/api/frames`, "frames");
+    this.fetchResources(`/profiles/${this.props.match.params.id}`, "userInfo");
+    this.fetchResources(`/api/frames`, "frames");
   }
 
   render() {

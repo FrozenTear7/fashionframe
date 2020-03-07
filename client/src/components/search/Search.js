@@ -50,7 +50,7 @@ class Search extends Component {
   }
 
   async componentDidMount() {
-    await this.fetchFrames();
+    this.fetchFrames();
   }
 
   render() {

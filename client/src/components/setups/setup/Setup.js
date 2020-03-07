@@ -107,8 +107,8 @@ class Setup extends Component {
   }
 
   async componentDidMount() {
-    await this.fetchResources(`/api/colorPickers`, "colorPickers");
-    await this.fetchResources(`/setups/${this.props.match.params.id}`, "setup");
+    this.fetchResources(`/api/colorPickers`, "colorPickers");
+    this.fetchResources(`/setups/${this.props.match.params.id}`, "setup");
   }
 
   render() {
