@@ -1,0 +1,2 @@
+RewriteCond %{HTTP_HOST} ^www\.fashionframe\.herokuapp\.com$
+RewriteRule ^/?$ "https\:\/\/fashionframe\.herokuapp\.com\/" [R=301,L]
