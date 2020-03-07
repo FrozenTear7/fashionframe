@@ -29,6 +29,7 @@ const serverUrl =
 const app = express();
 
 const __dirname = path.resolve();
+app.use("/sitemap.xml", express.static(path.join(__dirname, "/sitemap.xml")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "client/build")));
 app.use(
