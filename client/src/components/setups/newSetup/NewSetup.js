@@ -323,17 +323,17 @@ class NewSetup extends Component {
   }
 
   async componentDidMount() {
-    await this.fetchWarframeData("frames");
-    await this.fetchWarframeData("ephemeras");
-    await this.fetchWarframeData("skins");
-    await this.fetchWarframeData("helmets");
-    await this.fetchWarframeData("colorPickers");
-    await this.fetchWarframeData("chestAttachments");
-    await this.fetchWarframeData("armAttachments");
-    await this.fetchWarframeData("legAttachments");
-    await this.fetchWarframeData("syandanas");
+    this.fetchWarframeData("frames");
+    this.fetchWarframeData("ephemeras");
+    this.fetchWarframeData("skins");
+    this.fetchWarframeData("helmets");
+    this.fetchWarframeData("colorPickers");
+    this.fetchWarframeData("chestAttachments");
+    this.fetchWarframeData("armAttachments");
+    this.fetchWarframeData("legAttachments");
+    this.fetchWarframeData("syandanas");
 
-    if (this.props.mode === "edit") await this.fetchSetupData();
+    if (this.props.mode === "edit") this.fetchSetupData();
   }
 
   handleSetupChange(e, fieldName) {

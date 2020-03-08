@@ -48,7 +48,7 @@ class Settings extends Component {
   }
 
   async componentDidMount() {
-    await this.fetchUserData();
+    this.fetchUserData();
   }
 
   handleUsernameChange(event) {

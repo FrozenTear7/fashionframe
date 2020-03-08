@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SignInLoginForm from "./SignInLoginForm.js";
 import SignInRegisterForm from "./SignInRegisterForm.js";
+import { Helmet } from "react-helmet";
 
 // eslint-disable-next-line no-unused-vars
 const serverUrl = "https://fashionframe.herokuapp.com";
@@ -21,6 +22,13 @@ class NotFound extends Component {
 
     return (
       <div className="center-half">
+        <Helmet>
+          <title>Fashionframe - your own Warframe fashion show</title>
+          <meta
+            name="description"
+            content="Sign in to create your own fashion setups"
+          />
+        </Helmet>
         <h1 className="display-4">Sign in</h1>
         <br />
         {loginMode ? <SignInLoginForm /> : <SignInRegisterForm />}

@@ -93,11 +93,11 @@ class SearchList extends Component {
   }
 
   async fetchMoreItems() {
-    await this.fetchSetups(this.state.currentFetchPage + 1);
+    this.fetchSetups(this.state.currentFetchPage + 1);
   }
 
   async componentDidMount() {
-    await this.fetchSetups(1);
+    this.fetchSetups(1);
   }
 
   render() {
