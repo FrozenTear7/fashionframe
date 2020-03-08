@@ -6,6 +6,7 @@ import SetupPhysique from "./SetupPhysique";
 import SetupAttachments from "./SetupAttachments";
 import SetupSyandana from "./SetupSyandana";
 import SetupTopPanel from "./SetupTopPanel";
+import { Helmet } from "react-helmet";
 
 class Setup extends Component {
   constructor() {
@@ -120,6 +121,13 @@ class Setup extends Component {
     } else {
       return (
         <div>
+          <Helmet>
+            <title>Fashionframe - your own Warframe fashion show</title>
+            <meta
+              name="description"
+              content="Check out how to create this fashion setup in game on your own"
+            />
+          </Helmet>
           {setup.error && (
             <div className="alert alert-danger center" role="alert">
               {setup.error}

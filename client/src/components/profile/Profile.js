@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { fetchAuth } from "../../utils/fetchAuth";
 import Loading from "../utils/Loading";
 import SearchList from "../search/SearchList";
+import { Helmet } from "react-helmet";
 
 class Profile extends Component {
   constructor() {
@@ -71,6 +72,13 @@ class Profile extends Component {
     } else {
       return (
         <div>
+          <Helmet>
+            <title>Fashionframe - your own Warframe fashion show</title>
+            <meta
+              name="description"
+              content="Check this user's other fashion setups"
+            />
+          </Helmet>
           <h1>{username}'s profile</h1>
           <h4>
             Total likes: {likes}

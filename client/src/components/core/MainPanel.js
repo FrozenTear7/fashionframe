@@ -1,9 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet";
 
 const MainPanel = () => {
   return (
     <div className="center">
+      <Helmet>
+        <title>Fashionframe - your own Warframe fashion show</title>
+        <meta
+          name="description"
+          content="Share your fashion ideas with other Warframe players"
+        />
+      </Helmet>
       <h1>Welcome to Fashionframe</h1>
       <br />
       <img

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { fetchAuth } from "../../utils/fetchAuth";
 import Loading from "../utils/Loading.js";
 import SearchList from "./SearchList";
+import { Helmet } from "react-helmet";
 
 class Search extends Component {
   constructor() {
@@ -61,6 +62,13 @@ class Search extends Component {
     } else {
       return (
         <div>
+          <Helmet>
+            <title>Fashionframe - your own Warframe fashion show</title>
+            <meta
+              name="description"
+              content="Share your fashion ideas with other Warframe players"
+            />
+          </Helmet>
           <SearchList frames={frames.data} />
         </div>
       );
